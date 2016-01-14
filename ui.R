@@ -3,22 +3,22 @@ library(survival)
 library(survMisc)
 #setwd<-'C:/Users/Gosia/Desktop/Biecek'
 #setwd(setwd)
-nowotwory <- list("GBMLGG", "BRCA", "KIPAN")
-nowotwor='GBMLGG'
-dane = NULL
-
-for (nowotwor in nowotwory)
-{
-  dane1 = read.table(paste('pvalue/', nowotwor, '_pvalue.txt', sep=''), h=T)
-  dane1$gen = rownames(dane1)
-  dane1$nowotwor = nowotwor
-  dane = rbind(dane, dane1)
-}
-
-geny<-unique(dane$gen)
-
 nowotwory <- list("Wszystkie", "GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
+
+dane = NULL
+for (nowotwor in nowotwory)
+{
+  if(nowotwor != "Wszystkie"){
+    dane1 = read.table(paste('pvalue/', nowotwor, '_pvalue.txt', sep=''), h=T)
+    dane1$gen = rownames(dane1)
+    dane1$nowotwor = nowotwor
+    dane = rbind(dane, dane1)
+  }
+}
+geny<-unique(dane$gen)
+
+
 #nowotwory <- list("Wszystkie", "GBMLGG", "BRCA", "KIPAN")
 
 shinyUI(fluidPage(
