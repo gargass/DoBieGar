@@ -56,6 +56,7 @@ shinyServer(function(input, output) {
         for(poz in 1:length(poziomy_genu)){
           
           #tabela[n, 3 + poz] <- nrow(zestaw.nowotwor_gen[as.character(zestaw.nowotwor_gen$Variant_Classification) == poziomy_genu[poz] & zestaw.nowotwor_gen$status==1,])/tabela[n,1]
+          
           tabela[n, 3 + poz] <- nrow(zestaw.nowotwor_gen[as.character(zestaw.nowotwor_gen$Variant_Classification) == poziomy_genu[poz] & zestaw.nowotwor_gen[,ncol(zestaw.nowotwor_gen)]==1,])/tabela[n,1]
         }
         
