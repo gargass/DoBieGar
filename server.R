@@ -2,6 +2,9 @@ library(shiny)
 library(survival)
 library(survMisc)
 
+
+#TRAAAAAAAALALLALLAa
+
 #nowotwory = c('COADREAD', 'GBM', 'GBMLGG', 'HNSC', 'KIPAN', 'KIRC', 'LGG', 'LUAD', 'LUSC',
 #               'OV', 'STES', 'THCA', 'UCEC')
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN")
