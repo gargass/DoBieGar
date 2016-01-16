@@ -1,7 +1,8 @@
 library(shiny)
 library(survival)
 library(survMisc)
-#
+
+
 setwd<-'C:/Users/Gosia/Desktop/Biecek'
 setwd(setwd)
 dane <- read.table(paste(setwd,'/STES','/p_value.txt', sep=''))
