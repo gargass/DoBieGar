@@ -2,7 +2,7 @@ library(shiny)
 library(survival)
 library(survMisc)
 
-#zal zal zal zal zal
+#zal zal zal
 #TRAAAAAAAALALLALLAa
 
 #nowotwory = c('COADREAD', 'GBM', 'GBMLGG', 'HNSC', 'KIPAN', 'KIRC', 'LGG', 'LUAD', 'LUSC',
