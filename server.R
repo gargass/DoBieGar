@@ -47,13 +47,13 @@ shinyServer(function(input, output) {
       for(n in 1:length(nowotwory)){
         zestaw.nowotwor_gen <- read.table(paste('Zbiory/', nowotwory[n], '/', nowotwory[n], '_', gen, '_cli_mut.txt', sep=""))
         
-        tabela[n,1] <- sum(zestaw.nowotwor_gen$status)
+        tabela[n,1] <- sum(zestaw.nowotwor_gen[,ncol(zestaw.nowotwor_gen)])
         tabela[n,2] <- nrow(zestaw.nowotwor_gen)
         tabela[n,3] <- tabela[n,1] / tabela[n,2]
         for(poz in 1:length(poziomy_genu)){
           
-          tabela[n, 3 + poz] <- nrow(zestaw.nowotwor_gen[as.character(zestaw.nowotwor_gen$Variant_Classification) == poziomy_genu[poz] & zestaw.nowotwor_gen$status==1,])/tabela[n,1]
-          
+          #tabela[n, 3 + poz] <- nrow(zestaw.nowotwor_gen[as.character(zestaw.nowotwor_gen$Variant_Classification) == poziomy_genu[poz] & zestaw.nowotwor_gen$status==1,])/tabela[n,1]
+          tabela[n, 3 + poz] <- nrow(zestaw.nowotwor_gen[as.character(zestaw.nowotwor_gen$Variant_Classification) == poziomy_genu[poz] & zestaw.nowotwor_gen[,ncol(zestaw.nowotwor_gen)]==1,])/tabela[n,1]
         }
         
         
