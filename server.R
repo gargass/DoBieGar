@@ -132,7 +132,7 @@ shinyServer(function(input, output) {
           zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
           nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
           
-          autoplot(nowotwor_gen.fit, legLabs = c("lower","higher"))$plot 
+          survMisc::autoplot(nowotwor_gen.fit, legLabs = c("lower","higher"))$plot 
           })
         
         marrangeGrob(p, nrow = floor(sqrt(n)), ncol=ceiling(sqrt(n)))
@@ -150,23 +150,24 @@ shinyServer(function(input, output) {
     nowotwor = input$nowotwory
     if (input$nowotwory!='Wszystkie')
     {
+      
       # nowotwor=c('BRCA', 'LGG')
       p_value_tabela <-read.table('p_value/p_value_NA.txt', h=T)
-      p = matrix(nrow=10, ncol=0)
+      p = matrix(1, nrow=10, ncol=1)
       for (nowotworr in nowotwor)
       {
-        p2=p_value_tabela[order(p_value_tabela[,nowotworr]), ][1:10, c('gen', nowotworr)]
+      
+        p2=p_value_tabela[order(p_value_tabela[,nowotworr]), ][1:10, c("gen", nowotworr)]
         p = cbind(p, p2)
         
       }
-      p = as.data.frame.table(p)
+      
       #p1 =as.table(p1)
-      #rownames(p1)=NULL
+      p = p[, -c(1)]
+      rownames(p)=NULL
       print(p)
       #p=p[, -c(1, 2)]
-      #colnames(p)=c('Nazwa genu', 'BRCA', 'Nazwa genu', 'LGG')
-      #p_value_tabela[1:5,nowotwor])
-      # 
+
     }
     
   })
