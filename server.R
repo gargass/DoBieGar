@@ -1,6 +1,8 @@
 library(shiny)
 library(survival)
 library(survMisc)
+library(grid)
+library(gridExtra)
 
 #zal zal zal zal zal
 #TRAAAAAAAALALLALLAa
@@ -108,29 +110,40 @@ shinyServer(function(input, output) {
     #if (nowotwor != "Wszystkie"){
     if(!is.element("Wszystkie", nowotwory)){
       n <- length(nowotwory)
-      print(n)
-      par(mfrow=c(floor(sqrt(n)), ceiling(sqrt(n))))
-      
-      for(nowotwor in nowotwory){
-        print(nowotwor)
-        zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
-        nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
+      #print(n)
+      #par(mfrow=c(floor(sqrt(n)), ceiling(sqrt(n))))
+#       grobs <- gList()
+#       grobs_i <- 1
+#       for(nowotwor in nowotwory){
+#         print(nowotwor)
+#         zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
+#         nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
+#         
+#         
+#         grobs[grobs_i] <- grob(autoplot(
+#           nowotwor_gen.fit, 
+#           title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""), 
+#           legLabs=c("status=0", "status=1"))$plot)
+#         grobs_i = grobs_i + 1
+#       }
+#       
+#       arrangeGrob(grobs)
+        p <- lapply(nowotwory, function(nowotwor) {
+          zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
+          nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
+          
+          autoplot(nowotwor_gen.fit, legLabs = c("lower","higher"))$plot 
+          })
         
-        
-        p <- autoplot(
-          nowotwor_gen.fit, 
-          title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""), 
-          legLabs=c("status=0", "status=1"))$plot
-        print(p)
-      }
-      
-      
+        marrangeGrob(p, ncol = 2, nrow=2)
       
     }
+      
     
     
     
-  }, height = 300, width = 300)
+    
+  }, height = 1000, width = 1000)
   
   # podsumowanie
   output$podsumowanie <- renderPrint({
