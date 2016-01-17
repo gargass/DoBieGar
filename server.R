@@ -164,12 +164,14 @@ shinyServer(function(input, output) {
       
       #p1 =as.table(p1)
       p = p[, -c(1)]
-      rownames(p)=NULL
-      print(p, digits=7)
+      p <- as.data.frame(p)
+      #rownames(p)=NULL
+      
+      print(p)
       #p=p[, -c(1, 2)]
 
     }
     
-  })
+  }, digits = 5)
   
 })
