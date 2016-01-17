@@ -28,14 +28,14 @@ shinyUI(fluidPage(
   titlePanel("Mutacje genów"),
   sidebarLayout(
     sidebarPanel(
-      selectInput("geny",
-                  "Wybierz gen",
-                  geny,
-                  "TP53"),
       selectInput("nowotwory",
                   "Wybierz nowotwór",
                   nowotwory,
-                  "Wszystkie")
+                  "Wszystkie", multiple = TRUE),
+      selectInput("geny",
+                  "Wybierz gen",
+                  geny,
+                  "TP53")
     )
     ,
     
