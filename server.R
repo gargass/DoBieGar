@@ -7,18 +7,19 @@ library(survMisc)
 
 #nowotwory = c('COADREAD', 'GBM', 'GBMLGG', 'HNSC', 'KIPAN', 'KIRC', 'LGG', 'LUAD', 'LUSC',
 #               'OV', 'STES', 'THCA', 'UCEC')
-nowotwory <- list("GBMLGG", "BRCA", "KIPAN")
-
-dane = NULL
-for (nowotwor in nowotwory)
-{
-  dane1 = read.table(paste('pvalue/', nowotwor, '_pvalue.txt', sep=''), h=T)
-  dane1$gen = rownames(dane1)
-  dane1$nowotwor = nowotwor
-  dane = rbind(dane, dane1)
-}
-geny<-unique(dane$gen)
-
+# nowotwory <- list("GBMLGG", "BRCA", "KIPAN")
+# 
+# dane = NULL
+# for (nowotwor in nowotwory)
+# {
+#   dane1 = read.table(paste('pvalue/', nowotwor, '_pvalue.txt', sep=''), h=T)
+#   dane1$gen = rownames(dane1)
+#   dane1$nowotwor = nowotwor
+#   dane = rbind(dane, dane1)
+# }
+# geny<-unique(dane$gen)
+geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
+geny <- as.matrix(geny)
 
 shinyServer(function(input, output) {
   
