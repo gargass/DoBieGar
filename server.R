@@ -153,11 +153,11 @@ shinyServer(function(input, output) {
       
       # nowotwor=c('BRCA', 'LGG')
       p_value_tabela <-read.table('p_value/p_value_NA.txt', h=T)
-      p = matrix(1, nrow=10, ncol=1)
+      p = matrix(1, nrow=20, ncol=1)
       for (nowotworr in nowotwor)
       {
       
-        p2=p_value_tabela[order(p_value_tabela[,nowotworr]), ][1:10, c("gen", nowotworr)]
+        p2=p_value_tabela[order(p_value_tabela[,nowotworr]), ][1:20, c("gen", nowotworr)]
         p = cbind(p, p2)
         
       }
@@ -165,7 +165,7 @@ shinyServer(function(input, output) {
       #p1 =as.table(p1)
       p = p[, -c(1)]
       rownames(p)=NULL
-      print(p)
+      print(p, digits=7)
       #p=p[, -c(1, 2)]
 
     }
