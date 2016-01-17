@@ -94,8 +94,8 @@ shinyServer(function(input, output) {
     gen <- input$geny
     if (nowotwor != "Wszystkie"){
       
-      zestaw.nowotwor_gen <- read.table(paste('Zbiory/', nowotwor, '/', nowotwor, '_', gen, '_cli_mut.txt', sep=""))
-      nowotwor_gen.fit<-survfit(Surv(time, status) ~ zestaw.nowotwor_gen[,7], data=zestaw.nowotwor_gen)
+      zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
+      nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
       
       #     tmp <- serialeIMDB[serialeIMDB$serial == input$serial,]
       #     ggplot(tmp, aes(x=id, y=ocena)) + geom_point() + geom_smooth(se=FALSE)
@@ -104,7 +104,7 @@ shinyServer(function(input, output) {
       #legend("bottomleft", c(paste(names(nowotwor.cli_mut_temp[6]), '=0'),
       #paste(names(nowotwor.cli_mut_temp[6]), '=1')),
       #col=c(1,2), lty=1)
-      p = autoplot(nowotwor_gen.fit, title=paste('Krzywa przeżycia dla genu ', input$geny, '\n w nowotworze ', input$nowotwory, sep=""), legLabs=c("status=0", "status=1"))$plot
+      p = autoplot(nowotwor_gen.fit, title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""), legLabs=c("status=0", "status=1"))$plot
       
       print(p)
     }
