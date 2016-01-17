@@ -93,35 +93,44 @@ shinyServer(function(input, output) {
     nowotwor<-input$nowotwory
     gen <- input$geny
     if( nowotwor != 'Wszystkie'){
-    p_value <-
-      read.table(
-        paste('p_value/P_value_dla_interesujacych_genow/', nowotwor, '_pvalue.txt', sep=""), 
-        h=T)
-    
-    paste("P-value: ", p_value$Pvalue[rownames(p_value) == gen])
+      p_value <-
+        read.table(
+          paste('p_value/P_value_dla_interesujacych_genow/', nowotwor, '_pvalue.txt', sep=""), 
+          h=T)
+      
+      paste("P-value: ", p_value$Pvalue[rownames(p_value) == gen])
     }
   })
   
   output$wykres <- renderPlot({
-    nowotwor<-input$nowotwory
+    nowotwory <- input$nowotwory
     gen <- input$geny
-    if (nowotwor != "Wszystkie"){
+    #if (nowotwor != "Wszystkie"){
+    if(!is.element("Wszystkie", nowotwory)){
+      n <- length(nowotwory)
+      print(n)
+      par(mfrow=c(floor(sqrt(n)), ceiling(sqrt(n))))
       
-      zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
-      nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
+      for(nowotwor in nowotwory){
+        print(nowotwor)
+        zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
+        nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
+        
+        
+        p <- autoplot(
+          nowotwor_gen.fit, 
+          title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""), 
+          legLabs=c("status=0", "status=1"))$plot
+        print(p)
+      }
       
-
-      p = autoplot(
-        nowotwor_gen.fit, 
-        title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""), 
-        legLabs=c("status=0", "status=1"),
-        xlim=c(0,1000))$plot
       
-      print(p)
-
+      
     }
     
-  })
+    
+    
+  }, height = 300, width = 300)
   
   # podsumowanie
   output$podsumowanie <- renderPrint({
