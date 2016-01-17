@@ -1,4 +1,4 @@
-nowotwor <- 'UCEC'
+nowotwor <- 'STES'
 
 
 geny = read.table("p_value/lista_interesujacych_genow.txt", h=T)
@@ -10,7 +10,7 @@ load(paste('RTCGA.mutations-master/data/', nowotwor, '.mutations.rda', sep='')) 
 nowotwor.clinical_sub<-get(paste(nowotwor, '.clinical', sep=""))[,c("patient.bcr_patient_barcode", "patient.days_to_death", "patient.days_to_last_followup")]
 
 nowotwor.mutations_sub<-get(paste(nowotwor, '.mutations', sep=""))[!is.na(get(paste(nowotwor, '.mutations', sep=""))$Hugo_Symbol),c("Hugo_Symbol", "Tumor_Sample_Barcode")]
-nowotwor.mutations_sub$Tumor_Sample_Barcode<-tolo/home/marley/Documents/Warsztaty - Biecek/wer(substr(nowotwor.mutations_sub$Tumor_Sample_Barcode, 1, 12))
+nowotwor.mutations_sub$Tumor_Sample_Barcode<-tolower(substr(nowotwor.mutations_sub$Tumor_Sample_Barcode, 1, 12))
 
 nowotwor.mutations_sub$czy_jest<-1
 
