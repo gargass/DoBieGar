@@ -97,16 +97,16 @@ shinyServer(function(input, output) {
       zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
       nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
       
-      #     tmp <- serialeIMDB[serialeIMDB$serial == input$serial,]
-      #     ggplot(tmp, aes(x=id, y=ocena)) + geom_point() + geom_smooth(se=FALSE)
-      #plot(nowotwor.fit,
-      #xlab="Dni", ylab="P-stwo przeżycia")
-      #legend("bottomleft", c(paste(names(nowotwor.cli_mut_temp[6]), '=0'),
-      #paste(names(nowotwor.cli_mut_temp[6]), '=1')),
-      #col=c(1,2), lty=1)
-      p = autoplot(nowotwor_gen.fit, title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""), legLabs=c("status=0", "status=1"))$plot
+
+      p = autoplot(
+        nowotwor_gen.fit, 
+        title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""), 
+        legLabs=c("status=0", "status=1"),
+        xlim=c(0,1000))$plot
       
       print(p)
+      print('Siema')
+      'Siema'
     }
     
   })
