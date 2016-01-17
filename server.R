@@ -135,7 +135,7 @@ shinyServer(function(input, output) {
           autoplot(nowotwor_gen.fit, legLabs = c("lower","higher"))$plot 
           })
         
-        marrangeGrob(p, ncol = 2, nrow=2)
+        marrangeGrob(p, nrow = floor(sqrt(n)), ncol=ceiling(sqrt(n)))
       
     }
       
