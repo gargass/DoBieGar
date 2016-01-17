@@ -43,7 +43,7 @@ shinyUI(fluidPage(
       p("Dane dotyczące wybranego mutacji wybranego genu:"),
       br(),
       tabsetPanel(
-        tabPanel("Wykres", plotOutput("wykres", width = 500)),
+        tabPanel("Wykres", textOutput("text1"), plotOutput("wykres", width = 500)),
         tabPanel("Podsumowanie", verbatimTextOutput("podsumowanie"))        ,
         tabPanel("Tabela", tableOutput("tabela")),
         tabPanel("Kilka nowotworów", tableOutput("tabela_kilka"))

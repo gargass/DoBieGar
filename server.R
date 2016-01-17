@@ -89,6 +89,19 @@ shinyServer(function(input, output) {
   })
   
   # wykres
+  output$text1 <- renderText({ 
+    nowotwor<-input$nowotwory
+    gen <- input$geny
+    if( nowotwor != 'Wszystkie'){
+    p_value <-
+      read.table(
+        paste('p_value/P_value_dla_interesujacych_genow/', nowotwor, '_pvalue.txt', sep=""), 
+        h=T)
+    
+    paste("P-value: ", p_value$Pvalue[rownames(p_value) == gen])
+    }
+  })
+  
   output$wykres <- renderPlot({
     nowotwor<-input$nowotwory
     gen <- input$geny
@@ -105,8 +118,7 @@ shinyServer(function(input, output) {
         xlim=c(0,1000))$plot
       
       print(p)
-      print('Siema')
-      'Siema'
+
     }
     
   })
