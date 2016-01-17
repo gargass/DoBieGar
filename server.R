@@ -158,6 +158,7 @@ shinyServer(function(input, output) {
       {
       
         p2=p_value_tabela[order(p_value_tabela[,nowotworr]), ][1:10, c("gen", nowotworr)]
+        colnames(p2) <- c(paste("Marker ", nowotworr), paste("P-value ", nowotworr))
         p = cbind(p, p2)
         
       }
