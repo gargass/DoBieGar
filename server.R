@@ -23,13 +23,20 @@ for(nowotwor in nowotwory){
 
 shinyServer(function(input, output) {
   
-  output$opis_wykres <- renderText({
+  output$opis_krzywe <- renderText({
     nowotwor <- input$nowotwory
     gen <- input$geny
     if( nowotwor != 'Wszystkie'){
       paste("P-value: ", get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen])
     }
+    print('In the figures below we can see Kaplan-Meier curves for 
+          a given gene and the given tumors. The survival curves 
+          are estimated for the two groups of patients: 
+          the first one is the group of patients with a mutation of a given gene 
+          and the second one is the group of patients without any mutation 
+          of this gene.')
   })
+  
   
   output$wykres <- renderPlot({
     nowotwory <- input$nowotwory
@@ -46,7 +53,7 @@ shinyServer(function(input, output) {
                            xLab = paste('Time, P-value:', 
                                         get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
                            legLabs = c("status = 0","status = 1"),
-                           title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""))$plot
+                           title=paste('Kaplan–Meier estimator for ', gen, '\n in ', nowotwor, " cancer", sep=""))$plot
       })
 
       if(n <= 4){
@@ -63,8 +70,8 @@ shinyServer(function(input, output) {
     }}, height = 1000, width = 1000)
   
   output$opis_geny <- renderText({
-    "Tabela przedstawiająca 10 najistotniejszych genów, na których 
-    wystąpiła mutacja w nowotworze. \n"
+    "The table shows the 10 most significant genes in which 
+    a mutation occurred in cancer. \n"
   })
   
   output$geny <- renderTable({
