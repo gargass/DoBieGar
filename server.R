@@ -39,7 +39,7 @@ shinyServer(function(input, output) {
   output$wykres <- renderPlot({
     nowotwory <- input$nowotwory
     gen <- input$geny
-    if(!is.element("Wszystkie", nowotwory)){
+  
       
       n <- length(nowotwory)
      
@@ -65,7 +65,7 @@ shinyServer(function(input, output) {
       
       marrangeGrob(p, ncol = ncol, nrow = nrow)
       
-    }}, height = 1000, width = 1000)
+    }, height = 1000, width = 1000)
   
   output$opis_geny <- renderText({
     "The table shows the 10 most significant genes in which 
@@ -74,8 +74,7 @@ shinyServer(function(input, output) {
   
   output$geny <- renderTable({
     nowotwor <- input$nowotwory
-    if (input$nowotwory!='Wszystkie')
-    {
+   
       p <- matrix(1, nrow=10, ncol=1)
       for (nowotworr in nowotwor)
       {
@@ -86,7 +85,7 @@ shinyServer(function(input, output) {
       p <- p[, -c(1)]
       rownames(p) <- NULL
       print(p)
-    }}, digits = 5)
+    }, digits = 5)
   
   output$opis_geny_wspol <- renderText({
     "Geny współistniejące z wybranymi:"
