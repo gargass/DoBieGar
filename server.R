@@ -3,6 +3,8 @@ library(survival)
 library(survMisc)
 library(grid)
 library(gridExtra)
+library(reshape2)
+library(ggplot2)
 
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
@@ -20,6 +22,8 @@ for(nowotwor in nowotwory){
   assign(paste('p_value.', nowotwor, sep=""), read.table(paste('p_value/P_value_dla_interesujacych_genow/', 
                                                                nowotwor, '_pvalue.txt', sep=""), h=T))
 }
+
+najczestsze <- read.table("najczestsze_geny.txt", h=T)
 
 shinyServer(function(input, output) {
   
@@ -116,4 +120,18 @@ shinyServer(function(input, output) {
     rownames(p) <- NULL
     print(p)
     })
+  
+  output$heatmap_pvalue <- renderPlot({
+    melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen %in% najczestsze$x[0:50]), ])
+    
+    base_size <- 8
+    
+    ggplot(data = melted_dane, aes(x=variable, y=gen, fill=value)) + 
+      geom_tile() + theme_grey(base_size = base_size) + labs(x = "",y = "") + 
+      scale_x_discrete(expand = c(0, 0)) + 
+      scale_y_discrete(expand = c(0, 0)) + theme(axis.ticks = element_blank(), 
+                                                 axis.text.x = element_text(size = base_size * 0.8, angle = 330, hjust = 0, colour = "grey50"))+
+      geom_tile(aes(fill = value), colour = "white")
+    
+  })
   })
