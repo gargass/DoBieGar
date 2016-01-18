@@ -112,33 +112,37 @@ shinyServer(function(input, output) {
       n <- length(nowotwory)
       #print(n)
       #par(mfrow=c(floor(sqrt(n)), ceiling(sqrt(n))))
-#       grobs <- gList()
-#       grobs_i <- 1
-#       for(nowotwor in nowotwory){
-#         print(nowotwor)
-#         zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
-#         nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
-#         
-#         
-#         grobs[grobs_i] <- grob(autoplot(
-#           nowotwor_gen.fit, 
-#           title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""), 
-#           legLabs=c("status=0", "status=1"))$plot)
-#         grobs_i = grobs_i + 1
-#       }
-#       
-#       arrangeGrob(grobs)
-        p <- lapply(nowotwory, function(nowotwor) {
-          zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
-          nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
-          
-          survMisc::autoplot(nowotwor_gen.fit, legLabs = c("lower","higher"))$plot 
-          })
+      #       grobs <- gList()
+      #       grobs_i <- 1
+      #       for(nowotwor in nowotwory){
+      #         print(nowotwor)
+      #         zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
+      #         nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
+      #         
+      #         
+      #         grobs[grobs_i] <- grob(autoplot(
+      #           nowotwor_gen.fit, 
+      #           title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""), 
+      #           legLabs=c("status=0", "status=1"))$plot)
+      #         grobs_i = grobs_i + 1
+      #       }
+      #       
+      #       arrangeGrob(grobs)
+      p <- lapply(nowotwory, function(nowotwor) {
+        zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
+        nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
+        survMisc::autoplot(nowotwor_gen.fit, legLabs = c("lower","higher"))$plot 
+
         
-        marrangeGrob(p, ncol = ceiling(sqrt(n)), nrow=ceiling(n/ceiling(sqrt(n))))
+
+       
+      })
+
+      
+      marrangeGrob(p, ncol = ceiling(sqrt(n)), nrow=ceiling(n/ceiling(sqrt(n))))
       
     }
-      
+    
     
     
     
@@ -153,11 +157,11 @@ shinyServer(function(input, output) {
       
       # nowotwor=c('BRCA', 'LGG')
       p_value_tabela <-read.table('p_value/p_value_NA.txt', h=T)
-      p = matrix(1, nrow=20, ncol=1)
+      p = matrix(1, nrow=10, ncol=1)
       for (nowotworr in nowotwor)
       {
-      
-        p2=p_value_tabela[order(p_value_tabela[,nowotworr]), ][1:20, c("gen", nowotworr)]
+        
+        p2=p_value_tabela[order(p_value_tabela[,nowotworr]), ][1:10, c("gen", nowotworr)]
         colnames(p2) <- c(paste("Marker ", nowotworr), paste("P-value ", nowotworr))
         p = cbind(p, p2)
         
@@ -165,14 +169,50 @@ shinyServer(function(input, output) {
       
       #p1 =as.table(p1)
       p = p[, -c(1)]
-      p <- as.data.frame(p)
-      #rownames(p)=NULL
-      
+      rownames(p)=NULL
       print(p)
       #p=p[, -c(1, 2)]
-
+      
     }
     
-  }, digits = 5)
+  })
+  
+  
+  output$geny_wspolne<-renderTable({
+    p = matrix(1, nrow=3, ncol=1)
+ gen = input$geny
+  nowotwory=input$nowotwory
+ for (nowotwor in nowotwory)
+ {
+  dane = read.table(paste('Zbiory/', nowotwor, '.txt', sep=''), h=T)
+  
+  z = numeric((ncol(dane)-2))
+  for (i in 3:(ncol(dane)-2))
+  {
+    
+    z[i]=sum(dane[which(dane[, gen]==1), i])
+    
+  }
+  a = sum(dane[which(dane[, gen]==1), gen])
+  x = z[order(z)][(length(z)-1):(length(z)-3)]
+  x2 = c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
+  x2 = x2[1:3]
+  
+  x3 = as.matrix(colnames(dane)[c(x2)])
+  x4 = as.matrix(round(z [ c(x2)]/a, 2))
+  colnames(x3) <- c(paste("Marker ", nowotwor))
+  colnames(x4) <- c(paste("Correlation ", nowotwor))
+  p =cbind(p, x3, x4)
+ }
+ p = p[, -c(1)]
+ rownames(p)=NULL
+ 
+
+ print(p)
+  
+  })
+  
+  
+  
   
 })
