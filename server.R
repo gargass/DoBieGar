@@ -4,8 +4,22 @@ library(survMisc)
 library(grid)
 library(gridExtra)
 
+nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
+                  "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
+
+for(nowotwor in nowotwory){
+  assign(paste('zbior.', nowotwor, sep=""), read.table(paste('Zbiory/', nowotwor, '.txt', sep="")))
+}
+
 geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
+
+p_value_tabela <-read.table('p_value/p_value_NA.txt', h=T)
+
+for(nowotwor in nowotwory){
+  assign(paste('p_value.', nowotwor, sep=""), read.table(paste('p_value/P_value_dla_interesujacych_genow/', 
+                                                               nowotwor, '_pvalue.txt', sep=""), h=T))
+}
 
 shinyServer(function(input, output) {
   
@@ -13,10 +27,7 @@ shinyServer(function(input, output) {
     nowotwor <- input$nowotwory
     gen <- input$geny
     if( nowotwor != 'Wszystkie'){
-      p_value <- read.table(paste('p_value/P_value_dla_interesujacych_genow/', 
-                                  nowotwor, '_pvalue.txt', sep=""), h=T)
-      
-      paste("P-value: ", p_value$Pvalue[rownames(p_value) == gen])
+      paste("P-value: ", get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen])
     }
   })
   
@@ -29,13 +40,11 @@ shinyServer(function(input, output) {
      
       p <- lapply(nowotwory, function(nowotwor){
         
-        zbior.nowotwor <- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
-        p_value <- read.table(paste('p_value/P_value_dla_interesujacych_genow/', 
-                                    nowotwor, '_pvalue.txt', sep=""), h=T)
-        nowotwor_gen.fit <- survfit(Surv(time, status) ~ zbior.nowotwor[,gen], 
-                                    data=zbior.nowotwor)
+        nowotwor_gen.fit <- survfit(Surv(time, status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
+                                    data=get(paste('zbior.', nowotwor, sep="")))
         survMisc::autoplot(nowotwor_gen.fit,
-                           xLab = paste('Time, P-value:', p_value$Pvalue[rownames(p_value) == gen]),
+                           xLab = paste('Time, P-value:', 
+                                        get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
                            legLabs = c("status = 0","status = 1"),
                            title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""))$plot
       })
@@ -62,7 +71,6 @@ shinyServer(function(input, output) {
     nowotwor <- input$nowotwory
     if (input$nowotwory!='Wszystkie')
     {
-      p_value_tabela <-read.table('p_value/p_value_NA.txt', h=T)
       p <- matrix(1, nrow=10, ncol=1)
       for (nowotworr in nowotwor)
       {
@@ -84,7 +92,7 @@ shinyServer(function(input, output) {
     gen <- input$geny
     nowotwory <- input$nowotwory
     for (nowotwor in nowotwory){
-      dane <- read.table(paste('Zbiory/', nowotwor, '.txt', sep=''), h=T)
+      dane <- get(paste('zbior.', nowotwor, sep=""))
       z <- numeric((ncol(dane)-2))
       for (i in 3:(ncol(dane)-2)){
         z[i] <- sum(dane[which(dane[, gen]==1), i])
