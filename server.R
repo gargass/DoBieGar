@@ -135,7 +135,7 @@ shinyServer(function(input, output) {
           survMisc::autoplot(nowotwor_gen.fit, legLabs = c("lower","higher"))$plot 
           })
         
-        marrangeGrob(p, nrow = floor(sqrt(n)), ncol=ceiling(sqrt(n)))
+        marrangeGrob(p, ncol = ceiling(sqrt(n)), nrow=ceiling(n/ceiling(sqrt(n))))
       
     }
       
