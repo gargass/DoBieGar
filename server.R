@@ -27,62 +27,7 @@ shinyServer(function(input, output) {
   
   
   
-  output$tabela <- renderTable({
-    gen <- input$geny
-    
-    #     serialeIMDB[serialeIMDB$serial == input$serial, c("serial", "nazwa", "sezon", "ocena", "glosow")]
-    if (input$nowotwory =='Wszystkie'){
-      
-      poziomy_genu <- NULL
-      for(n in 1:length(nowotwory)){
-        zestaw.nowotwor_gen <- read.table(paste('Zbiory/', nowotwory[n], '/', nowotwory[n], '_', gen, '_cli_mut.txt', sep=""))
-        poziomy_genu <- c(poziomy_genu, as.character(unique(zestaw.nowotwor_gen$Variant_Classification)))
-      }
-      poziomy_genu <- unique(poziomy_genu)
-      
-      tabela <- matrix(0, nrow = length(nowotwory), ncol=3 + length(poziomy_genu))
-      rownames(tabela) <- nowotwory
-      colnames(tabela) <- c('Liczność genu w zbiorze', 'Liczność zbioru', 'Frakcja wystąpień', poziomy_genu)
-      
-      for(n in 1:length(nowotwory)){
-        zestaw.nowotwor_gen <- read.table(paste('Zbiory/', nowotwory[n], '/', nowotwory[n], '_', gen, '_cli_mut.txt', sep=""))
-        
-        tabela[n,1] <- sum(zestaw.nowotwor_gen[,ncol(zestaw.nowotwor_gen)])
-        tabela[n,2] <- nrow(zestaw.nowotwor_gen)
-        tabela[n,3] <- tabela[n,1] / tabela[n,2]
-        for(poz in 1:length(poziomy_genu)){
-          
-          #tabela[n, 3 + poz] <- nrow(zestaw.nowotwor_gen[as.character(zestaw.nowotwor_gen$Variant_Classification) == poziomy_genu[poz] & zestaw.nowotwor_gen$status==1,])/tabela[n,1]
-          
-          tabela[n, 3 + poz] <- nrow(zestaw.nowotwor_gen[as.character(zestaw.nowotwor_gen$Variant_Classification) == poziomy_genu[poz] & zestaw.nowotwor_gen[,ncol(zestaw.nowotwor_gen)]==1,])/tabela[n,1]
-        }
-        
-        
-      }
-      print(tabela)
-      
-    }
-    
-    
-  })
-  
-  output$tabela_kilka <- renderTable({
-    gen <- input$geny
-    tabela <- matrix(0, nrow=length(nowotwory), ncol = length(nowotwory))
-    rownames(tabela) <- nowotwory
-    colnames(tabela) <- nowotwory
-    
-    for(t1 in 1:length(nowotwory)){
-      p_value_t1 <- read.table(paste('pvalue/', nowotwory[t1], '_pvalue.txt', sep=''), h=T)
-      for(t2 in 1:length(nowotwory)){
-        p_value_t2 <- read.table(paste('pvalue/', nowotwory[t2], '_pvalue.txt', sep=''), h=T)
-        tabela[t1,t2] <- (is.element(gen, rownames(p_value_t1)) & is.element(gen, rownames(p_value_t2)))
-      }
-    }
-    
-    print(tabela)
-    
-  })
+
   
   # wykres
   output$opis_wykres <- renderText({ 
@@ -106,8 +51,13 @@ shinyServer(function(input, output) {
      
       p <- lapply(nowotwory, function(nowotwor) {
         zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
+        p_value <-
+          read.table(
+            paste('p_value/P_value_dla_interesujacych_genow/', nowotwor, '_pvalue.txt', sep=""), 
+            h=T)
         nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
-        survMisc::autoplot(nowotwor_gen.fit, 
+        survMisc::autoplot(nowotwor_gen.fit,
+                           xLab = paste('Time, P-value:', p_value$Pvalue[rownames(p_value) == gen]),
                            legLabs = c("status = 0","status = 1"),
                            title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""))$plot
 
@@ -139,7 +89,6 @@ shinyServer(function(input, output) {
   output$opis_geny <- renderText({
     "Tabela przedstawiająca 10 najistotniejszych genów, na których wystąpiła mutacja w nowotworze \n"
   })
-  
   output$geny <- renderTable({
     nowotwor = input$nowotwory
     if (input$nowotwory!='Wszystkie')
@@ -167,7 +116,9 @@ shinyServer(function(input, output) {
     
   }, digits = 5)
   
-  
+  output$opis_geny_wspol <- renderText({
+    "Geny współistniejące z wybranymi"
+  })
   output$geny_wspolne<-renderTable({
     p = matrix(1, nrow=3, ncol=1)
  gen = input$geny
@@ -202,7 +153,62 @@ shinyServer(function(input, output) {
   
   })
   
-  
+#   output$tabela <- renderTable({
+#     gen <- input$geny
+#     
+#     #     serialeIMDB[serialeIMDB$serial == input$serial, c("serial", "nazwa", "sezon", "ocena", "glosow")]
+#     if (input$nowotwory =='Wszystkie'){
+#       
+#       poziomy_genu <- NULL
+#       for(n in 1:length(nowotwory)){
+#         zestaw.nowotwor_gen <- read.table(paste('Zbiory/', nowotwory[n], '/', nowotwory[n], '_', gen, '_cli_mut.txt', sep=""))
+#         poziomy_genu <- c(poziomy_genu, as.character(unique(zestaw.nowotwor_gen$Variant_Classification)))
+#       }
+#       poziomy_genu <- unique(poziomy_genu)
+#       
+#       tabela <- matrix(0, nrow = length(nowotwory), ncol=3 + length(poziomy_genu))
+#       rownames(tabela) <- nowotwory
+#       colnames(tabela) <- c('Liczność genu w zbiorze', 'Liczność zbioru', 'Frakcja wystąpień', poziomy_genu)
+#       
+#       for(n in 1:length(nowotwory)){
+#         zestaw.nowotwor_gen <- read.table(paste('Zbiory/', nowotwory[n], '/', nowotwory[n], '_', gen, '_cli_mut.txt', sep=""))
+#         
+#         tabela[n,1] <- sum(zestaw.nowotwor_gen[,ncol(zestaw.nowotwor_gen)])
+#         tabela[n,2] <- nrow(zestaw.nowotwor_gen)
+#         tabela[n,3] <- tabela[n,1] / tabela[n,2]
+#         for(poz in 1:length(poziomy_genu)){
+#           
+#           #tabela[n, 3 + poz] <- nrow(zestaw.nowotwor_gen[as.character(zestaw.nowotwor_gen$Variant_Classification) == poziomy_genu[poz] & zestaw.nowotwor_gen$status==1,])/tabela[n,1]
+#           
+#           tabela[n, 3 + poz] <- nrow(zestaw.nowotwor_gen[as.character(zestaw.nowotwor_gen$Variant_Classification) == poziomy_genu[poz] & zestaw.nowotwor_gen[,ncol(zestaw.nowotwor_gen)]==1,])/tabela[n,1]
+#         }
+#         
+#         
+#       }
+#       print(tabela)
+#       
+#     }
+#     
+#     
+#   })
+#   
+#   output$tabela_kilka <- renderTable({
+#     gen <- input$geny
+#     tabela <- matrix(0, nrow=length(nowotwory), ncol = length(nowotwory))
+#     rownames(tabela) <- nowotwory
+#     colnames(tabela) <- nowotwory
+#     
+#     for(t1 in 1:length(nowotwory)){
+#       p_value_t1 <- read.table(paste('pvalue/', nowotwory[t1], '_pvalue.txt', sep=''), h=T)
+#       for(t2 in 1:length(nowotwory)){
+#         p_value_t2 <- read.table(paste('pvalue/', nowotwory[t2], '_pvalue.txt', sep=''), h=T)
+#         tabela[t1,t2] <- (is.element(gen, rownames(p_value_t1)) & is.element(gen, rownames(p_value_t2)))
+#       }
+#     }
+#     
+#     print(tabela)
+#     
+#   }) 
   
   
 })

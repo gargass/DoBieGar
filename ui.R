@@ -45,9 +45,9 @@ shinyUI(fluidPage(
       tabsetPanel(
         tabPanel("Wykres", textOutput("opis_wykres"), plotOutput("wykres", width = 500)),
         tabPanel("Geny", textOutput("opis_geny"), tableOutput("geny")),
-        tabPanel('Geny współwystępujące', tableOutput("geny_wspolne")),
-        tabPanel("Tabela", tableOutput("tabela")),
-        tabPanel("Kilka nowotworów", tableOutput("tabela_kilka"))
+        tabPanel('Geny współwystępujące', textOutput("opis_geny_wspol"), tableOutput("geny_wspolne"))
+#         tabPanel("Tabela", tableOutput("tabela")),
+#         tabPanel("Kilka nowotworów", tableOutput("tabela_kilka"))
       )
     )
   )
