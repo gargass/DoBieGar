@@ -29,8 +29,8 @@ shinyServer(function(input, output) {
     if( nowotwor != 'Wszystkie'){
       paste("P-value: ", get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen])
     }
-    print('In the figures below we can see Kaplan-Meier curves f
-          or a given gene and the given tumors. The survival curves 
+    print('In the figures below we can see Kaplan-Meier curves for 
+          a given gene and the given tumors. The survival curves 
           are estimated for the two groups of patients: 
           the first one is the group of patients with a mutation of a given gene 
           and the second one is the group of patients without any mutation 
