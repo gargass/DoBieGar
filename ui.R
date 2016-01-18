@@ -26,7 +26,7 @@ shinyUI(fluidPage(
       p("Dane dotyczące mutacji wybranego genu:"),
       br(),
       tabsetPanel(
-        tabPanel("Survival curve", plotOutput("wykres", width = 500)),
+        tabPanel("Survival curve", plotOutput("wykres", width = 500), textOutput("opis_krzywe")),
         tabPanel('Co-occuring genes', textOutput("opis_geny_wspol"), tableOutput("geny_wspolne")),
         tabPanel("10 most significant genes", textOutput("opis_geny"), tableOutput("geny"))
       )
