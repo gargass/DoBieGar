@@ -1,13 +1,14 @@
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
-nowotwory <- 'BRCA'
+nowotwory <- 'KIPAN'
 
 geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
-dir_zbiory <- 'C:/Users/Sebastian/OneDrive/Studia/II stopien/Warsztaty badawcze - pbiecek/'
+dir_zbiory <- 'C:/Users/Gosia/Desktop/Biecek/'
 
 for(nowotwor in nowotwory){
+
   
   load(paste(dir_zbiory, 'RTCGA.clinical-master/data/', nowotwor, '.clinical.rda', sep='')) #Wczytanie pacjentów.
   nowotwor.clinical <- get(paste(nowotwor, '.clinical', sep=""))[ ,c("patient.bcr_patient_barcode", "patient.days_to_death", "patient.days_to_last_followup")]

@@ -2,7 +2,7 @@ library(shiny)
 library(survival)
 library(survMisc)
 
-nowotwory <- list("Wszystkie", "GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
+nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
 
 geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
@@ -15,7 +15,7 @@ shinyUI(fluidPage(
       selectInput("nowotwory",
                   "Select cancer",
                   nowotwory,
-                  "Wszystkie", multiple = TRUE),
+                  "BRCA", multiple = TRUE),
       selectInput("geny",
                   "Select gene",
                   geny,

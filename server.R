@@ -26,18 +26,16 @@ shinyServer(function(input, output) {
   output$opis_krzywe <- renderText({
     nowotwor <- input$nowotwory
     gen <- input$geny
-    if( nowotwor != 'Wszystkie'){
-      paste("P-value: ", get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen])
-    }
+
     print('In the figures below we can see Kaplan-Meier curves for 
           a given gene and the given tumors. The survival curves 
           are estimated for the two groups of patients: 
-          the first one is the group of patients with a mutation of a given gene 
+          the first one refers to the patients with a mutation of a given gene 
           and the second one is the group of patients without any mutation 
           of this gene.')
   })
   
-  
+
   output$wykres <- renderPlot({
     nowotwory <- input$nowotwory
     gen <- input$geny
