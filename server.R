@@ -26,13 +26,7 @@ geny <- as.matrix(geny)
 shinyServer(function(input, output) {
   
   
-  #   setwd<-'C:/Users/Gosia/Desktop/Biecek'
-  #   setwd(setwd)
-  #  dane <- read.table(paste(setwd,'/STES','/p_value.txt', sep=''))
   
-  #   dane <- read.table('KIPAN/KIPAN_p_value.txt', sep='')
-  #   geny <- as.factor(rownames(dane))
-  # tabela
   output$tabela <- renderTable({
     gen <- input$geny
     
@@ -91,7 +85,7 @@ shinyServer(function(input, output) {
   })
   
   # wykres
-  output$text1 <- renderText({ 
+  output$opis_wykres <- renderText({ 
     nowotwor<-input$nowotwory
     gen <- input$geny
     if( nowotwor != 'Wszystkie'){
@@ -103,7 +97,6 @@ shinyServer(function(input, output) {
       paste("P-value: ", p_value$Pvalue[rownames(p_value) == gen])
     }
   })
-  
   output$wykres <- renderPlot({
     nowotwory <- input$nowotwory
     gen <- input$geny
@@ -143,6 +136,10 @@ shinyServer(function(input, output) {
   }, height = 1000, width = 1000)
   
   # podsumowanie
+  output$opis_geny <- renderText({
+    "Tabela przedstawiająca 10 najistotniejszych genów, na których wystąpiła mutacja w nowotworze \n"
+  })
+  
   output$geny <- renderTable({
     nowotwor = input$nowotwory
     if (input$nowotwory!='Wszystkie')
@@ -168,7 +165,7 @@ shinyServer(function(input, output) {
       
     }
     
-  })
+  }, digits = 5)
   
   
   output$geny_wspolne<-renderTable({

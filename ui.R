@@ -43,8 +43,8 @@ shinyUI(fluidPage(
       p("Dane dotyczące wybranego mutacji wybranego genu:"),
       br(),
       tabsetPanel(
-        tabPanel("Wykres", textOutput("text1"), plotOutput("wykres", width = 500)),
-        tabPanel("Geny", tableOutput("geny")),
+        tabPanel("Wykres", textOutput("opis_wykres"), plotOutput("wykres", width = 500)),
+        tabPanel("Geny", textOutput("opis_geny"), tableOutput("geny")),
         tabPanel('Geny współwystępujące', tableOutput("geny_wspolne")),
         tabPanel("Tabela", tableOutput("tabela")),
         tabPanel("Kilka nowotworów", tableOutput("tabela_kilka"))
