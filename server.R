@@ -110,28 +110,13 @@ shinyServer(function(input, output) {
     #if (nowotwor != "Wszystkie"){
     if(!is.element("Wszystkie", nowotwory)){
       n <- length(nowotwory)
-      #print(n)
-      #par(mfrow=c(floor(sqrt(n)), ceiling(sqrt(n))))
-      #       grobs <- gList()
-      #       grobs_i <- 1
-      #       for(nowotwor in nowotwory){
-      #         print(nowotwor)
-      #         zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
-      #         nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
-      #         
-      #         
-      #         grobs[grobs_i] <- grob(autoplot(
-      #           nowotwor_gen.fit, 
-      #           title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""), 
-      #           legLabs=c("status=0", "status=1"))$plot)
-      #         grobs_i = grobs_i + 1
-      #       }
-      #       
-      #       arrangeGrob(grobs)
+     
       p <- lapply(nowotwory, function(nowotwor) {
         zbior.nowotwor<- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
         nowotwor_gen.fit<-survfit(Surv(time, status) ~ zbior.nowotwor[,gen], data=zbior.nowotwor)
-        survMisc::autoplot(nowotwor_gen.fit, legLabs = c("lower","higher"))$plot 
+        survMisc::autoplot(nowotwor_gen.fit, 
+                           legLabs = c("status = 0","status = 1"),
+                           title=paste('Krzywa przeżycia dla genu ', gen, '\n w nowotworze ', nowotwor, sep=""))$plot
 
         
 
@@ -146,6 +131,7 @@ shinyServer(function(input, output) {
         ncol = ceiling(sqrt(n))
         nrow = ceiling(n/ceiling(sqrt(n)))
       }
+      
       marrangeGrob(p, ncol = ncol, nrow = nrow)
       
     }
