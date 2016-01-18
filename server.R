@@ -138,8 +138,15 @@ shinyServer(function(input, output) {
        
       })
 
-      
-      marrangeGrob(p, ncol = ceiling(sqrt(n)), nrow=ceiling(n/ceiling(sqrt(n))))
+      if(n<=4){
+        ncol = 2
+        nrow = 2
+      }
+      else{
+        ncol = ceiling(sqrt(n))
+        nrow = ceiling(n/ceiling(sqrt(n)))
+      }
+      marrangeGrob(p, ncol = ncol, nrow = nrow)
       
     }
     
