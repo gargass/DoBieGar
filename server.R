@@ -122,7 +122,7 @@ shinyServer(function(input, output) {
     })
   
   output$heatmap_pvalue <- renderPlot({
-    melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen %in% najczestsze$x[0:50]), ])
+    melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen %in% najczestsze$x[50:100]), ])
     
     base_size <- 12
     
@@ -136,7 +136,7 @@ shinyServer(function(input, output) {
   })
   
   output$heatmap_czestosc <- renderPlot({
-    melted_dane <- melt(czestosci[which(czestosci$gen %in% najczestsze$x[0:50]), ])
+    melted_dane <- melt(czestosci[which(czestosci$gen %in% najczestsze$x[50:100]), ])
     
     base_size <- 12
     
