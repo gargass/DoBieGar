@@ -134,4 +134,18 @@ shinyServer(function(input, output) {
       geom_tile(aes(fill = value), colour = "white")
     
   })
+  
+  output$heatmap_czestosc <- renderPlot({
+    melted_dane <- melt(czestosci[which(czestosci$gen %in% najczestsze$x[0:50]), ])
+    
+    base_size <- 8
+    
+    ggplot(data = melted_dane, aes(x=variable, y=gen, fill=value)) + 
+      geom_tile() + theme_grey(base_size = base_size) + labs(x = "",y = "") + 
+      scale_x_discrete(expand = c(0, 0)) + 
+      scale_y_discrete(expand = c(0, 0)) + theme(axis.ticks = element_blank(), 
+                                                 axis.text.x = element_text(size = base_size * 0.8, angle = 330, hjust = 0, colour = "grey50"))+
+      geom_tile(aes(fill = value), colour = "white")
+    
+  })
   })
