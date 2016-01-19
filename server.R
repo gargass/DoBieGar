@@ -179,9 +179,9 @@ shinyServer(function(input, output) {
       quantile <- stats::quantile
       p <- lapply(c("Missense Mutation", "Nonsense Mutation"), function(typ){
       if(typ == "Missense Mutation"){
-        ggplot2::ggplot(nowotwory.gen.missense, aes(x=nowotwor, y=time)) + ggplot2::geom_boxplot() + ggtitle("Missense Mutation")}
+        ggplot2::ggplot(nowotwory.gen.missense, aes(x=nowotwor, y=time)) + ggplot2::geom_boxplot() + ggtitle("Missense Mutation") + theme(plot.title = element_text(lineheight=.8, face="bold"))}
       else{
-        ggplot2::ggplot(nowotwory.gen.nonsense, aes(x=nowotwor, y=time)) + ggplot2::geom_boxplot() + ggtitle("Nonsense Mutation")}
+        ggplot2::ggplot(nowotwory.gen.nonsense, aes(x=nowotwor, y=time)) + ggplot2::geom_boxplot() + ggtitle("Nonsense Mutation") + theme(plot.title = element_text(lineheight=.8, face="bold"))}
 #       par(mfrow = c(1,2))
 #       boxplot(time ~ nowotwor, data = nowotwory.gen.missense, main = "Missense Mutation")
 #       boxplot(time ~ nowotwor, data = nowotwory.gen.nonsense, main = "Nonsense Mutation")
