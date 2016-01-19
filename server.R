@@ -129,7 +129,7 @@ shinyServer(function(input, output) {
     })
   
   output$heatmap_pvalue <- renderPlot({
-    melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen %in% najczestsze$x[1:50]), ])
+    melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen %in% geny[1:length(geny)]), ])
     
     base_size <- 12
     
