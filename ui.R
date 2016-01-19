@@ -9,7 +9,7 @@ geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
 shinyUI(fluidPage(
-  titlePanel("Gene Mutation"),
+  titlePanel("Genes mutations and survival analysis"),
   sidebarLayout(
     sidebarPanel(
       selectInput("nowotwory",
@@ -23,7 +23,7 @@ shinyUI(fluidPage(
     ),
     
     mainPanel(
-      p("Dane dotyczące mutacji wybranego genu:"),
+      p(""),
       br(),
       tabsetPanel(
         tabPanel("Survival curve", textOutput("opis_krzywe"), plotOutput("wykres", width = 500)),
