@@ -17,7 +17,6 @@ geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
 p_value_tabela <-read.table('p_value/p_value_NA.txt', h=T)
-czestosci<-read.table('czestosci.txt', h=T)
 
 for(nowotwor in nowotwory){
   assign(paste('p_value.', nowotwor, sep=""), read.table(paste('p_value/P_value_dla_interesujacych_genow/', 
@@ -147,7 +146,7 @@ shinyServer(function(input, output) {
       scale_y_discrete(expand = c(0, 0)) + theme(axis.ticks = element_blank(), 
                                                  axis.text.x = element_text(size = base_size * 0.8, angle = 330, hjust = 0, colour = "grey50"))+
       geom_tile(aes(fill = value), colour = "white") + 
-      scale_fill_gradient(low = "white", high = "steelblue")
+      scale_fill_gradient(low = "white", high = "blue")
     
   })
   })
