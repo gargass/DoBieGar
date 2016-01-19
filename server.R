@@ -17,6 +17,7 @@ geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
 p_value_tabela <-read.table('p_value/p_value_NA.txt', h=T)
+czestosci<-read.table('czestosci.txt', h=T)
 
 for(nowotwor in nowotwory){
   assign(paste('p_value.', nowotwor, sep=""), read.table(paste('p_value/P_value_dla_interesujacych_genow/', 
