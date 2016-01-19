@@ -157,6 +157,31 @@ shinyServer(function(input, output) {
   })
   
   output$boxplot_variant <- renderPlot({
-    
-  })
+      nowotwory <- input$nowotwory
+      gen <- input$geny
+      
+      n <- length(nowotwory)
+      
+      nowotwory.gen.missense <- NULL
+      nowotwory.gen.nonsense <- NULL
+      
+      for(nowotwor in nowotwory){
+        nowotwor_variant <- get(paste(nowotwor, '_variant', sep=""))
+        nowotwor_variant <- nowotwor_variant[, c("patient.barcode", "time", "status", paste('Variant.', gen, sep=""))]
+        nowotwor_variant$nowotwor <- nowotwor
+        colnames(nowotwor_variant) <- c("patient.barcode", "time", "status", "Variant", "nowotwor")
+        nowotwory.gen.missense <- rbind(nowotwory.gen.missense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant== "Missense_Mutation", ])
+        nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
+        
+      }
+        
+      #ggplot(nowotwory.gen.missense, aes(x=nowotwor, y=time)) + geom_boxplot()
+      par(mfrow = c(1,2))
+      boxplot(time ~ nowotwor, data = nowotwory.gen.missense, main = "Missense Mutation")
+      boxplot(time ~ nowotwor, data = nowotwory.gen.nonsense, main = "Nonsense Mutation")
+      
+      
+     
+      
+  }, height = 400, width = 800)
   })
