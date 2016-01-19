@@ -9,7 +9,7 @@ geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
 shinyUI(fluidPage(
-  titlePanel("Gene Mutation"),
+  titlePanel("Genes mutations and survival analysis"),
   sidebarLayout(
     sidebarPanel(
       selectInput("nowotwory",
@@ -23,13 +23,13 @@ shinyUI(fluidPage(
     ),
     
     mainPanel(
-      p("Dane dotyczące mutacji wybranego genu:"),
+      p(""),
       br(),
       tabsetPanel(
         tabPanel("Survival curve", textOutput("opis_krzywe"), plotOutput("wykres", width = 500)),
         tabPanel('Co-occuring genes', textOutput("opis_geny_wspol"), tableOutput("geny_wspolne")),
         tabPanel("10 most significant genes", textOutput("opis_geny"), tableOutput("geny")),
-        tabPanel("Heatmap: p-value", plotOutput("heatmap_pvalue", width = 500, height = 700)),
+        tabPanel("Heatmap: p-value", plotOutput("heatmap_pvalue", width = 600, height = 2500)),
         tabPanel("Heatmap: frequency", plotOutput("heatmap_czestosc", width = 500, height = 700)),
         tabPanel("Boxplots: Variant_Classsifaction", plotOutput("boxplot_variant", width = 500, height = 700))
       )
