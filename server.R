@@ -24,7 +24,7 @@ for(nowotwor in nowotwory){
                                                                nowotwor, '_pvalue.txt', sep=""), h=T))
 }
 
-najczestsze <- read.table("najczestsze_geny.txt", h=T)
+najczestsze <- read.table("najistotniejsze_geny.txt", h=T)
 
 shinyServer(function(input, output) {
   
@@ -123,7 +123,7 @@ shinyServer(function(input, output) {
     })
   
   output$heatmap_pvalue <- renderPlot({
-    melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen %in% najczestsze$x[50:100]), ])
+    melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen %in% najczestsze$x[1:50]), ])
     
     base_size <- 12
     
@@ -137,9 +137,10 @@ shinyServer(function(input, output) {
   })
   
   output$heatmap_czestosc <- renderPlot({
-    melted_dane <- melt(czestosci[which(czestosci$gen %in% najczestsze$x[50:100]), ])
+    melted_dane <- melt(czestosci[which(czestosci$gen %in% najczestsze$x[1:50]), ])
     
     base_size <- 12
+    
     
     ggplot(data = melted_dane, aes(x=variable, y=gen, fill=value)) + 
       geom_tile() + theme_grey(base_size = base_size) + labs(x = "",y = "") + 
