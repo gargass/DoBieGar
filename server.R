@@ -93,7 +93,7 @@ shinyServer(function(input, output) {
     }, digits = 5)
   
   output$opis_geny_wspol <- renderText({
-    "Geny współistniejące z wybranymi:"
+    "The following table depicts three genes whose mutations appear most frequently with the mutation of a given gene in the given tumors."
   })
   
   output$geny_wspolne<-renderTable({
