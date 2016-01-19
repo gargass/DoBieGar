@@ -30,6 +30,8 @@ for(nowotwor in nowotwory){
 
 najczestsze <- read.table("najistotniejsze_geny.txt", h=T)
 
+
+
 shinyServer(function(input, output) {
   
   output$opis_krzywe <- renderText({
