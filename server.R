@@ -174,14 +174,14 @@ shinyServer(function(input, output) {
         nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
         
       }
-        
-      #ggplot(nowotwory.gen.missense, aes(x=nowotwor, y=time)) + geom_boxplot()
-      par(mfrow = c(1,2))
-      boxplot(time ~ nowotwor, data = nowotwory.gen.missense, main = "Missense Mutation")
-      boxplot(time ~ nowotwor, data = nowotwory.gen.nonsense, main = "Nonsense Mutation")
+      quantile <- stats::quantile
+      g <- ggplot2::ggplot(nowotwory.gen.nonsense, aes(x=nowotwor, y=time)) + ggplot2::geom_boxplot()
+#       par(mfrow = c(1,2))
+#       boxplot(time ~ nowotwor, data = nowotwory.gen.missense, main = "Missense Mutation")
+#       boxplot(time ~ nowotwor, data = nowotwory.gen.nonsense, main = "Nonsense Mutation")
+#       
       
-      
-     
+     print(g)
       
   }, height = 400, width = 800)
   })
