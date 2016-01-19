@@ -24,6 +24,10 @@ for(nowotwor in nowotwory){
                                                                nowotwor, '_pvalue.txt', sep=""), h=T))
 }
 
+for(nowotwor in nowotwory){
+  assign(paste(nowotwor, '_variant', sep=""), read.table(paste('Zbiory/', nowotwor, '_variant.txt', sep="")))
+}
+
 najczestsze <- read.table("najistotniejsze_geny.txt", h=T)
 
 shinyServer(function(input, output) {
@@ -149,6 +153,10 @@ shinyServer(function(input, output) {
                                                  axis.text.x = element_text(size = base_size * 0.8, angle = 330, hjust = 0, colour = "grey50"))+
       geom_tile(aes(fill = value), colour = "white") + 
       scale_fill_gradient(low = "white", high = "steelblue")
+    
+  })
+  
+  output$boxplot_variant <- renderPlot({
     
   })
   })

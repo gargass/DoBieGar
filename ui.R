@@ -30,7 +30,8 @@ shinyUI(fluidPage(
         tabPanel('Co-occuring genes', textOutput("opis_geny_wspol"), tableOutput("geny_wspolne")),
         tabPanel("10 most significant genes", textOutput("opis_geny"), tableOutput("geny")),
         tabPanel("Heatmap: p-value", plotOutput("heatmap_pvalue", width = 500, height = 700)),
-        tabPanel("Heatmap: frequency", plotOutput("heatmap_czestosc", width = 500, height = 700))
+        tabPanel("Heatmap: frequency", plotOutput("heatmap_czestosc", width = 500, height = 700)),
+        tabPanel("Boxplots: Variant_Classsifaction", plotOutput("boxplot_variant", width = 500, height = 700))
       )
     )
   )
