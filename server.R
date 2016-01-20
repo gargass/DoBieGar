@@ -30,6 +30,7 @@ for(nowotwor in nowotwory){
 
 najczestsze <- read.table("najistotniejsze_geny.txt", h=T)
 
+czestosci_variant <- read.table("czestosci_variant.txt", h=T)
 
 
 shinyServer(function(input, output) {
@@ -190,4 +191,21 @@ shinyServer(function(input, output) {
 
       
   }, height = 400, width = 800)
+  
+  output$table_variant <- renderTable({
+    nowotwor <- input$nowotwory
+    gen <- input$geny
+    
+    p <- matrix(1, nrow=10, ncol=2)
+    for (nowotworr in nowotwor)
+    {
+      dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
+      colnames(dane) <- c(paste('variant ', nowotworr), paste("frequency in ", nowotworr))
+      p <- cbind(p, dane)
+    }
+    p <- p[, -c(1, 2)]
+    rownames(p) <- NULL
+    print(p)
+  }, digits=3)
+  
   })
