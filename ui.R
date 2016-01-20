@@ -1,6 +1,7 @@
 library(shiny)
 library(survival)
-library(survMisc)
+# library(survMisc)
+library(stats)
 
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
