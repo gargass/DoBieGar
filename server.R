@@ -202,7 +202,8 @@ shinyServer(function(input, output) {
                            legLabs = c("nonsense = 0","nonsense = 1"),
                            title=paste(nowotwor, " cancer \n  Nonsense Mutation", sep=""))$plot
       })
-      marrangeGrob(append(p.missense, p.nonsense), nrow=2, ncol=max(length(nowotwory),2))
+
+      marrangeGrob(append(p.missense, p.nonsense), nrow=2, ncol=length(nowotwory))
 #       quantile <- stats::quantile
 #       p <- lapply(c("Missense Mutation", "Nonsense Mutation"), function(typ){
 # 
