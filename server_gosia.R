@@ -1,12 +1,11 @@
 library(shiny)
 library(survival)
-# library(survMisc)
+library(survMisc)
 library(grid)
 library(gridExtra)
 library(reshape2)
 library(ggplot2)
-#install.packages('ztable')
-library(ztable)
+
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
 
@@ -86,24 +85,18 @@ shinyServer(function(input, output) {
   })
   
   output$geny <- renderTable({
-    nowotwory <- input$nowotwory
+    nowotwor <- input$nowotwory
    
-      p <- matrix(1, nrow=297, ncol=1)
-      for (nowotwor in nowotwory)
+      p <- matrix(1, nrow=10, ncol=1)
+      for (nowotworr in nowotwor)
       {
-        p2 <- p_value_tabela[order(p_value_tabela[,nowotwor]), ][, c("gen", nowotwor)]
-        colnames(p2) <- c(paste(nowotwor,".Marker", sep=""), paste(nowotwor,".P-value", sep=""))
-        p2[,2] <- signif(p2[,2], digits=5)
+        p2 <- p_value_tabela[order(p_value_tabela[,nowotworr]), ][1:10, c("gen", nowotworr)]
+        colnames(p2) <- c(paste("Marker ", nowotworr), paste("P-value ", nowotworr))
         p <- cbind(p, p2)
       }
       p <- p[, -c(1)]
       rownames(p) <- NULL
-#       p <- ztable(p)
-#       cgroup <- nowotwory
-#       n.cgroup <- rep(2, length(nowotwory))
-#       p <- addcgroup(p,cgroup=cgroup,n.cgroup=n.cgroup)
       print(p)
-      
     }, digits = 5)
   
   output$opis_geny_wspol <- renderText({
@@ -111,11 +104,9 @@ shinyServer(function(input, output) {
   })
   
   output$geny_wspolne<-renderTable({
-    
+    p <- matrix(1, nrow=3, ncol=1)
     gen <- input$geny
     nowotwory <- input$nowotwory
-    
-    p <- matrix(1, nrow=3, ncol=1)
     for (nowotwor in nowotwory){
       dane <- get(paste('zbior.', nowotwor, sep=""))
       z <- numeric((ncol(dane)-2))
@@ -174,61 +165,32 @@ shinyServer(function(input, output) {
       
       n <- length(nowotwory)
       
-      nowotwory_variant_all <- NULL
+      nowotwory.gen.missense <- NULL
+      nowotwory.gen.nonsense <- NULL
       
       for(nowotwor in nowotwory){
         nowotwor_variant <- get(paste(nowotwor, '_variant', sep=""))
         nowotwor_variant <- nowotwor_variant[, c("patient.barcode", "time", "status", paste('Variant.', gen, sep=""))]
         nowotwor_variant$nowotwor <- nowotwor
         colnames(nowotwor_variant) <- c("patient.barcode", "time", "status", "Variant", "nowotwor")
-        #nowotwory.gen.missense <- rbind(nowotwory.gen.missense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant== "Missense_Mutation", ])
-        #nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
-        nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
-      }
-      nowotwory_variant_all$missense <- ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0)
-      nowotwory_variant_all$nonsense <- ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0)
-      
-      p.missense <- lapply(nowotwory, function(nowotwor){
+        nowotwory.gen.missense <- rbind(nowotwory.gen.missense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant== "Missense_Mutation", ])
+        nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
         
-        nowotwor_gen.fit.missense <- survfit(Surv(time, status) ~ missense, 
-                                    data=nowotwory_variant_all)
-        survMisc::autoplot(nowotwor_gen.fit.missense,
-                           xLab = paste('Time, P-value:', 
-                                        get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
-                           legLabs = c("missense = 0","missense = 1"),
-                           title=paste(nowotwor, " cancer \n  Missense Mutation", sep=""))$plot
-      })
-      
-        p.nonsense <- lapply(nowotwory, function(nowotwor){
-          
-        nowotwor_gen.fit.nonsense <- survfit(Surv(time, status) ~ nonsense, 
-                                             data=nowotwory_variant_all)
-        survMisc::autoplot(nowotwor_gen.fit.nonsense,
-                           xLab = paste('Time, P-value:', 
-                                        get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
-                           legLabs = c("nonsense = 0","nonsense = 1"),
-                           title=paste(nowotwor, " cancer \n  Nonsense Mutation", sep=""))$plot
-      })
-
-      marrangeGrob(append(p.missense, p.nonsense), nrow=2, ncol=length(nowotwory))
-#       quantile <- stats::quantile
-#       p <- lapply(c("Missense Mutation", "Nonsense Mutation"), function(typ){
-# 
-#       if(typ == "Missense Mutation"){
-#         
-#         ggplot2::ggplot(nowotwory.gen.missense, aes(x=nowotwor, y=time)) + ggplot2::geom_boxplot() + ggplot2::ggtitle("Missense Mutation") + ggplot2::theme(plot.title = element_text(lineheight=.8, face="bold"))}
-#       else{
-#         
-#         ggplot2::ggplot(nowotwory.gen.nonsense, aes(x=nowotwor, y=time)) + ggplot2::geom_boxplot() + ggplot2::ggtitle("Nonsense Mutation") + ggplot2::theme(plot.title = element_text(lineheight=.8, face="bold"))}
-# #       par(mfrow = c(1,2))
-# #       boxplot(time ~ nowotwor, data = nowotwory.gen.missense, main = "Missense Mutation")
-# #       boxplot(time ~ nowotwor, data = nowotwory.gen.nonsense, main = "Nonsense Mutation")
-#              })
-#       marrangeGrob(p, ncol=2, nrow=1)
-      
+      }
+      quantile <- stats::quantile
+      p <- lapply(c("Missense Mutation", "Nonsense Mutation"), function(typ){
+      if(typ == "Missense Mutation"){
+        ggplot2::ggplot(nowotwory.gen.missense, aes(x=nowotwor, y=time)) + ggplot2::geom_boxplot() + ggtitle("Missense Mutation") + theme(plot.title = element_text(lineheight=.8, face="bold"))}
+      else{
+        ggplot2::ggplot(nowotwory.gen.nonsense, aes(x=nowotwor, y=time)) + ggplot2::geom_boxplot() + ggtitle("Nonsense Mutation") + theme(plot.title = element_text(lineheight=.8, face="bold"))}
+#       par(mfrow = c(1,2))
+#       boxplot(time ~ nowotwor, data = nowotwory.gen.missense, main = "Missense Mutation")
+#       boxplot(time ~ nowotwor, data = nowotwory.gen.nonsense, main = "Nonsense Mutation")
+             })
+      marrangeGrob(p, ncol=2, nrow=1)
 
       
-  }, height = 600, width = 1400)
+  }, height = 400, width = 800)
   
   output$table_variant <- renderTable({
     nowotwor <- input$nowotwory
