@@ -85,13 +85,13 @@ shinyServer(function(input, output) {
   })
   
   output$geny <- renderTable({
-    nowotwor <- input$nowotwory
+    nowotwory <- input$nowotwory
    
-      p <- matrix(1, nrow=10, ncol=1)
-      for (nowotworr in nowotwor)
+      p <- matrix(1, nrow=297, ncol=1)
+      for (nowotwor in nowotwory)
       {
-        p2 <- p_value_tabela[order(p_value_tabela[,nowotworr]), ][1:10, c("gen", nowotworr)]
-        colnames(p2) <- c(paste("Marker ", nowotworr), paste("P-value ", nowotworr))
+        p2 <- p_value_tabela[order(p_value_tabela[,nowotwor]), ][, c("gen", nowotwor)]
+        colnames(p2) <- c(paste("Marker ", nowotwor), paste("P-value ", nowotwor))
         p <- cbind(p, p2)
       }
       p <- p[, -c(1)]

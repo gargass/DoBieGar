@@ -29,7 +29,7 @@ shinyUI(fluidPage(
       tabsetPanel(
         tabPanel("Survival curve", textOutput("opis_krzywe"), plotOutput("wykres", width = 500)),
         tabPanel('Co-occuring genes', textOutput("opis_geny_wspol"), tableOutput("geny_wspolne")),
-        tabPanel("10 most significant genes", textOutput("opis_geny"), tableOutput("geny")),
+        tabPanel("Most significant genes", textOutput("opis_geny"), tableOutput("geny")),
         tabPanel("Heatmap: p-value", plotOutput("heatmap_pvalue", width = 600, height = 2500)),
         tabPanel("Heatmap: frequency", plotOutput("heatmap_czestosc", width = 600, height = 2500)),
         tabPanel("Survival curves: Variant Classification", plotOutput("boxplot_variant", width = 500, height = 700)),
