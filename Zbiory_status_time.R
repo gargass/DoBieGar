@@ -9,7 +9,7 @@ for(nowotwor in nowotwory){
 load(paste(dir_zbiory, 'RTCGA.clinical-master/data/', nowotwor, '.clinical.rda', sep='')) #Wczytanie pacjentów.
 #load(paste(dir_zbiory, 'RTCGA.mutations-master/data/', nowotwor, '.mutations.rda', sep='')) #Wczytanie mutacji.
 
-nowotwor.geny <- read.table(paste('Zbiory Gosia/', nowotwor, '.txt', sep=""))
+nowotwor.geny <- read.table(paste('Poprawki/Zbiory/', nowotwor, '.txt', sep=""))
 nowotwor.geny <- nowotwor.geny[
   order(nowotwor.geny$pacjent), ]
 
@@ -35,6 +35,8 @@ for(n in 1:nrow(nowotwor.clinical)){
   
 }
 
-write.table(nowotwor.geny, file=paste('Zbiory Gosia/', nowotwor, '.txt', sep=""))
+if(!dir.exists('Poprawki/Zbiory_v2')){
+  dir.create('Poprawki/Zbiory_v2')}
+write.table(nowotwor.geny, file=paste('Poprawki/Zbiory_v2/', nowotwor, '.txt', sep=""))
 
 }
