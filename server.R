@@ -6,7 +6,8 @@ library(gridExtra)
 library(reshape2)
 library(ggplot2)
 #install.packages('ztable')
-library(ztable)
+#install.packages('pheatmap')
+library(pheatmap)
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
 
@@ -58,13 +59,13 @@ shinyServer(function(input, output) {
      
       p <- lapply(nowotwory, function(nowotwor){
         
-        nowotwor_gen.fit <- survfit(Surv(time, status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
+        nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
                                     data=get(paste('zbior.', nowotwor, sep="")))
         survMisc::autoplot(nowotwor_gen.fit,
                            xLab = paste('Time, P-value:', 
                                         get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
                            legLabs = c("status = 0","status = 1"),
-                           title=paste('Kaplan–Meier estimator for ', gen, '\n in ', nowotwor, " cancer", sep=""))$plot
+                           title=paste('Kaplan–Meier estimator for ', gen, '\n in ', nowotwor, " cancer", sep=""))$plot + ylim(c(0,1))
       })
 
       if(n <= 4){
@@ -78,7 +79,7 @@ shinyServer(function(input, output) {
       
       marrangeGrob(p, ncol = ncol, nrow = nrow)
       
-    }, height = 1000, width = 1000)
+    }, height = 800, width = 1000)
   
   output$opis_geny <- renderText({
     "The table shows the 10 most significant genes in which 
@@ -115,7 +116,8 @@ shinyServer(function(input, output) {
     gen <- input$geny
     nowotwory <- input$nowotwory
     
-    p <- matrix(1, nrow=3, ncol=1)
+    #p <- matrix(1, nrow=3, ncol=1)
+    p <- NULL
     for (nowotwor in nowotwory){
       dane <- get(paste('zbior.', nowotwor, sep=""))
       z <- numeric((ncol(dane)-2))
@@ -125,7 +127,7 @@ shinyServer(function(input, output) {
       a <- sum(dane[which(dane[, gen]==1), gen])
       x <- z[order(z)][(length(z)-1):(length(z)-3)]
       x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
-      x2 <- x2[1:3]
+      #x2 <- x2[1:3]
       
       x3 <- as.matrix(colnames(dane)[c(x2)])
       x4 <- as.matrix(round(z [ c(x2)]/a, 2))
@@ -133,7 +135,7 @@ shinyServer(function(input, output) {
       colnames(x4) <- c(paste("Correlation ", nowotwor))
       p <- cbind(p, x3, x4)
       }
-    p <- p[, -c(1)]
+    #p <- p[, -c(1)]
     rownames(p) <- NULL
     print(p)
     })
@@ -196,7 +198,7 @@ shinyServer(function(input, output) {
                            xLab = paste('Time, P-value:', 
                                         get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
                            legLabs = c("missense = 0","missense = 1"),
-                           title=paste(nowotwor, " cancer \n  Missense Mutation", sep=""))$plot
+                           title=paste(nowotwor, " cancer \n  Missense Mutation", sep=""))$plot + ylim(c(0,1))
       })
       
         p.nonsense <- lapply(nowotwory, function(nowotwor){
@@ -207,7 +209,7 @@ shinyServer(function(input, output) {
                            xLab = paste('Time, P-value:', 
                                         get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
                            legLabs = c("nonsense = 0","nonsense = 1"),
-                           title=paste(nowotwor, " cancer \n  Nonsense Mutation", sep=""))$plot
+                           title=paste(nowotwor, " cancer \n  Nonsense Mutation", sep=""))$plot + ylim(c(0,1))
       })
 
       marrangeGrob(append(p.missense, p.nonsense), nrow=2, ncol=length(nowotwory))
@@ -235,6 +237,7 @@ shinyServer(function(input, output) {
     gen <- input$geny
     
     p <- matrix(1, nrow=10, ncol=2)
+    #p <- NULL
     for (nowotworr in nowotwor)
     {
       dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
