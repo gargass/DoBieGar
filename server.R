@@ -64,7 +64,7 @@ shinyServer(function(input, output) {
         survMisc::autoplot(nowotwor_gen.fit,
                            xLab = paste('Time, P-value:', 
                                         get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
-                           legLabs = c("status = 0","status = 1"),
+                           legLabs = c("Mutation","No mutation"),
                            title=paste('Kaplan–Meier estimator for ', gen, '\n in ', nowotwor, " cancer", sep=""))$plot + ylim(c(0,1))
       })
 
@@ -197,7 +197,7 @@ shinyServer(function(input, output) {
         survMisc::autoplot(nowotwor_gen.fit.missense,
                            xLab = paste('Time, P-value:', 
                                         get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
-                           legLabs = c("missense = 0","missense = 1"),
+                           legLabs = c("No Missense","Missense"),
                            title=paste(nowotwor, " cancer \n  Missense Mutation", sep=""))$plot + ylim(c(0,1))
       })
       
@@ -208,7 +208,7 @@ shinyServer(function(input, output) {
         survMisc::autoplot(nowotwor_gen.fit.nonsense,
                            xLab = paste('Time, P-value:', 
                                         get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
-                           legLabs = c("nonsense = 0","nonsense = 1"),
+                           legLabs = c("No Nonsense","Nonsense"),
                            title=paste(nowotwor, " cancer \n  Nonsense Mutation", sep=""))$plot + ylim(c(0,1))
       })
 
