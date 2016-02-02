@@ -5,7 +5,7 @@ nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
 geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
-dir_zbiory <- 'C:/Users/Sebastian/OneDrive/Studia/II stopien/Warsztaty badawcze - pbiecek/'
+dir_zbiory <- 'C:/Users/Gosia/Desktop/Biecek/'
 
 for(nowotwor in nowotwory){
 
@@ -18,6 +18,8 @@ for(nowotwor in nowotwory){
   nowotwor.mutations <- get(paste(nowotwor, '.mutations', sep=""))[ ,c("Hugo_Symbol", "bcr_patient_barcode", "Variant_Classification")]
   rm(list=paste(nowotwor, '.mutations', sep=''))
   
+  nowotwor.clinical$patient.days_to_death<-as.numeric(as.character(nowotwor.clinical$patient.days_to_death))
+  nowotwor.clinical$patient.days_to_last_followup<-as.numeric(as.character(nowotwor.clinical$patient.days_to_last_followup))
   
   nowotwor.clinical$patient.bcr_patient_barcode <- as.character(nowotwor.clinical$patient.bcr_patient_barcode)
   nowotwor.clinical$status <- ifelse(is.na(nowotwor.clinical$patient.days_to_death),0,1)
