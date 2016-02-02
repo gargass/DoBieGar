@@ -207,8 +207,7 @@ shinyServer(function(input, output) {
         pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
         
         curve <- survMisc::autoplot(nowotwor_gen.fit.missense,
-                           xLab = paste('Time, P-value:', 
-                                        get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
+                           xLab = 'Time',
                            legLabs = c("No Missense","Missense"),
                            title=paste(nowotwor, " cancer \n  Missense Mutation", sep=""))$plot
         curve + ylim(c(0,1))
@@ -224,8 +223,7 @@ shinyServer(function(input, output) {
         
         pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
         curve <- survMisc::autoplot(nowotwor_gen.fit.nonsense,
-                           xLab = paste('Time, P-value:', 
-                                        get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
+                           xLab = 'Time', 
                            legLabs = c("No Nonsense","Nonsense"),
                            title=paste(nowotwor, " cancer \n  Nonsense Mutation", sep=""))$plot
         curve + ylim(c(0,1))
