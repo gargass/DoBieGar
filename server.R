@@ -41,9 +41,6 @@ shinyServer(function(input, output) {
 
   
   output$opis_krzywe <- renderText({
-    nowotwor <- input$nowotwory
-    gen <- input$geny
-
     print('In the figures below we can see Kaplan-Meier curves for 
           a given gene and the given tumors. The survival curves 
           are estimated for the two groups of patients: 
@@ -53,7 +50,7 @@ shinyServer(function(input, output) {
   })
   
 
-  output$wykres <- renderPlot({
+  output$survcurves_yesno <- renderPlot({
     nowotwory <- input$nowotwory
     gen <- input$geny
   
@@ -176,7 +173,7 @@ shinyServer(function(input, output) {
     
   })
   
-  output$boxplot_variant <- renderPlot({
+  output$survcurves_variant <- renderPlot({
       nowotwory <- input$nowotwory
       gen <- input$geny
       
