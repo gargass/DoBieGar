@@ -8,6 +8,8 @@ library(ggplot2)
 #install.packages('ztable')
 #install.packages('pheatmap')
 library(pheatmap)
+
+##### Załadowanie zbiorów #####
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
 
@@ -36,6 +38,7 @@ czestosci_variant <- read.table("czestosci_variant.txt", h=T)
 
 
 shinyServer(function(input, output) {
+
   
   output$opis_krzywe <- renderText({
     nowotwor <- input$nowotwory
@@ -58,14 +61,17 @@ shinyServer(function(input, output) {
       n <- length(nowotwory)
      
       p <- lapply(nowotwory, function(nowotwor){
-        
+        pvalue <- get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]
+        pvalue <- signif(pvalue, 3)
         nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
                                     data=get(paste('zbior.', nowotwor, sep="")))
-        survMisc::autoplot(nowotwor_gen.fit,
-                           xLab = paste('Time, P-value:', 
-                                        get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
-                           legLabs = c("Mutation","No mutation"),
-                           title=paste('Kaplan–Meier estimator for ', gen, '\n in ', nowotwor, " cancer", sep=""))$plot + ylim(c(0,1))
+        curve <- survMisc::autoplot(nowotwor_gen.fit,
+                           xLab = 'Time',
+                           yLab = 'Survival',
+                           legLabs = c("Mutation","No Mutation"),
+                           title=paste( nowotwor, " cancer \n", gen, ': Yes/No', sep=""))$plot
+        curve + ylim(c(0,1)) 
+        curve + annotate("text", x = 100, y = 0.2, label = paste('Pv:', pvalue))
       })
 
       if(n <= 4){
@@ -186,48 +192,47 @@ shinyServer(function(input, output) {
         #nowotwory.gen.missense <- rbind(nowotwory.gen.missense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant== "Missense_Mutation", ])
         #nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
         nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
+        nowotwory_variant_all$time <- as.numeric(as.character(nowotwory_variant_all$time))
       }
       nowotwory_variant_all$missense <- ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0)
       nowotwory_variant_all$nonsense <- ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0)
       
       p.missense <- lapply(nowotwory, function(nowotwor){
-        
+        pvalue <- 0.5
         nowotwor_gen.fit.missense <- survfit(Surv(time, status) ~ missense, 
                                     data=nowotwory_variant_all)
-        survMisc::autoplot(nowotwor_gen.fit.missense,
+        
+        survdiff <- survdiff(Surv(time, status) ~ missense, 
+                             data=nowotwory_variant_all)
+        pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
+        
+        curve <- survMisc::autoplot(nowotwor_gen.fit.missense,
                            xLab = paste('Time, P-value:', 
                                         get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
                            legLabs = c("No Missense","Missense"),
-                           title=paste(nowotwor, " cancer \n  Missense Mutation", sep=""))$plot + ylim(c(0,1))
+                           title=paste(nowotwor, " cancer \n  Missense Mutation", sep=""))$plot
+        curve + ylim(c(0,1))
+        curve + annotate("text", x = 100, y = 0.2, label = paste('Pv:', pvalue))
       })
       
         p.nonsense <- lapply(nowotwory, function(nowotwor){
           
         nowotwor_gen.fit.nonsense <- survfit(Surv(time, status) ~ nonsense, 
                                              data=nowotwory_variant_all)
-        survMisc::autoplot(nowotwor_gen.fit.nonsense,
+        survdiff <- survdiff(Surv(time, status) ~ nonsense, 
+                             data=nowotwory_variant_all)
+        
+        pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
+        curve <- survMisc::autoplot(nowotwor_gen.fit.nonsense,
                            xLab = paste('Time, P-value:', 
                                         get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]), 
                            legLabs = c("No Nonsense","Nonsense"),
-                           title=paste(nowotwor, " cancer \n  Nonsense Mutation", sep=""))$plot + ylim(c(0,1))
+                           title=paste(nowotwor, " cancer \n  Nonsense Mutation", sep=""))$plot
+        curve + ylim(c(0,1))
+        curve + annotate("text", x = 100, y = 0.2, label = paste('Pv:', pvalue))
       })
 
       marrangeGrob(append(p.missense, p.nonsense), nrow=2, ncol=length(nowotwory))
-#       quantile <- stats::quantile
-#       p <- lapply(c("Missense Mutation", "Nonsense Mutation"), function(typ){
-# 
-#       if(typ == "Missense Mutation"){
-#         
-#         ggplot2::ggplot(nowotwory.gen.missense, aes(x=nowotwor, y=time)) + ggplot2::geom_boxplot() + ggplot2::ggtitle("Missense Mutation") + ggplot2::theme(plot.title = element_text(lineheight=.8, face="bold"))}
-#       else{
-#         
-#         ggplot2::ggplot(nowotwory.gen.nonsense, aes(x=nowotwor, y=time)) + ggplot2::geom_boxplot() + ggplot2::ggtitle("Nonsense Mutation") + ggplot2::theme(plot.title = element_text(lineheight=.8, face="bold"))}
-# #       par(mfrow = c(1,2))
-# #       boxplot(time ~ nowotwor, data = nowotwory.gen.missense, main = "Missense Mutation")
-# #       boxplot(time ~ nowotwor, data = nowotwory.gen.nonsense, main = "Nonsense Mutation")
-#              })
-#       marrangeGrob(p, ncol=2, nrow=1)
-      
 
       
   }, height = 600, width = 1400)
