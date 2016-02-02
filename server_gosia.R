@@ -57,7 +57,7 @@ shinyServer(function(input, output) {
      
       p <- lapply(nowotwory, function(nowotwor){
         
-        nowotwor_gen.fit <- survfit(Surv(time, status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
+        nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
                                     data=get(paste('zbior.', nowotwor, sep="")))
         survMisc::autoplot(nowotwor_gen.fit,
                            xLab = paste('Time, P-value:', 

@@ -1,7 +1,7 @@
 nowotwory <- c('BRCA', 'COADREAD', 'GBM', 'GBMLGG', 'HNSC', 'KIPAN', 'KIRC', 'LGG', 'LUAD', 'LUSC', 'OV', 'STES', 'THCA', 'UCEC')
 
 
-dir_zbiory <- 'C:/Users/Sebastian/OneDrive/Studia/II stopien/Warsztaty badawcze - pbiecek/'
+dir_zbiory <- 'C:/Users/Gosia/Desktop/Biecek/'
 
 
 for(nowotwor in nowotwory){
@@ -9,7 +9,7 @@ for(nowotwor in nowotwory){
 load(paste(dir_zbiory, 'RTCGA.clinical-master/data/', nowotwor, '.clinical.rda', sep='')) #Wczytanie pacjentów.
 #load(paste(dir_zbiory, 'RTCGA.mutations-master/data/', nowotwor, '.mutations.rda', sep='')) #Wczytanie mutacji.
 
-nowotwor.geny <- read.table(paste('Poprawki/Zbiory/', nowotwor, '.txt', sep=""))
+nowotwor.geny <- read.table(paste('Zbiory/', nowotwor, '.txt', sep=""))
 nowotwor.geny <- nowotwor.geny[
   order(nowotwor.geny$pacjent), ]
 
@@ -19,6 +19,11 @@ nowotwor.clinical <-get(paste(nowotwor, '.clinical', sep=""))[
 rm(list=paste(nowotwor, '.clinical', sep=''))
 
 nowotwor.clinical <- nowotwor.clinical[order(nowotwor.clinical$patient.bcr_patient_barcode),]
+
+
+nowotwor.clinical$patient.days_to_death<- as.numeric(as.character(nowotwor.clinical$patient.days_to_death))
+nowotwor.clinical$patient.days_to_last_followup<- as.numeric(as.character(nowotwor.clinical$patient.days_to_last_followup))
+
 
 nowotwor.geny$status <- ifelse(is.na(nowotwor.clinical$patient.days_to_death),0,1)
 nowotwor.geny$time <- ifelse(
@@ -37,6 +42,6 @@ for(n in 1:nrow(nowotwor.clinical)){
 
 if(!dir.exists('Poprawki/Zbiory_v2')){
   dir.create('Poprawki/Zbiory_v2')}
-write.table(nowotwor.geny, file=paste('Poprawki/Zbiory_v2/', nowotwor, '.txt', sep=""))
+write.table(nowotwor.geny, file=paste('Zbiory/', nowotwor, '.txt', sep=""))
 
 }
