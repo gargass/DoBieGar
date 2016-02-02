@@ -1,11 +1,11 @@
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
-nowotwory <- 'KIPAN'
+
 
 geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
-dir_zbiory <- 'C:/Users/Gosia/Desktop/Biecek/'
+dir_zbiory <- 'C:/Users/Sebastian/OneDrive/Studia/II stopien/Warsztaty badawcze - pbiecek/'
 
 for(nowotwor in nowotwory){
 
@@ -41,7 +41,7 @@ for(nowotwor in nowotwory){
     tmp
   })
   nowotwor.clinical.rep <- data.frame(nowotwor.clinical.rep)
-  nowotwor.clinical.rep$variant_id <- rep(1:10, 1098)
+  nowotwor.clinical.rep$variant_id <- rep(1:10, nrow(nowotwor.clinical))
   
   colnames(nowotwor.clinical.rep) <- c("patient.barcode", "time", "status", "variant_id")
   nowotwor.clinical.rep <- as.data.frame(nowotwor.clinical.rep)
