@@ -64,7 +64,7 @@ shinyServer(function(input, output) {
         nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
                                     data=get(paste('zbior.', nowotwor, sep="")))
         survMisc::autoplot(nowotwor_gen.fit,
-                           legLabs = c("Mutation","No Mutation"),
+                           legLabs = c("No Mutation","Mutation"),
                            legTitle=paste('P-value: ', pvalue),
                            title=nowotwor
 )$plot + 
