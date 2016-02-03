@@ -210,6 +210,7 @@ shinyServer(function(input, output) {
       nowotwory_variant_all$missense <- ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0)
       nowotwory_variant_all$nonsense <- ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0)
       
+      
       p.missense <- lapply(nowotwory, function(nowotwor){
         pvalue <- 0.5
         nowotwor_gen.fit.missense <- survfit(Surv(time, status) ~ missense, 
@@ -219,13 +220,21 @@ shinyServer(function(input, output) {
                              data=nowotwory_variant_all)
         pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
         
+        if (sum(nowotwory_variant_all$missense)==0){
+          variant <- "No Missense"
+        }
+        else{
+          variant <- c("No Missense", "Missense")
+        }
+        
         survMisc::autoplot(nowotwor_gen.fit.missense,
-                           xLab = 'Time',
-                           legLabs = c("No Missense","Missense"),
+                           legLabs = variant,
                            legTitle=paste('P-value: ', pvalue),
-                           title=paste(nowotwor, " cancer \n  Missense Mutation", sep=""))$plot + 
+                           title=paste(nowotwor, "\n  Missense Mutation", sep=""))$plot + 
           ylim(c(0,1)) + 
           xlim(c(0, 8000)) + 
+          xlab("Time in days") + 
+          ylab("Probability of survival") +
           theme(legend.position = c(0.85, 0.85))
       })
       
@@ -237,20 +246,29 @@ shinyServer(function(input, output) {
                              data=nowotwory_variant_all)
         
         pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
+        
+        if (sum(nowotwory_variant_all$nonsense)==0){
+          variant <- "No Nonsense"
+        }
+        else{
+          variant <- c("No Nonsense", "Nonsense")
+        }
+        
         survMisc::autoplot(nowotwor_gen.fit.nonsense,
-                           xLab = 'Time', 
-                           legLabs = c("No Nonsense","Nonsense"),
+                           legLabs = variant,
                            legTitle=paste('P-value: ', pvalue),
-                           title=paste(nowotwor, " cancer \n  Nonsense Mutation", sep=""))$plot + 
+                           title=paste(nowotwor, "\n  Nonsense Mutation", sep=""))$plot + 
           ylim(c(0,1)) + 
           xlim(c(0, 8000)) + 
+          xlab("Time in days") + 
+          ylab("Probability of survival") +
           theme(legend.position = c(0.85, 0.85))
       })
-
+      
       marrangeGrob(append(p.missense, p.nonsense), nrow=2, ncol=length(nowotwory))
 
       
-  }, height = 600, width = 1400)
+  }, height = 600, width = 1000)
   
   output$table_variant <- renderTable({
     nowotwor <- input$nowotwory
