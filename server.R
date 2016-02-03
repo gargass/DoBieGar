@@ -62,13 +62,15 @@ shinyServer(function(input, output) {
         pvalue <- signif(pvalue, 3)
         nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
                                     data=get(paste('zbior.', nowotwor, sep="")))
-        curve <- survMisc::autoplot(nowotwor_gen.fit,
+        survMisc::autoplot(nowotwor_gen.fit,
                            xLab = 'Time',
                            yLab = 'Survival',
                            legLabs = c("Mutation","No Mutation"),
-                           title=paste( nowotwor, " cancer \n", gen, ': Yes/No', sep=""))$plot
-        curve + ylim(c(0,1)) 
-        curve + annotate("text", x = 100, y = 0.2, label = paste('Pv:', pvalue))
+                           legTitle=paste('P-value: ', pvalue),
+                           title=paste( nowotwor, " cancer \n", gen, ': Yes/No', sep=""))$plot + 
+          ylim(c(0,1)) + 
+          xlim(c(0, 8000)) + 
+          theme(legend.position = c(0.9, 0.9))
       })
 
       if(n <= 4){
@@ -203,12 +205,14 @@ shinyServer(function(input, output) {
                              data=nowotwory_variant_all)
         pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
         
-        curve <- survMisc::autoplot(nowotwor_gen.fit.missense,
+        survMisc::autoplot(nowotwor_gen.fit.missense,
                            xLab = 'Time',
                            legLabs = c("No Missense","Missense"),
-                           title=paste(nowotwor, " cancer \n  Missense Mutation", sep=""))$plot
-        curve + ylim(c(0,1))
-        curve + annotate("text", x = 100, y = 0.2, label = paste('Pv:', pvalue))
+                           legTitle=paste('P-value: ', pvalue),
+                           title=paste(nowotwor, " cancer \n  Missense Mutation", sep=""))$plot + 
+          ylim(c(0,1)) + 
+          xlim(c(0, 8000)) + 
+          theme(legend.position = c(0.85, 0.85))
       })
       
         p.nonsense <- lapply(nowotwory, function(nowotwor){
@@ -219,12 +223,14 @@ shinyServer(function(input, output) {
                              data=nowotwory_variant_all)
         
         pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
-        curve <- survMisc::autoplot(nowotwor_gen.fit.nonsense,
+        survMisc::autoplot(nowotwor_gen.fit.nonsense,
                            xLab = 'Time', 
                            legLabs = c("No Nonsense","Nonsense"),
-                           title=paste(nowotwor, " cancer \n  Nonsense Mutation", sep=""))$plot
-        curve + ylim(c(0,1))
-        curve + annotate("text", x = 100, y = 0.2, label = paste('Pv:', pvalue))
+                           legTitle=paste('P-value: ', pvalue),
+                           title=paste(nowotwor, " cancer \n  Nonsense Mutation", sep=""))$plot + 
+          ylim(c(0,1)) + 
+          xlim(c(0, 8000)) + 
+          theme(legend.position = c(0.85, 0.85))
       })
 
       marrangeGrob(append(p.missense, p.nonsense), nrow=2, ncol=length(nowotwory))
