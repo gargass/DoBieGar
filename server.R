@@ -64,13 +64,13 @@ shinyServer(function(input, output) {
         nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
                                     data=get(paste('zbior.', nowotwor, sep="")))
         survMisc::autoplot(nowotwor_gen.fit,
-                           xLab = 'Time',
-                           yLab = 'Survival',
                            legLabs = c("Mutation","No Mutation"),
                            legTitle=paste('P-value: ', pvalue),
-                           title=paste( nowotwor, " cancer \n", gen, ': Yes/No', sep=""))$plot + 
+                           title=paste( nowotwor, " cancer \n", sep=""))$plot + 
           ylim(c(0,1)) + 
           xlim(c(0, 8000)) + 
+          xlab("Time in days") + 
+          ylab("Probability of survival") +
           theme(legend.position = c(0.9, 0.9))
       })
 
