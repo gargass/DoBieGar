@@ -16,7 +16,7 @@ shinyUI(fluidPage(
       selectInput("nowotwory",
                   "Select cancer",
                   nowotwory,
-                  "BRCA", multiple = TRUE),
+                  "BRCA", multiple = TRUE, options = list(maxItems = 4)),
       selectInput("geny",
                   "Select gene",
                   geny,
