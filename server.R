@@ -66,13 +66,16 @@ shinyServer(function(input, output) {
         survMisc::autoplot(nowotwor_gen.fit,
                            legLabs = c("Mutation","No Mutation"),
                            legTitle=paste('P-value: ', pvalue),
-                           title=nowotwor)$plot + 
+                           title=nowotwor
+)$plot + 
           ylim(c(0,1)) + 
           xlim(c(0, 8000)) + 
           xlab("Time in days") + 
           ylab("Probability of survival") +
           theme(legend.position = c(0.9, 0.9))
       })
+    
+    
 
       if(n <= 4){
         ncol <- 2
