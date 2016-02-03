@@ -212,19 +212,20 @@ shinyServer(function(input, output) {
       
       
       p.missense <- lapply(nowotwory, function(nowotwor){
-        pvalue <- 0.5
+        pvalue <- "Brak"
         nowotwor_gen.fit.missense <- survfit(Surv(time, status) ~ missense, 
                                     data=nowotwory_variant_all)
         
-        survdiff <- survdiff(Surv(time, status) ~ missense, 
-                             data=nowotwory_variant_all)
-        pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
         
         if (sum(nowotwory_variant_all$missense)==0){
           variant <- "No Missense"
         }
         else{
           variant <- c("No Missense", "Missense")
+          
+          survdiff <- survdiff(Surv(time, status) ~ missense, 
+                               data=nowotwory_variant_all)
+          pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
         }
         
         survMisc::autoplot(nowotwor_gen.fit.missense,
@@ -239,19 +240,21 @@ shinyServer(function(input, output) {
       })
       
         p.nonsense <- lapply(nowotwory, function(nowotwor){
+        pvalue <- "Brak"
           
         nowotwor_gen.fit.nonsense <- survfit(Surv(time, status) ~ nonsense, 
                                              data=nowotwory_variant_all)
-        survdiff <- survdiff(Surv(time, status) ~ nonsense, 
-                             data=nowotwory_variant_all)
-        
-        pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
         
         if (sum(nowotwory_variant_all$nonsense)==0){
           variant <- "No Nonsense"
         }
         else{
           variant <- c("No Nonsense", "Nonsense")
+          
+          survdiff <- survdiff(Surv(time, status) ~ nonsense, 
+                               data=nowotwory_variant_all)
+          
+          pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
         }
         
         survMisc::autoplot(nowotwor_gen.fit.nonsense,
