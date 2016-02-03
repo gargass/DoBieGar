@@ -58,8 +58,9 @@ shinyServer(function(input, output) {
       n <- length(nowotwory)
      
       p <- lapply(nowotwory, function(nowotwor){
-        pvalue <- get(paste('p_value.', nowotwor, sep=""))$Pvalue[rownames(get(paste('p_value.', nowotwor, sep=""))) == gen]
+        pvalue = p_value_tabela[p_value_tabela$gen == gen, nowotwor]
         pvalue <- signif(pvalue, 3)
+        
         nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
                                     data=get(paste('zbior.', nowotwor, sep="")))
         survMisc::autoplot(nowotwor_gen.fit,
