@@ -13,7 +13,7 @@ shinyUI(fluidPage(
   titlePanel("Genes mutations and survival analysis"),
   sidebarLayout(
     sidebarPanel(
-      selectInput("nowotwory",
+      selectizeInput("nowotwory",
                   "Select cancer",
                   nowotwory,
                   "BRCA", multiple = TRUE, options = list(maxItems = 4)),
