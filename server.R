@@ -66,7 +66,7 @@ shinyServer(function(input, output) {
         survMisc::autoplot(nowotwor_gen.fit,
                            legLabs = c("Mutation","No Mutation"),
                            legTitle=paste('P-value: ', pvalue),
-                           title=paste( nowotwor, " cancer \n", sep=""))$plot + 
+                           title=nowotwor)$plot + 
           ylim(c(0,1)) + 
           xlim(c(0, 8000)) + 
           xlab("Time in days") + 
