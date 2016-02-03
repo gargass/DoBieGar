@@ -63,8 +63,13 @@ shinyServer(function(input, output) {
         
         nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
                                     data=get(paste('zbior.', nowotwor, sep="")))
+        
+        
+        if (sum(get(paste('zbior.', nowotwor, sep=""))[,gen])==0)
+        {
+        
         survMisc::autoplot(nowotwor_gen.fit,
-                           legLabs = c("No Mutation","Mutation"),
+                           legLabs = c("No Mutation"),
                            legTitle=paste('P-value: ', pvalue),
                            title=nowotwor
 )$plot + 
@@ -73,6 +78,26 @@ shinyServer(function(input, output) {
           xlab("Time in days") + 
           ylab("Probability of survival") +
           theme(legend.position = c(0.9, 0.9))
+
+}
+
+else
+{
+  
+  survMisc::autoplot(nowotwor_gen.fit,
+                     legLabs = c("No Mutation","Mutation"),
+                     legTitle=paste('P-value: ', pvalue),
+                     title=nowotwor
+  )$plot + 
+    ylim(c(0,1)) + 
+    xlim(c(0, 8000)) + 
+    xlab("Time in days") + 
+    ylab("Probability of survival") +
+    theme(legend.position = c(0.9, 0.9))
+  
+}
+
+  
       })
     
     
