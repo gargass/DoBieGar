@@ -160,11 +160,12 @@ shinyServer(function(input, output) {
     })
   
   output$heatmap_pvalue <- renderPlot({
-    melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen %in% geny[1:length(geny)]), ])
-    
+    gen <- input$geny
+    #melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen %in% geny[1:length(geny)]), ])
+    melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen==gen), ])
     base_size <- 12
     
-    ggplot(data = melted_dane, aes(x=variable, y=gen, fill=value)) + 
+    ggplot(data = melted_dane, aes(x=gen, y=variable, fill=value)) + 
       geom_tile() + theme_grey(base_size = base_size) + labs(x = "",y = "") + 
       scale_x_discrete(expand = c(0, 0)) + 
       scale_y_discrete(expand = c(0, 0)) + theme(axis.ticks = element_blank(), 
@@ -230,7 +231,7 @@ shinyServer(function(input, output) {
       
         nowotwor_gen.fit.missense <- survfit(Surv(time, status) ~ missense, 
                                     data=nowotwory_variant_all)
-        if (sum(nowotwory_variant_all$missense)==0){
+        if (sum(as.numeric(nowotwory_variant_all$missense))==0){
           variant <- "No Missense"
         }
         else{
@@ -275,7 +276,7 @@ shinyServer(function(input, output) {
         nowotwor_gen.fit.nonsense <- survfit(Surv(time, status) ~ nonsense, 
                                              data=nowotwory_variant_all)
         
-        if (sum(nowotwory_variant_all$nonsense)==0){
+        if (sum(as.numeric(nowotwory_variant_all$nonsense))==0){
           variant <- "No Nonsense"
         }
         else{
@@ -331,5 +332,33 @@ shinyServer(function(input, output) {
     rownames(p) <- NULL
     print(p)
   }, digits=3)
+
+
+
+output$table_new <- renderTable({
+  gen <- input$geny
+  
+  dane<- matrix(0, nrow=14, ncol=4)
+  p <- NULL
+
+
+    dane[, 2] <- t(czestosci[czestosci$gen==gen,c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
+                                          "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")])
+
+    dane[,3]<-t(p_value_tabela[p_value_tabela$gen==gen, c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
+                                                              "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")])
+  dane[, 1]<-c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
+          "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
+    Liczno<- c(1110, 1098, 941, 629, 628, 595, 591, 548, 537, 528, 522, 515, 504, 503)
+    dane[,4]<-as.numeric(Liczno)*as.numeric(dane[,2])
+    colnames(dane)<-c('Cancer', 'Frequency', 'Pvalue', 'Licznos')
+ 
+  p<-cbind(p, dane)
+
+  print(p)
+}, digits=3)
+
+
+
   
   })

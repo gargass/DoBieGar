@@ -33,7 +33,9 @@ shinyUI(fluidPage(
         tabPanel("Heatmap: p-value", plotOutput("heatmap_pvalue", width = 600, height = 2500)),
         tabPanel("Heatmap: frequency", plotOutput("heatmap_czestosc", width = 600, height = 2500)),
         tabPanel("Survival curves: Variant Classification", plotOutput("survcurves_variant", width = 500, height = 700)),
-        tabPanel("Table: Variant Classification", tableOutput("table_variant"))
+        tabPanel("Table: Variant Classification", tableOutput("table_variant")),
+        tabPanel("nowa", tableOutput("table_new"))
+        
       )
     )
   )
