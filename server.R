@@ -197,7 +197,25 @@ shinyServer(function(input, output) {
       
       nowotwory_variant_all <- NULL
       
-      for(nowotwor in nowotwory){
+#       for(nowotwor in nowotwory){
+#         nowotwory_variant_all <- NULL
+#         nowotwor_variant <- get(paste(nowotwor, '_variant', sep=""))
+#         nowotwor_variant <- nowotwor_variant[, c("patient.barcode", "time", "status", paste('Variant.', gen, sep=""))]
+#         nowotwor_variant$nowotwor <- nowotwor
+#         colnames(nowotwor_variant) <- c("patient.barcode", "time", "status", "Variant", "nowotwor")
+#         #nowotwory.gen.missense <- rbind(nowotwory.gen.missense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant== "Missense_Mutation", ])
+#         #nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
+#         nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
+#         nowotwory_variant_all$time <- as.numeric(as.character(nowotwory_variant_all$time))
+#       }
+#       nowotwory_variant_all$missense <- ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0)
+#       nowotwory_variant_all$nonsense <- ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0)
+#       
+#       
+      p.missense <- lapply(nowotwory, function(nowotwor){
+        pvalue <- "Brak"
+        
+        nowotwory_variant_all <- NULL
         nowotwor_variant <- get(paste(nowotwor, '_variant', sep=""))
         nowotwor_variant <- nowotwor_variant[, c("patient.barcode", "time", "status", paste('Variant.', gen, sep=""))]
         nowotwor_variant$nowotwor <- nowotwor
@@ -206,17 +224,12 @@ shinyServer(function(input, output) {
         #nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
         nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
         nowotwory_variant_all$time <- as.numeric(as.character(nowotwory_variant_all$time))
-      }
+      
       nowotwory_variant_all$missense <- ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0)
       nowotwory_variant_all$nonsense <- ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0)
       
-      
-      p.missense <- lapply(nowotwory, function(nowotwor){
-        pvalue <- "Brak"
         nowotwor_gen.fit.missense <- survfit(Surv(time, status) ~ missense, 
                                     data=nowotwory_variant_all)
-        
-        
         if (sum(nowotwory_variant_all$missense)==0){
           variant <- "No Missense"
         }
@@ -241,6 +254,23 @@ shinyServer(function(input, output) {
       
         p.nonsense <- lapply(nowotwory, function(nowotwor){
         pvalue <- "Brak"
+        
+        nowotwory_variant_all <- NULL
+        nowotwor_variant <- get(paste(nowotwor, '_variant', sep=""))
+        nowotwor_variant <- nowotwor_variant[, c("patient.barcode", "time", "status", paste('Variant.', gen, sep=""))]
+        nowotwor_variant$nowotwor <- nowotwor
+        colnames(nowotwor_variant) <- c("patient.barcode", "time", "status", "Variant", "nowotwor")
+        #nowotwory.gen.missense <- rbind(nowotwory.gen.missense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant== "Missense_Mutation", ])
+        #nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
+        nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
+        nowotwory_variant_all$time <- as.numeric(as.character(nowotwory_variant_all$time))
+        
+        nowotwory_variant_all$missense <- ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0)
+        nowotwory_variant_all$nonsense <- ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0)
+        
+        
+        
+        
           
         nowotwor_gen.fit.nonsense <- survfit(Surv(time, status) ~ nonsense, 
                                              data=nowotwory_variant_all)
