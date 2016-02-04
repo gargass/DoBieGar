@@ -225,8 +225,8 @@ shinyServer(function(input, output) {
         nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
         nowotwory_variant_all$time <- as.numeric(as.character(nowotwory_variant_all$time))
       
-      nowotwory_variant_all$missense <- ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0)
-      nowotwory_variant_all$nonsense <- ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0)
+      nowotwory_variant_all$missense <- as.numeric(ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0))
+      nowotwory_variant_all$nonsense <- as.numeric(ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0))
       
         nowotwor_gen.fit.missense <- survfit(Surv(time, status) ~ missense, 
                                     data=nowotwory_variant_all)
@@ -265,8 +265,8 @@ shinyServer(function(input, output) {
         nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
         nowotwory_variant_all$time <- as.numeric(as.character(nowotwory_variant_all$time))
         
-        nowotwory_variant_all$missense <- ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0)
-        nowotwory_variant_all$nonsense <- ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0)
+        nowotwory_variant_all$missense <- as.numeric(ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0))
+        nowotwory_variant_all$nonsense <- as.numeric(ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0))
         
         
         
