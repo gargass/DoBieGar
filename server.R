@@ -297,9 +297,21 @@ shinyServer(function(input, output) {
           ylab("Probability of survival") +
           theme(legend.position = c(0.85, 0.85))
       })
-      
-      marrangeGrob(append(p.missense, p.nonsense), nrow=2, ncol=length(nowotwory))
-
+    
+      for (i in 1:length(nowotwory))
+      { 
+        if (i==1)
+        {
+          z = p.missense[1]
+        }
+        else
+        {
+          z=append(z , p.missense[i] )
+        }
+        z = append(z, p.nonsense[i])
+      }
+      #marrangeGrob(append(p.missense, p.nonsense), nrow=length(nowotwory), ncol=2)
+      marrangeGrob(z, nrow=length(nowotwory), ncol=2)
       
   }, height = 600, width = 1000)
   
