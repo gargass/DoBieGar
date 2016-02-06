@@ -89,8 +89,8 @@ shinyServer(function(input, output) {
           ylim(c(0,1)) + 
           xlim(c(0, max_time)) + 
           xlab("Time in days") + 
-          ylab("Probability of survival") +
-          theme(legend.position = c(0.9, 0.9))
+          ylab("Survival") +
+          theme(legend.position = c(0.85, 0.9))
 
   
       })
@@ -108,7 +108,7 @@ shinyServer(function(input, output) {
       
       marrangeGrob(p, ncol = ncol, nrow = nrow)
       
-    }, height = 800, width = 1000)
+    }, height = 800)
   
   output$opis_geny <- renderText({
     "The table shows the 10 most significant genes in which 
@@ -222,8 +222,6 @@ shinyServer(function(input, output) {
               nowotwor_variant <- nowotwor_variant[, c("patient.barcode", "time", "status", paste('Variant.', gen, sep=""))]
               nowotwor_variant$nowotwor <- nowotwor
               colnames(nowotwor_variant) <- c("patient.barcode", "time", "status", "Variant", "nowotwor")
-              #nowotwory.gen.missense <- rbind(nowotwory.gen.missense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant== "Missense_Mutation", ])
-              #nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
               
               nowotwor_variant$time <- as.numeric(as.character(nowotwor_variant$time))
               
@@ -231,14 +229,7 @@ shinyServer(function(input, output) {
               nowotwor_variant$nonsense <- as.numeric(ifelse(nowotwor_variant$Variant == "Nonsense_Mutation", 1, 0))
               nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
       }    
-#       max_time <- 0
-#       for(nowotwor in nowotwory){
-#         zbior <- get(paste(nowotwor, '_variant', sep=""))
-#         time <- as.numeric(as.character(zbior$time))
-#         time <- max(time, na.rm = TRUE)
-#         max_time <- ifelse(time>max_time, time, max_time)
-#       } 
-#       
+ 
       max_time <- max(nowotwory_variant_all$time, na.rm = TRUE)
       
       p.missense <- lapply(nowotwory, function(nowotwor){
@@ -271,29 +262,13 @@ shinyServer(function(input, output) {
           ylim(c(0,1)) + 
           xlim(c(0, max_time)) + 
           xlab("Time in days") + 
-          ylab("Probability of survival") +
-          theme(legend.position = c(0.85, 0.85))
+          ylab("Survival") +
+          theme(legend.position = c(0.85, 0.9))
       }
       })
       
         p.nonsense <- lapply(nowotwory, function(nowotwor){
         pvalue <- "Brak"
-#         
-#         nowotwory_variant_all <- NULL
-#         nowotwor_variant <- get(paste(nowotwor, '_variant', sep=""))
-#         nowotwor_variant <- nowotwor_variant[, c("patient.barcode", "time", "status", paste('Variant.', gen, sep=""))]
-#         nowotwor_variant$nowotwor <- nowotwor
-#         colnames(nowotwor_variant) <- c("patient.barcode", "time", "status", "Variant", "nowotwor")
-#         #nowotwory.gen.missense <- rbind(nowotwory.gen.missense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant== "Missense_Mutation", ])
-#         #nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
-#         nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
-#         nowotwory_variant_all$time <- as.numeric(as.character(nowotwory_variant_all$time))
-#         
-#         nowotwory_variant_all$missense <- as.numeric(ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0))
-#         nowotwory_variant_all$nonsense <- as.numeric(ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0))
-#         
-        
-        
 
         dane <- nowotwory_variant_all[nowotwory_variant_all$nowotwor == nowotwor,]
 
@@ -321,8 +296,8 @@ shinyServer(function(input, output) {
           ylim(c(0,1)) + 
           xlim(c(0, max_time)) + 
           xlab("Time in days") + 
-          ylab("Probability of survival") +
-          theme(legend.position = c(0.85, 0.85))
+          ylab("Survival") +
+          theme(legend.position = c(0.85, 0.9))
         }
       })
     
@@ -338,10 +313,9 @@ shinyServer(function(input, output) {
         }
         z = append(z, p.nonsense[i])
       }
-      #marrangeGrob(append(p.missense, p.nonsense), nrow=length(nowotwory), ncol=2)
       marrangeGrob(z, nrow=length(nowotwory), ncol=2)
       
-  }, height = 600, width = 1000)
+  }, height = 600, width = 750)
   
   output$table_variant <- renderTable({
     validate(
