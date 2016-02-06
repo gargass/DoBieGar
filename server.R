@@ -53,7 +53,14 @@ shinyServer(function(input, output) {
   output$survcurves_yesno <- renderPlot({
     nowotwory <- input$nowotwory
     gen <- input$geny
-  
+      
+      max_time <- 0
+      for(nowotwor in nowotwory){
+        zbior <- get(paste('zbior.', nowotwor, sep=""))
+        time <- as.numeric(as.character(zbior$time))
+        time <- max(time, na.rm = TRUE)
+        max_time <- ifelse(time>max_time, time, max_time)
+      }    
       
       n <- length(nowotwory)
      
@@ -77,7 +84,7 @@ shinyServer(function(input, output) {
                            legTitle=paste('P-value: ', pvalue),
                            title=nowotwor)$plot + 
           ylim(c(0,1)) + 
-          xlim(c(0, 8000)) + 
+          xlim(c(0, max_time)) + 
           xlab("Time in days") + 
           ylab("Probability of survival") +
           theme(legend.position = c(0.9, 0.9))
@@ -211,7 +218,13 @@ shinyServer(function(input, output) {
 #       }
 #       nowotwory_variant_all$missense <- ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0)
 #       nowotwory_variant_all$nonsense <- ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0)
-#       
+      max_time <- 0
+      for(nowotwor in nowotwory){
+        zbior <- get(paste(nowotwor, '_variant', sep=""))
+        time <- as.numeric(as.character(zbior$time))
+        time <- max(time, na.rm = TRUE)
+        max_time <- ifelse(time>max_time, time, max_time)
+      } 
 #       
       p.missense <- lapply(nowotwory, function(nowotwor){
         pvalue <- "Brak"
@@ -247,7 +260,7 @@ shinyServer(function(input, output) {
                            legTitle=paste('P-value: ', pvalue),
                            title=paste(nowotwor, "\n  Missense Mutation", sep=""))$plot + 
           ylim(c(0,1)) + 
-          xlim(c(0, 8000)) + 
+          xlim(c(0, max_time)) + 
           xlab("Time in days") + 
           ylab("Probability of survival") +
           theme(legend.position = c(0.85, 0.85))
