@@ -8,7 +8,7 @@ library(ggplot2)
 #install.packages('ztable')
 #install.packages('pheatmap')
 library(pheatmap)
-
+library(DT)
 ##### Załadowanie zbiorów #####
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
@@ -36,7 +36,7 @@ najczestsze <- read.table("najistotniejsze_geny.txt", h=T)
 
 czestosci_variant <- read.table("czestosci_variant.txt", h=T)
 
-
+#####
 shinyServer(function(input, output) {
 
   
@@ -335,28 +335,27 @@ shinyServer(function(input, output) {
 
 
 
-output$table_new <- renderTable({
+  output$table_new <- renderDataTable({
   gen <- input$geny
   
+  nowotwory_all <- c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
+                     "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
   dane<- matrix(0, nrow=14, ncol=4)
   p <- NULL
 
 
-    dane[, 2] <- t(czestosci[czestosci$gen==gen,c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
-                                          "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")])
+    dane[, 2] <- t(czestosci[czestosci$gen==gen,nowotwory_all])
 
-    dane[,3]<-t(p_value_tabela[p_value_tabela$gen==gen, c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
-                                                              "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")])
-  dane[, 1]<-c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
-          "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
-    Liczno<- c(1110, 1098, 941, 629, 628, 595, 591, 548, 537, 528, 522, 515, 504, 503)
-    dane[,4]<-as.numeric(Liczno)*as.numeric(dane[,2])
-    colnames(dane)<-c('Cancer', 'Frequency', 'Pvalue', 'Licznos')
+    dane[,3]<-t(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all])
+  dane[, 1]<-nowotwory_all
+    Licznosc<- c(1110, 1098, 941, 629, 628, 595, 591, 548, 537, 528, 522, 515, 504, 503)
+    dane[,4]<-as.numeric(Licznosc)*as.numeric(dane[,2])
+    colnames(dane)<-c('Cancer', 'Frequency', 'Pvalue', 'Liczność')
  
   p<-cbind(p, dane)
 
   print(p)
-}, digits=3)
+}, options = list(dom = 't', lengthMenu = c(20, 30)))
 
 
 
