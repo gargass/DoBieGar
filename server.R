@@ -350,7 +350,7 @@ shinyServer(function(input, output) {
   dane[, 1]<-nowotwory_all
     Licznosc<- c(1110, 1098, 941, 629, 628, 595, 591, 548, 537, 528, 522, 515, 504, 503)
     dane[,4]<-as.numeric(Licznosc)*as.numeric(dane[,2])
-    colnames(dane)<-c('Cancer', 'Frequency', 'Pvalue', 'Liczność')
+    colnames(dane)<-c('Cancer', 'Frequency', 'Pvalue', 'Cardinality of set')
  
   p<-cbind(p, dane)
 
