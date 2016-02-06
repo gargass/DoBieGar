@@ -306,7 +306,7 @@ shinyServer(function(input, output) {
                            legTitle=paste('P-value: ', pvalue),
                            title=paste(nowotwor, "\n  Nonsense Mutation", sep=""))$plot + 
           ylim(c(0,1)) + 
-          xlim(c(0, 8000)) + 
+          xlim(c(0, max_time)) + 
           xlab("Time in days") + 
           ylab("Probability of survival") +
           theme(legend.position = c(0.85, 0.85))
