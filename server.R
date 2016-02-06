@@ -253,7 +253,7 @@ shinyServer(function(input, output) {
 
         nowotwor_gen.fit.missense <- survfit(Surv(time, status) ~ missense, 
                                     data=dane)
-        if (sum(as.numeric(dane$missense))==0){
+        if (length(unique(dane$missense))==1){
           variant <- "No Missense"
         }
         else{
@@ -302,7 +302,7 @@ shinyServer(function(input, output) {
         nowotwor_gen.fit.nonsense <- survfit(Surv(time, status) ~ nonsense, 
                                              data=dane)
         
-        if (sum(as.numeric(dane$nonsense))==0){
+        if (length(unique(dane$nonsense))==1){
           variant <- "No Nonsense"
         }
         else{
