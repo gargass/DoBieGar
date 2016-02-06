@@ -41,9 +41,6 @@ shinyServer(function(input, output) {
 
   
   output$opis_krzywe <- renderText({
-    validate(
-      need(input$nowotwory != "", "Please select a cancer")
-    )
     print('In the figures below we can see Kaplan-Meier curves for 
           a given gene and the given tumors. The survival curves 
           are estimated for the two groups of patients: 
@@ -54,9 +51,19 @@ shinyServer(function(input, output) {
   
 
   output$survcurves_yesno <- renderPlot({
+    validate(
+      need(input$nowotwory != "", "Please select a cancer!")
+    )
     nowotwory <- input$nowotwory
     gen <- input$geny
-  
+      
+      max_time <- 0
+      for(nowotwor in nowotwory){
+        zbior <- get(paste('zbior.', nowotwor, sep=""))
+        time <- as.numeric(as.character(zbior$time))
+        time <- max(time, na.rm = TRUE)
+        max_time <- ifelse(time>max_time, time, max_time)
+      }    
       
       n <- length(nowotwory)
      
@@ -80,7 +87,7 @@ shinyServer(function(input, output) {
                            legTitle=paste('P-value: ', pvalue),
                            title=nowotwor)$plot + 
           ylim(c(0,1)) + 
-          xlim(c(0, 8000)) + 
+          xlim(c(0, max_time)) + 
           xlab("Time in days") + 
           ylab("Probability of survival") +
           theme(legend.position = c(0.9, 0.9))
@@ -110,7 +117,7 @@ shinyServer(function(input, output) {
   
   output$geny <- renderTable({
     validate(
-      need(input$nowotwory != "", "Please select a cancer")
+      need(input$nowotwory != "", "Please select a cancer!")
     )
     nowotwory <- input$nowotwory
    
@@ -138,7 +145,7 @@ shinyServer(function(input, output) {
   
   output$geny_wspolne<-renderTable({
     validate(
-      need(input$nowotwory != "", "Please select a cancer")
+      need(input$nowotwory != "", "Please select a cancer!")
     )
     gen <- input$geny
     nowotwory <- input$nowotwory
@@ -200,7 +207,7 @@ shinyServer(function(input, output) {
   
   output$survcurves_variant <- renderPlot({
     validate(
-      need(input$nowotwory != "", "Please select a cancer")
+      need(input$nowotwory != "", "Please select a cancer!")
     )
       nowotwory <- input$nowotwory
       gen <- input$geny
@@ -222,8 +229,14 @@ shinyServer(function(input, output) {
 #       }
 #       nowotwory_variant_all$missense <- ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0)
 #       nowotwory_variant_all$nonsense <- ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0)
+      max_time <- 0
+      for(nowotwor in nowotwory){
+        zbior <- get(paste(nowotwor, '_variant', sep=""))
+        time <- as.numeric(as.character(zbior$time))
+        time <- max(time, na.rm = TRUE)
+        max_time <- ifelse(time>max_time, time, max_time)
+      } 
 #       
-
       p.missense <- lapply(nowotwory, function(nowotwor){
         pvalue <- "Brak"
         
@@ -232,6 +245,8 @@ shinyServer(function(input, output) {
         nowotwor_variant <- nowotwor_variant[, c("patient.barcode", "time", "status", paste('Variant.', gen, sep=""))]
         nowotwor_variant$nowotwor <- nowotwor
         colnames(nowotwor_variant) <- c("patient.barcode", "time", "status", "Variant", "nowotwor")
+        #nowotwory.gen.missense <- rbind(nowotwory.gen.missense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant== "Missense_Mutation", ])
+        #nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
         nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
         nowotwory_variant_all$time <- as.numeric(as.character(nowotwory_variant_all$time))
       
@@ -243,7 +258,8 @@ shinyServer(function(input, output) {
                                     data=nowotwory_variant_all)
         if (sum(as.numeric(nowotwory_variant_all$missense))==0){
           variant <- "No Missense"
-        } else {
+        }
+        else{
           variant <- c("No Missense", "Missense")
           
           survdiff <- survdiff(Surv(time, status) ~ missense, 
@@ -256,11 +272,11 @@ shinyServer(function(input, output) {
                            legTitle=paste('P-value: ', pvalue),
                            title=paste(nowotwor, "\n  Missense Mutation", sep=""))$plot + 
           ylim(c(0,1)) + 
-          xlim(c(0, 8000)) + 
+          xlim(c(0, max_time)) + 
           xlab("Time in days") + 
           ylab("Probability of survival") +
           theme(legend.position = c(0.85, 0.85))
-      } 
+      }
       })
       
         p.nonsense <- lapply(nowotwory, function(nowotwor){
@@ -271,19 +287,25 @@ shinyServer(function(input, output) {
         nowotwor_variant <- nowotwor_variant[, c("patient.barcode", "time", "status", paste('Variant.', gen, sep=""))]
         nowotwor_variant$nowotwor <- nowotwor
         colnames(nowotwor_variant) <- c("patient.barcode", "time", "status", "Variant", "nowotwor")
+        #nowotwory.gen.missense <- rbind(nowotwory.gen.missense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant== "Missense_Mutation", ])
+        #nowotwory.gen.nonsense <- rbind(nowotwory.gen.nonsense, nowotwor_variant[!is.na(nowotwor_variant$Variant) & nowotwor_variant$Variant == "Nonsense_Mutation", ])
         nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
         nowotwory_variant_all$time <- as.numeric(as.character(nowotwory_variant_all$time))
         
         nowotwory_variant_all$missense <- as.numeric(ifelse(nowotwory_variant_all$Variant == "Missense_Mutation", 1, 0))
         nowotwory_variant_all$nonsense <- as.numeric(ifelse(nowotwory_variant_all$Variant == "Nonsense_Mutation", 1, 0))
         
-        if(nrow(nowotwory_variant_all)>2){  
+        
+        
+        
+        if(nrow(nowotwory_variant_all)>2){
         nowotwor_gen.fit.nonsense <- survfit(Surv(time, status) ~ nonsense, 
                                              data=nowotwory_variant_all)
         
         if (sum(as.numeric(nowotwory_variant_all$nonsense))==0){
           variant <- "No Nonsense"
-        } else {
+        }
+        else{
           variant <- c("No Nonsense", "Nonsense")
           
           survdiff <- survdiff(Surv(time, status) ~ nonsense, 
@@ -297,14 +319,13 @@ shinyServer(function(input, output) {
                            legTitle=paste('P-value: ', pvalue),
                            title=paste(nowotwor, "\n  Nonsense Mutation", sep=""))$plot + 
           ylim(c(0,1)) + 
-          xlim(c(0, 8000)) + 
+          xlim(c(0, max_time)) + 
           xlab("Time in days") + 
           ylab("Probability of survival") +
           theme(legend.position = c(0.85, 0.85))
-        } 
+        }
       })
     
-        tryCatch({
       for (i in 1:length(nowotwory))
       { 
         if (i==1)
@@ -317,15 +338,14 @@ shinyServer(function(input, output) {
         }
         z = append(z, p.nonsense[i])
       }
-        
+      #marrangeGrob(append(p.missense, p.nonsense), nrow=length(nowotwory), ncol=2)
       marrangeGrob(z, nrow=length(nowotwory), ncol=2)
-        }, error=print("To few observations!"))
-
+      
   }, height = 600, width = 1000)
   
   output$table_variant <- renderTable({
     validate(
-      need(input$nowotwory != "", "Please select a cancer")
+      need(input$nowotwory != "", "Please select a cancer!")
     )
     nowotwor <- input$nowotwory
     gen <- input$geny
