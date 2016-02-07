@@ -173,7 +173,7 @@ shinyServer(function(input, output) {
       }
     #p <- p[, -c(1)]
 
-    }, options = list(autoWidth = FALSE, dom = 't'))
+    }, options = list(autoWidth = FALSE, columnDefs = list(list(width = '200px', targets = 1:3)), dom = 't'))
   output$geny_wspolne_2<-renderDataTable({
     validate(
       need(input$nowotwory != "", "Please select a cancer!")
@@ -204,7 +204,7 @@ shinyServer(function(input, output) {
     }
     #p <- p[, -c(1)]
 
-  }, options = list(autoWidth = FALSE, dom = 't'))
+  }, options = list(autoWidth = FALSE, columnDefs = list(list(width = '200px', targets = 1:3)), dom = 't'))
   output$geny_wspolne_3<-renderDataTable({
     validate(
       need(input$nowotwory != "", "Please select a cancer!")
@@ -235,7 +235,7 @@ shinyServer(function(input, output) {
     }
     #p <- p[, -c(1)]
 
-  }, options = list(autoWidth = FALSE, dom = 't'))
+  }, options = list(autoWidth = FALSE, columnDefs = list(list(width = '200px', targets = 1:3)), dom = 't'))
   output$geny_wspolne_4<-renderDataTable({
     validate(
       need(input$nowotwory != "", "Please select a cancer!")
@@ -266,7 +266,7 @@ shinyServer(function(input, output) {
     }
     #p <- p[, -c(1)]
 
-  }, options = list(autoWidth = FALSE, dom = 't'))
+  }, options = list(autoWidth = FALSE, columnDefs = list(list(width = '200px', targets = 1:3)), dom = 't'))
   
   output$heatmap_pvalue <- renderPlot({
     gen <- input$geny
