@@ -143,7 +143,7 @@ shinyServer(function(input, output) {
     "The following table depicts three genes whose mutations appear most frequently with the mutation of a given gene in the given tumors."
   })
   
-  output$geny_wspolne<-renderTable({
+  output$geny_wspolne_1<-renderDataTable({
     validate(
       need(input$nowotwory != "", "Please select a cancer!")
     )
@@ -151,8 +151,8 @@ shinyServer(function(input, output) {
     nowotwory <- input$nowotwory
     
     #p <- matrix(1, nrow=3, ncol=1)
-    p <- NULL
-    for (nowotwor in nowotwory){
+   if(length(nowotwory)>=1){
+     nowotwor <- nowotwory[1]
       dane <- get(paste('zbior.', nowotwor, sep=""))
       z <- numeric((ncol(dane)-2))
       for (i in 3:(ncol(dane)-2)){
@@ -167,12 +167,106 @@ shinyServer(function(input, output) {
       x4 <- as.matrix(round(z [ c(x2)]/a, 2))
       colnames(x3) <- c(paste("Marker ", nowotwor))
       colnames(x4) <- c(paste("Correlation ", nowotwor))
-      p <- cbind(p, x3, x4)
+      p <- t(x4)
+      colnames(p) <- x3
+      print(p)
       }
     #p <- p[, -c(1)]
-    rownames(p) <- NULL
-    print(p)
-    })
+
+    }, options = list(autoWidth = FALSE, dom = 't'))
+  output$geny_wspolne_2<-renderDataTable({
+    validate(
+      need(input$nowotwory != "", "Please select a cancer!")
+    )
+    gen <- input$geny
+    nowotwory <- input$nowotwory
+    
+    #p <- matrix(1, nrow=3, ncol=1)
+    if(length(nowotwory)>=2){
+      nowotwor <- nowotwory[2]
+      dane <- get(paste('zbior.', nowotwor, sep=""))
+      z <- numeric((ncol(dane)-2))
+      for (i in 3:(ncol(dane)-2)){
+        z[i] <- sum(dane[which(dane[, gen]==1), i])
+      }
+      a <- sum(dane[which(dane[, gen]==1), gen])
+      x <- z[order(z)][(length(z)-1):(length(z)-3)]
+      x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
+      #x2 <- x2[1:3]
+      
+      x3 <- as.matrix(colnames(dane)[c(x2)])
+      x4 <- as.matrix(round(z [ c(x2)]/a, 2))
+      colnames(x3) <- c(paste("Marker ", nowotwor))
+      colnames(x4) <- c(paste("Correlation ", nowotwor))
+      p <- t(x4)
+      colnames(p) <- x3
+      print(p)
+    }
+    #p <- p[, -c(1)]
+
+  }, options = list(autoWidth = FALSE, dom = 't'))
+  output$geny_wspolne_3<-renderDataTable({
+    validate(
+      need(input$nowotwory != "", "Please select a cancer!")
+    )
+    gen <- input$geny
+    nowotwory <- input$nowotwory
+    
+    #p <- matrix(1, nrow=3, ncol=1)
+    if(length(nowotwory)>=3){
+      nowotwor <- nowotwory[3]
+      dane <- get(paste('zbior.', nowotwor, sep=""))
+      z <- numeric((ncol(dane)-2))
+      for (i in 3:(ncol(dane)-2)){
+        z[i] <- sum(dane[which(dane[, gen]==1), i])
+      }
+      a <- sum(dane[which(dane[, gen]==1), gen])
+      x <- z[order(z)][(length(z)-1):(length(z)-3)]
+      x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
+      #x2 <- x2[1:3]
+      
+      x3 <- as.matrix(colnames(dane)[c(x2)])
+      x4 <- as.matrix(round(z [ c(x2)]/a, 2))
+      colnames(x3) <- c(paste("Marker ", nowotwor))
+      colnames(x4) <- c(paste("Correlation ", nowotwor))
+      p <- t(x4)
+      colnames(p) <- x3
+      print(p)
+    }
+    #p <- p[, -c(1)]
+
+  }, options = list(autoWidth = FALSE, dom = 't'))
+  output$geny_wspolne_4<-renderDataTable({
+    validate(
+      need(input$nowotwory != "", "Please select a cancer!")
+    )
+    gen <- input$geny
+    nowotwory <- input$nowotwory
+    
+    #p <- matrix(1, nrow=3, ncol=1)
+    if(length(nowotwory)>=4){
+      nowotwor <- nowotwory[4]
+      dane <- get(paste('zbior.', nowotwor, sep=""))
+      z <- numeric((ncol(dane)-2))
+      for (i in 3:(ncol(dane)-2)){
+        z[i] <- sum(dane[which(dane[, gen]==1), i])
+      }
+      a <- sum(dane[which(dane[, gen]==1), gen])
+      x <- z[order(z)][(length(z)-1):(length(z)-3)]
+      x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
+      #x2 <- x2[1:3]
+      
+      x3 <- as.matrix(colnames(dane)[c(x2)])
+      x4 <- as.matrix(round(z [ c(x2)]/a, 2))
+      colnames(x3) <- c(paste("Marker ", nowotwor))
+      colnames(x4) <- c(paste("Correlation ", nowotwor))
+      p <- t(x4)
+      colnames(p) <- x3
+      print(p)
+    }
+    #p <- p[, -c(1)]
+
+  }, options = list(autoWidth = FALSE, dom = 't'))
   
   output$heatmap_pvalue <- renderPlot({
     gen <- input$geny
