@@ -452,7 +452,7 @@ shinyServer(function(input, output) {
  
   p<-cbind(p, dane)
 
-  print(p)
+  p
 }, options = list(dom = 't', lengthMenu = c(20, 30)))
 
 
