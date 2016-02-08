@@ -143,7 +143,7 @@ shinyServer(function(input, output) {
     "The following table depicts three genes whose mutations appear most frequently with the mutation of a given gene in the given tumors."
   })
   
-  output$geny_wspolne_1<-renderDataTable({
+  output$geny_wspolne<-renderDataTable({
     validate(
       need(input$nowotwory != "", "Please select a cancer!")
     )
@@ -151,39 +151,8 @@ shinyServer(function(input, output) {
     nowotwory <- input$nowotwory
     
     #p <- matrix(1, nrow=3, ncol=1)
-   if(length(nowotwory)>=1){
-     nowotwor <- nowotwory[1]
-      dane <- get(paste('zbior.', nowotwor, sep=""))
-      z <- numeric((ncol(dane)-2))
-      for (i in 3:(ncol(dane)-2)){
-        z[i] <- sum(dane[which(dane[, gen]==1), i])
-        }
-      a <- sum(dane[which(dane[, gen]==1), gen])
-      x <- z[order(z)][(length(z)-1):(length(z)-3)]
-      x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
-      #x2 <- x2[1:3]
-      
-      x3 <- as.matrix(colnames(dane)[c(x2)])
-      x4 <- as.matrix(round(z [ c(x2)]/a, 2))
-      colnames(x3) <- c(paste("Marker ", nowotwor))
-      colnames(x4) <- c(paste("Correlation ", nowotwor))
-      p <- t(x4)
-      colnames(p) <- x3
-      print(p)
-      }
-    #p <- p[, -c(1)]
-
-    }, options = list(autoWidth = FALSE, columnDefs = list(list(width = '200px', targets = 1:3)), dom = 't'))
-  output$geny_wspolne_2<-renderDataTable({
-    validate(
-      need(input$nowotwory != "", "Please select a cancer!")
-    )
-    gen <- input$geny
-    nowotwory <- input$nowotwory
-    
-    #p <- matrix(1, nrow=3, ncol=1)
-    if(length(nowotwory)>=2){
-      nowotwor <- nowotwory[2]
+    p <- NULL
+    for (nowotwor in nowotwory){
       dane <- get(paste('zbior.', nowotwor, sep=""))
       z <- numeric((ncol(dane)-2))
       for (i in 3:(ncol(dane)-2)){
@@ -198,75 +167,12 @@ shinyServer(function(input, output) {
       x4 <- as.matrix(round(z [ c(x2)]/a, 2))
       colnames(x3) <- c(paste("Marker ", nowotwor))
       colnames(x4) <- c(paste("Correlation ", nowotwor))
-      p <- t(x4)
-      colnames(p) <- x3
-      print(p)
+      p <- cbind(p, x3, x4)
     }
     #p <- p[, -c(1)]
-
-  }, options = list(autoWidth = FALSE, columnDefs = list(list(width = '200px', targets = 1:3)), dom = 't'))
-  output$geny_wspolne_3<-renderDataTable({
-    validate(
-      need(input$nowotwory != "", "Please select a cancer!")
-    )
-    gen <- input$geny
-    nowotwory <- input$nowotwory
-    
-    #p <- matrix(1, nrow=3, ncol=1)
-    if(length(nowotwory)>=3){
-      nowotwor <- nowotwory[3]
-      dane <- get(paste('zbior.', nowotwor, sep=""))
-      z <- numeric((ncol(dane)-2))
-      for (i in 3:(ncol(dane)-2)){
-        z[i] <- sum(dane[which(dane[, gen]==1), i])
-      }
-      a <- sum(dane[which(dane[, gen]==1), gen])
-      x <- z[order(z)][(length(z)-1):(length(z)-3)]
-      x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
-      #x2 <- x2[1:3]
-      
-      x3 <- as.matrix(colnames(dane)[c(x2)])
-      x4 <- as.matrix(round(z [ c(x2)]/a, 2))
-      colnames(x3) <- c(paste("Marker ", nowotwor))
-      colnames(x4) <- c(paste("Correlation ", nowotwor))
-      p <- t(x4)
-      colnames(p) <- x3
-      print(p)
-    }
-    #p <- p[, -c(1)]
-
-  }, options = list(autoWidth = FALSE, columnDefs = list(list(width = '200px', targets = 1:3)), dom = 't'))
-  output$geny_wspolne_4<-renderDataTable({
-    validate(
-      need(input$nowotwory != "", "Please select a cancer!")
-    )
-    gen <- input$geny
-    nowotwory <- input$nowotwory
-    
-    #p <- matrix(1, nrow=3, ncol=1)
-    if(length(nowotwory)>=4){
-      nowotwor <- nowotwory[4]
-      dane <- get(paste('zbior.', nowotwor, sep=""))
-      z <- numeric((ncol(dane)-2))
-      for (i in 3:(ncol(dane)-2)){
-        z[i] <- sum(dane[which(dane[, gen]==1), i])
-      }
-      a <- sum(dane[which(dane[, gen]==1), gen])
-      x <- z[order(z)][(length(z)-1):(length(z)-3)]
-      x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
-      #x2 <- x2[1:3]
-      
-      x3 <- as.matrix(colnames(dane)[c(x2)])
-      x4 <- as.matrix(round(z [ c(x2)]/a, 2))
-      colnames(x3) <- c(paste("Marker ", nowotwor))
-      colnames(x4) <- c(paste("Correlation ", nowotwor))
-      p <- t(x4)
-      colnames(p) <- x3
-      print(p)
-    }
-    #p <- p[, -c(1)]
-
-  }, options = list(autoWidth = FALSE, columnDefs = list(list(width = '200px', targets = 1:3)), dom = 't'))
+    rownames(p) <- NULL
+    p
+  }, options = list(dom = 't'))
   
   output$heatmap_pvalue <- renderPlot({
     gen <- input$geny
@@ -407,29 +313,45 @@ shinyServer(function(input, output) {
         }
         z = append(z, p.nonsense[i])
       }
-      marrangeGrob(z, nrow=length(nowotwory), ncol=2)
-      
+        indeks <- NULL
+        print(z)
+        k <- 1
+        for(e in z){
+          if(is.null(e[[1]])){indeks <- append(indeks, k)
+          }
+          k <- k+1
+        }
+        print(indeks)
+        if(!is.null(indeks)){
+        z <- z[-indeks]
+        }
+        print(z)
+        if(length(z)>0){
+        marrangeGrob(z, nrow=length(z)/2, ncol=2)}
   }, height = 600, width = 750)
   
-  output$table_variant <- renderTable({
+  output$table_variant <- renderDataTable({
     validate(
       need(input$nowotwory != "", "Please select a cancer!")
     )
     nowotwor <- input$nowotwory
     gen <- input$geny
     
-    p <- matrix(1, nrow=10, ncol=2)
-    #p <- NULL
+    p <- matrix(1, nrow=10, ncol=1+length(nowotwor))
+    k <- 2
     for (nowotworr in nowotwor)
     {
       dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
       colnames(dane) <- c(paste('variant ', nowotworr), paste("frequency in ", nowotworr))
-      p <- cbind(p, dane)
+      p[, k] <- dane[,2]
+
+      k <- k + 1
     }
-    p <- p[, -c(1, 2)]
-    rownames(p) <- NULL
+    p[,1] <- c('Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del',  'Nonsense_Mutation', 
+                             'RNA',       'Splice_Site',      'In_Frame_Ins',  'Nonstop_Mutation')
+    colnames(p) <- c("Variant", nowotwor)
     print(p)
-  }, digits=3)
+  },  options = list(autoWidth = TRUE, columnDefs = list(list(width = '70px', targets = 2:length(input$nowotwory))), dom = 't'))
 
 
 
@@ -452,7 +374,7 @@ shinyServer(function(input, output) {
  
   p<-cbind(p, dane)
 
-  p
+  print(p)
 }, options = list(dom = 't', lengthMenu = c(20, 30)))
 
 
