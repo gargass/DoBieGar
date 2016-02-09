@@ -1,6 +1,8 @@
-#nowotwory= c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
-#             "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
-nowotwor <- 'BRCA'
+nowotwory <- c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
+            "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
+#nowotwor <- 'BRCA'
+
+for(nowotwor in nowotwory){
 dane <- read.table(paste('Zbiory/', nowotwor,'.txt' ,sep=''), h=T)
 
 geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
@@ -27,11 +29,11 @@ for (i in 1:nrow(geny))
     
 
   }
-  print(paste(i, '/', nrow(geny)))
+  print(paste(nowotwor, ':',i, '/', nrow(geny)))
   
   
 }
 
 write.table(file=paste('Zbiory/wspolne_', nowotwor, '.txt', sep=""), wspolne)
-
+}
 #wynik <- read.table(paste('Zbiory/wspolne_', nowotwor, '.txt', sep=""))
