@@ -153,7 +153,7 @@ shinyServer(function(input, output) {
 
       gen_x_gen <- read.table(paste('Zbiory/wspolne_', nowotwor, '.txt', sep=""))
       geny <- rownames(gen_x_gen)[-which(rownames(gen_x_gen) == gen)]
-      tabela <- cbind(tabela, gen_x_gen[geny, gen])
+      tabela <- cbind(tabela, signif(gen_x_gen[geny, gen], 4))
     }
     
     
@@ -180,7 +180,7 @@ shinyServer(function(input, output) {
 #     }
 #     rownames(p) <- NULL
 #     p
-  }, options = list(dom = 't'))
+  })
   
   output$heatmap_pvalue <- renderPlot({
     gen <- input$geny

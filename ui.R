@@ -39,7 +39,8 @@ shinyUI(fluidPage(
         tabPanel("Survival curves: Presence of mutation", textOutput("opis_krzywe"), plotOutput("survcurves_yesno")),
         tabPanel("Survival curves: Variant Classification", plotOutput("survcurves_variant")),
         tabPanel("Frequency of mutation types", dataTableOutput("table_variant")),
-        tabPanel('Co-occuring genes', textOutput("opis_geny_wspol"), 
+        tabPanel('Co-occuring genes', textOutput("opis_geny_wspol"),
+                 hr(),
                  dataTableOutput("geny_wspolne"))
         #tabPanel("Most significant genes", textOutput("opis_geny"), tableOutput("geny")),
         #tabPanel("Heatmap: p-value", plotOutput("heatmap_pvalue", width = 600, height = 2500)),
