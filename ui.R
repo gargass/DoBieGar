@@ -11,7 +11,7 @@ geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
 shinyUI(fluidPage(
-  titlePanel("Genes mutations"),# and survival analysis"),
+  titlePanel(div(img(src="logo.png", height = 60, width = 60), "Genes mutations")),
   sidebarLayout(
     sidebarPanel(
       selectizeInput("nowotwory",

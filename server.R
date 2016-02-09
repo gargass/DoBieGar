@@ -289,18 +289,15 @@ shinyServer(function(input, output) {
         z = append(z, p.nonsense[i])
       }
       indeks <- NULL
-      print(z)
       k <- 1
       for(e in z){
         if(is.null(e[[1]])){indeks <- append(indeks, k)
         }
         k <- k+1
         }
-      print(indeks)
       if(!is.null(indeks)){
         z <- z[-indeks]
         }
-      print(z)
       if(length(z)>0){
         marrangeGrob(z, nrow=length(z)/2, ncol=2)}
       }, height = 600, width = 750)
