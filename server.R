@@ -22,6 +22,10 @@ geny <- as.matrix(geny)
 
 p_value_tabela <-read.table('p_value/p_value_NA.txt', h=T)
 czestosci<-read.table('czestosci.txt', h=T)
+licznosci<-read.table('licznosci.txt', h=T)
+
+
+
 
 for(nowotwor in nowotwory){
   assign(paste('p_value.', nowotwor, sep=""), read.table(paste('p_value/P_value_dla_interesujacych_genow/', 
@@ -369,13 +373,15 @@ shinyServer(function(input, output) {
   p <- NULL
 
 
-    dane[, 2] <- t(czestosci[czestosci$gen==gen,nowotwory_all])
-
-    dane[,3]<-t(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all])
+    dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
+      
+    dane[,4]<-t(signif(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all], digits = 2))
+  #p2[,2] <- signif(p2[,2], digits=5)
+  
   dane[, 1]<-nowotwory_all
-    Licznosc<- c(1110, 1098, 941, 629, 628, 595, 591, 548, 537, 528, 522, 515, 504, 503)
-    dane[,4]<-as.numeric(Licznosc)*as.numeric(dane[,2])
-    colnames(dane)<-c('Cancer', 'Frequency', 'Pvalue', 'Cardinality of set')
+  
+    dane[,3]<-t(licznosci[licznosci$gen==gen, nowotwory_all])
+    colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
  
   p<-cbind(p, dane)
 
