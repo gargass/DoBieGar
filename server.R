@@ -24,9 +24,6 @@ p_value_tabela <-read.table('p_value/p_value_NA.txt', h=T)
 czestosci<-read.table('czestosci.txt', h=T)
 licznosci<-read.table('licznosci.txt', h=T)
 
-
-
-
 for(nowotwor in nowotwory){
   assign(paste('p_value.', nowotwor, sep=""), read.table(paste('p_value/P_value_dla_interesujacych_genow/', 
                                                                nowotwor, '_pvalue.txt', sep=""), h=T))
@@ -42,7 +39,15 @@ czestosci_variant <- read.table("czestosci_variant.txt", h=T)
 
 #####
 shinyServer(function(input, output) {
-
+  
+  output$opis_nowa<- renderText({
+    print('For the selected gene
+        the following table contains information about the frequency and number 
+       of patients with mutation of this gene
+        among patients suffering on the different types of cancers.
+        It also includes information about the importance of mutations on
+        patients survival measured by p-value of the log-rank test.')
+  })
   
   output$opis_krzywe <- renderText({
     print('In the figures below we can see Kaplan-Meier curves for 
@@ -53,6 +58,14 @@ shinyServer(function(input, output) {
           of this gene.')
   })
   
+  output$opis_geny_wspol <- renderText({
+    "The following table depicts three genes whose mutations appear most frequently with the mutation of a given gene in the given tumors."
+  })
+  
+  output$opis_geny <- renderText({
+    "The table shows the 10 most significant genes in which 
+    a mutation occurred in cancer. \n"
+  })
 
   output$survcurves_yesno <- renderPlot({
     validate(
@@ -85,9 +98,7 @@ shinyServer(function(input, output) {
           mutation <- c("No Mutation", "Mutation")
         }
       
-        
-        survMisc::autoplot(nowotwor_gen.fit,
-                           legLabs = mutation,
+        survMisc::autoplot(nowotwor_gen.fit, legLabs = mutation,
                            legTitle=paste('P-value: ', pvalue),
                            title=nowotwor)$plot + 
           ylim(c(0,1)) + 
@@ -95,11 +106,7 @@ shinyServer(function(input, output) {
           xlab("Time in days") + 
           ylab("Survival") +
           theme(legend.position = c(0.85, 0.9))
-
-  
       })
-    
-    
 
       if(n <= 4){
         ncol <- 2
@@ -112,12 +119,7 @@ shinyServer(function(input, output) {
       
       marrangeGrob(p, ncol = ncol, nrow = nrow)
       
-    }, height = 800)
-  
-  output$opis_geny <- renderText({
-    "The table shows the 10 most significant genes in which 
-    a mutation occurred in cancer. \n"
-  })
+      }, height = 800)
   
   output$geny <- renderTable({
     validate(
@@ -135,17 +137,9 @@ shinyServer(function(input, output) {
       }
       p <- p[, -c(1)]
       rownames(p) <- NULL
-#       p <- ztable(p)
-#       cgroup <- nowotwory
-#       n.cgroup <- rep(2, length(nowotwory))
-#       p <- addcgroup(p,cgroup=cgroup,n.cgroup=n.cgroup)
       print(p)
       
     }, digits = 5)
-  
-  output$opis_geny_wspol <- renderText({
-    "The following table depicts three genes whose mutations appear most frequently with the mutation of a given gene in the given tumors."
-  })
   
   output$geny_wspolne<-renderDataTable({
     validate(
@@ -154,7 +148,6 @@ shinyServer(function(input, output) {
     gen <- input$geny
     nowotwory <- input$nowotwory
     
-    #p <- matrix(1, nrow=3, ncol=1)
     p <- NULL
     for (nowotwor in nowotwory){
       dane <- get(paste('zbior.', nowotwor, sep=""))
@@ -165,7 +158,6 @@ shinyServer(function(input, output) {
       a <- sum(dane[which(dane[, gen]==1), gen])
       x <- z[order(z)][(length(z)-1):(length(z)-3)]
       x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
-      #x2 <- x2[1:3]
       
       x3 <- as.matrix(colnames(dane)[c(x2)])
       x4 <- as.matrix(round(z [ c(x2)]/a, 2))
@@ -173,14 +165,12 @@ shinyServer(function(input, output) {
       colnames(x4) <- c(paste("Correlation ", nowotwor))
       p <- cbind(p, x3, x4)
     }
-    #p <- p[, -c(1)]
     rownames(p) <- NULL
     p
   }, options = list(dom = 't'))
   
   output$heatmap_pvalue <- renderPlot({
     gen <- input$geny
-    #melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen %in% geny[1:length(geny)]), ])
     melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen==gen), ])
     base_size <- 12
     
@@ -197,7 +187,6 @@ shinyServer(function(input, output) {
     melted_dane <- melt(czestosci[which(czestosci$gen %in% geny[1:length(geny)]), ])
     
     base_size <- 12
-    
     
     ggplot(data = melted_dane, aes(x=variable, y=gen, fill=value)) + 
       geom_tile() + theme_grey(base_size = base_size) + labs(x = "",y = "") + 
@@ -220,119 +209,101 @@ shinyServer(function(input, output) {
       
       nowotwory_variant_all <- NULL
       for(nowotwor in nowotwory){
+        nowotwor_variant <- get(paste(nowotwor, '_variant', sep=""))
+        nowotwor_variant <- nowotwor_variant[, c("patient.barcode", "time", "status", paste('Variant.', gen, sep=""))]
+        nowotwor_variant$nowotwor <- nowotwor
+        colnames(nowotwor_variant) <- c("patient.barcode", "time", "status", "Variant", "nowotwor")
               
+        nowotwor_variant$time <- as.numeric(as.character(nowotwor_variant$time))
               
-              nowotwor_variant <- get(paste(nowotwor, '_variant', sep=""))
-              nowotwor_variant <- nowotwor_variant[, c("patient.barcode", "time", "status", paste('Variant.', gen, sep=""))]
-              nowotwor_variant$nowotwor <- nowotwor
-              colnames(nowotwor_variant) <- c("patient.barcode", "time", "status", "Variant", "nowotwor")
-              
-              nowotwor_variant$time <- as.numeric(as.character(nowotwor_variant$time))
-              
-              nowotwor_variant$missense <- as.numeric(ifelse(nowotwor_variant$Variant == "Missense_Mutation", 1, 0))
-              nowotwor_variant$nonsense <- as.numeric(ifelse(nowotwor_variant$Variant == "Nonsense_Mutation", 1, 0))
-              nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
+        nowotwor_variant$missense <- as.numeric(ifelse(nowotwor_variant$Variant == "Missense_Mutation", 1, 0))
+        nowotwor_variant$nonsense <- as.numeric(ifelse(nowotwor_variant$Variant == "Nonsense_Mutation", 1, 0))
+        nowotwory_variant_all <- rbind(nowotwory_variant_all, nowotwor_variant[!is.na(nowotwor_variant$Variant),])
       }    
  
       max_time <- max(nowotwory_variant_all$time, na.rm = TRUE)
       
       p.missense <- lapply(nowotwory, function(nowotwor){
         pvalue <- "Brak"
-        
-   
         dane <- nowotwory_variant_all[nowotwory_variant_all$nowotwor == nowotwor,]
-
         
- 
-      if(nrow(dane)>2){
-
-        nowotwor_gen.fit.missense <- survfit(Surv(time, status) ~ missense, 
-                                    data=dane)
-        if (length(unique(dane$missense))==1){
-          variant <- "No Missense"
-        }
-        else{
-          variant <- c("No Missense", "Missense")
+        if(nrow(dane)>2){
+          nowotwor_gen.fit.missense <- survfit(Surv(time, status) ~ missense, data=dane)
+          if (length(unique(dane$missense))==1){
+            variant <- "No Missense"
+            }
+          else{
+            variant <- c("No Missense", "Missense")
+            survdiff <- survdiff(Surv(time, status) ~ missense, data=dane)
+            pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
+            }
           
-          survdiff <- survdiff(Surv(time, status) ~ missense, 
-                               data=dane)
-          pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
-        }
-        
-        survMisc::autoplot(nowotwor_gen.fit.missense,
+          survMisc::autoplot(nowotwor_gen.fit.missense,
                            legLabs = variant,
                            legTitle=paste('P-value: ', pvalue),
                            title=paste(nowotwor, "\n  Missense Mutation", sep=""))$plot + 
-          ylim(c(0,1)) + 
-          xlim(c(0, max_time)) + 
-          xlab("Time in days") + 
-          ylab("Survival") +
-          theme(legend.position = c(0.85, 0.9))
-      }
-      })
+            ylim(c(0,1)) + 
+            xlim(c(0, max_time)) + 
+            xlab("Time in days") + 
+            ylab("Survival") + 
+            theme(legend.position = c(0.85, 0.9))
+          }
+        })
       
-        p.nonsense <- lapply(nowotwory, function(nowotwor){
+      p.nonsense <- lapply(nowotwory, function(nowotwor){
         pvalue <- "Brak"
 
         dane <- nowotwory_variant_all[nowotwory_variant_all$nowotwor == nowotwor,]
 
         if(nrow(dane)>2){
-
-        nowotwor_gen.fit.nonsense <- survfit(Surv(time, status) ~ nonsense, 
-                                             data=dane)
-        
-        if (length(unique(dane$nonsense))==1){
-          variant <- "No Nonsense"
-        }
-        else{
-          variant <- c("No Nonsense", "Nonsense")
+          nowotwor_gen.fit.nonsense <- survfit(Surv(time, status) ~ nonsense, data=dane)
           
-          survdiff <- survdiff(Surv(time, status) ~ nonsense, 
-                               data=dane)
+          if (length(unique(dane$nonsense))==1){
+            variant <- "No Nonsense"
+            }
+          else{
+            variant <- c("No Nonsense", "Nonsense")
+            survdiff <- survdiff(Surv(time, status) ~ nonsense, data=dane)
+            pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
+            }
           
-          pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
-        }
-        
-        survMisc::autoplot(nowotwor_gen.fit.nonsense,
+          survMisc::autoplot(nowotwor_gen.fit.nonsense,
                            legLabs = variant,
                            legTitle=paste('P-value: ', pvalue),
                            title=paste(nowotwor, "\n  Nonsense Mutation", sep=""))$plot + 
-          ylim(c(0,1)) + 
-          xlim(c(0, max_time)) + 
-          xlab("Time in days") + 
-          ylab("Survival") +
-          theme(legend.position = c(0.85, 0.9))
-        }
-      })
-    
-      for (i in 1:length(nowotwory))
-      { 
-        if (i==1)
-        {
+            ylim(c(0,1)) + 
+            xlim(c(0, max_time)) + 
+            xlab("Time in days") + 
+            ylab("Survival") + 
+            theme(legend.position = c(0.85, 0.9))
+          }
+        })
+      
+      for (i in 1:length(nowotwory)){ 
+        if (i==1){
           z = p.missense[1]
         }
-        else
-        {
+        else{
           z=append(z , p.missense[i] )
         }
         z = append(z, p.nonsense[i])
       }
-        indeks <- NULL
-        print(z)
-        k <- 1
-        for(e in z){
-          if(is.null(e[[1]])){indeks <- append(indeks, k)
-          }
-          k <- k+1
+      indeks <- NULL
+      print(z)
+      k <- 1
+      for(e in z){
+        if(is.null(e[[1]])){indeks <- append(indeks, k)
         }
-        print(indeks)
-        if(!is.null(indeks)){
+        k <- k+1
+        }
+      print(indeks)
+      if(!is.null(indeks)){
         z <- z[-indeks]
         }
-        print(z)
-        if(length(z)>0){
+      print(z)
+      if(length(z)>0){
         marrangeGrob(z, nrow=length(z)/2, ncol=2)}
-  }, height = 600, width = 750)
+      }, height = 600, width = 750)
   
   output$table_variant <- renderDataTable({
     validate(
@@ -343,8 +314,7 @@ shinyServer(function(input, output) {
     
     p <- matrix(1, nrow=10, ncol=1+length(nowotwor))
     k <- 2
-    for (nowotworr in nowotwor)
-    {
+    for (nowotworr in nowotwor){
       dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
       colnames(dane) <- c(paste('variant ', nowotworr), paste("frequency in ", nowotworr))
       p[, k] <- dane[,2]
@@ -357,47 +327,25 @@ shinyServer(function(input, output) {
     print(p)
   },  options = list(autoWidth = TRUE, columnDefs = list(list(width = '70px', targets = 2:length(input$nowotwory))), dom = 't'))
 
-
-
-
-output$opis_nowa<- renderText({
-  print('For the selected gene
-        the following table contains information about the frequency and number 
-       of patients with mutation of this gene
-        among patients suffering on the different types of cancers.
-        It also includes information about the importance of mutations on
-        patients survival measured by p-value of the log-rank test.')
-})
-
-
-
-
   output$table_new <- renderDataTable({
-  gen <- input$geny
-  
-  nowotwory_all <- c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
+    gen <- input$geny
+    
+    nowotwory_all <- c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                      "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
-  dane<- matrix(0, nrow=14, ncol=4)
-  p <- NULL
-
-
+    dane<- matrix(0, nrow=14, ncol=4)
+    p <- NULL
+    
     dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
       
     dane[,4]<-t(signif(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all], digits = 2))
-  #p2[,2] <- signif(p2[,2], digits=5)
-  
-  dane[, 1]<-nowotwory_all
+    
+    dane[, 1]<-nowotwory_all
   
     dane[,3]<-t(licznosci[licznosci$gen==gen, nowotwory_all])
     colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
- 
-  p<-cbind(p, dane)
-
-  print(p)
-}, options = list(dom = 't', lengthMenu = c(20, 30)))
-
-
-
-
+    p<-cbind(p, dane)
+    
+    print(p)
+    }, options = list(dom = 't', lengthMenu = c(20, 30)))
   
   })
