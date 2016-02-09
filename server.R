@@ -148,25 +148,38 @@ shinyServer(function(input, output) {
     gen <- input$geny
     nowotwory <- input$nowotwory
     
-    p <- NULL
-    for (nowotwor in nowotwory){
-      dane <- get(paste('zbior.', nowotwor, sep=""))
-      z <- numeric((ncol(dane)-2))
-      for (i in 3:(ncol(dane)-2)){
-        z[i] <- sum(dane[which(dane[, gen]==1), i])
-      }
-      a <- sum(dane[which(dane[, gen]==1), gen])
-      x <- z[order(z)][(length(z)-1):(length(z)-3)]
-      x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
-      
-      x3 <- as.matrix(colnames(dane)[c(x2)])
-      x4 <- as.matrix(round(z [ c(x2)]/a, 2))
-      colnames(x3) <- c(paste("Marker ", nowotwor))
-      colnames(x4) <- c(paste("Correlation ", nowotwor))
-      p <- cbind(p, x3, x4)
+    tabela <- NULL
+    for(nowotwor in nowotwory){
+
+      gen_x_gen <- read.table(paste('Zbiory/wspolne_', nowotwor, '.txt', sep=""))
+      geny <- rownames(gen_x_gen)[-which(rownames(gen_x_gen) == gen)]
+      tabela <- cbind(tabela, gen_x_gen[geny, gen])
     }
-    rownames(p) <- NULL
-    p
+    
+    
+    rownames(tabela) <- geny
+    colnames(tabela) <- nowotwory
+    tabela
+#     
+#     p <- NULL
+#     for (nowotwor in nowotwory){
+#       dane <- get(paste('zbior.', nowotwor, sep=""))
+#       z <- numeric((ncol(dane)-2))
+#       for (i in 3:(ncol(dane)-2)){
+#         z[i] <- sum(dane[which(dane[, gen]==1), i])
+#       }
+#       a <- sum(dane[which(dane[, gen]==1), gen])
+#       x <- z[order(z)][(length(z)-1):(length(z)-3)]
+#       x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
+#       
+#       x3 <- as.matrix(colnames(dane)[c(x2)])
+#       x4 <- as.matrix(round(z [ c(x2)]/a, 2))
+#       colnames(x3) <- c(paste("Marker ", nowotwor))
+#       colnames(x4) <- c(paste("Correlation ", nowotwor))
+#       p <- cbind(p, x3, x4)
+#     }
+#     rownames(p) <- NULL
+#     p
   }, options = list(dom = 't'))
   
   output$heatmap_pvalue <- renderPlot({
