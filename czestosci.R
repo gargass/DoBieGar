@@ -12,7 +12,7 @@ for (j in 1:length(nowotwory))
   
   dane = read.table(paste('Zbiory/', nowotwory[j],'.txt' ,sep=''), h=T)
   n = nrow(dane)
-for (i in 1:297)
+for (i in 1:535)
 {
   czestosci[i, j+1]=round(sum(dane[, i+1])/n, 3)
   

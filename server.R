@@ -355,6 +355,11 @@ shinyServer(function(input, output) {
 
 
 
+
+
+
+
+
   output$table_new <- renderDataTable({
   gen <- input$geny
   
@@ -376,6 +381,7 @@ shinyServer(function(input, output) {
 
   print(p)
 }, options = list(dom = 't', lengthMenu = c(20, 30)))
+
 
 
 
