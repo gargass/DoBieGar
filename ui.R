@@ -28,7 +28,7 @@ shinyUI(fluidPage(
       p(""),
       br(),
       tabsetPanel(
-        tabPanel("nowa", dataTableOutput("table_new")),
+        tabPanel("nowa", textOutput('opis_nowa'),dataTableOutput("table_new")),
         tabPanel("Survival curves: Presence of mutation", textOutput("opis_krzywe"), plotOutput("survcurves_yesno")),
         tabPanel("Survival curves: Variant Classification", plotOutput("survcurves_variant")),
         tabPanel('Co-occuring genes', textOutput("opis_geny_wspol"), 

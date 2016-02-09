@@ -360,6 +360,14 @@ shinyServer(function(input, output) {
 
 
 
+output$opis_nowa<- renderText({
+  print('For the selected gene
+        the following table contains information about the frequency and number 
+       of patients with mutation of this gene
+        among patients suffering on the different types of cancers.
+        It also includes information about the importance of mutations on
+        patients survival measured by p-value of the log-rank test.')
+})
 
 
 
