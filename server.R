@@ -321,11 +321,11 @@ shinyServer(function(input, output) {
 
       k <- k + 1
     }
-    p[,1] <- c('Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del',  'Nonsense_Mutation', 
-                             'RNA',       'Splice_Site',      'In_Frame_Ins',  'Nonstop_Mutation')
+    p[,1] <- c('Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
+                             'RNA',       'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
     colnames(p) <- c("Variant", nowotwor)
     print(p)
-  },  options = list(autoWidth = TRUE, columnDefs = list(list(width = '70px', targets = 2:length(input$nowotwory))), dom = 't'))
+  },  options = list(autoWidth = TRUE, columnDefs = list(list(width = '70px', targets = 1:length(input$nowotwory))), dom = 't'))
 
   output$table_new <- renderDataTable({
     gen <- input$geny
