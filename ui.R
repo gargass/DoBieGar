@@ -21,7 +21,14 @@ shinyUI(fluidPage(
       selectInput("geny",
                   "Select gene",
                   geny,
-                  "TP53")
+                  "TP53"),
+      tags$div(
+        HTML('<br/><br/><br/>
+             <font size="2"><b>Details:</b><br/>
+             <br/><br/>
+             <b>Authors:</b><br/>
+             Sebastian Gargas, Małgorzata Dobkowska, Marlena Bielat</font>')
+      )
     ),
     
     mainPanel(
