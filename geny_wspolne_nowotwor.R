@@ -29,6 +29,7 @@ for (i in 1:nrow(geny))
   }
   print(paste(i, '/', nrow(geny)))
   
+  
 }
 
 write.table(file=paste('Zbiory/wspolne_', nowotwor, '.txt', sep=""), wspolne)
