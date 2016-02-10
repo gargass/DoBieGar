@@ -105,7 +105,8 @@ shinyServer(function(input, output) {
           xlim(c(0, max_time)) + 
           xlab("Time in days") + 
           ylab("Survival") +
-          theme(legend.position = c(0.85, 0.9))
+          theme(legend.position = c(0.85, 0.9)) + 
+          theme(legend.title = element_text(colour=ifelse(pvalue<0.05,"red", "black"), face="bold"))
       })
 
       if(n <= 4){
@@ -259,7 +260,8 @@ shinyServer(function(input, output) {
             xlim(c(0, max_time)) + 
             xlab("Time in days") + 
             ylab("Survival") + 
-            theme(legend.position = c(0.85, 0.9))
+            theme(legend.position = c(0.85, 0.9)) + 
+            theme(legend.title = element_text(colour=ifelse(pvalue<0.05,"red", "black"), face="bold"))
           }
         })
       
@@ -288,7 +290,8 @@ shinyServer(function(input, output) {
             xlim(c(0, max_time)) + 
             xlab("Time in days") + 
             ylab("Survival") + 
-            theme(legend.position = c(0.85, 0.9))
+            theme(legend.position = c(0.85, 0.9)) + 
+            theme(legend.title = element_text(colour=ifelse(pvalue<0.05,"red", "black"), face="bold"))
           }
         })
       
