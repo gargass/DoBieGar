@@ -7,6 +7,21 @@ library(DT)
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
 
+names(nowotwory) <- c("GBMLGG - Glioblastoma multiforme",
+                    "BRCA - Breast invasive carcinoma",
+                    "KIPAN",
+                    "COADREAD - Colorectal adenocarcinoma",
+                    "STES",
+                    "GBM",
+                    "OV - Ovarian serous cystadenocarcinoma",
+                    "UCEC - Uterine Corpus Endometrial Carcinoma",
+                    "KIRC - Kidney renal clear cell carcinoma",
+                    "HNSC",
+                    "LUAD - Lung adenocarcinoma",
+                    "LGG - Lower Grade Glioma",
+                    "LUSC - Lung squamous cell carcinoma",
+                    "THCA")
+
 geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
