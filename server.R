@@ -322,21 +322,29 @@ shinyServer(function(input, output) {
     nowotwor <- input$nowotwory
     gen <- input$geny
     
+    p <- matrix(1, nrow=10, ncol=1+length(nowotwor))
+    k <- 2
+    
     if(gen %in% colnames(czestosci_variant)){
-      p <- matrix(1, nrow=10, ncol=1+length(nowotwor))
-      k <- 2
       for (nowotworr in nowotwor){
         dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
-        colnames(dane) <- c(paste('variant ', nowotworr), paste("frequency in ", nowotworr))
         p[, k] <- dane[,2]
         
         k <- k + 1
         }
-      p[,1] <- c('Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
-                             'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
-      colnames(p) <- c("Variant", nowotwor)
-      print(p)
     }
+    else{
+      for (nowotworr in nowotwor){
+        p[, k] <- rep(0, 10)
+        
+        k <- k + 1
+      }
+    }
+    
+    p[,1] <- c('Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
+               'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
+    colnames(p) <- c("Variant", nowotwor)
+    print(p)
   },  options = list(autoWidth = TRUE, columnDefs = list(list(width = '70px', targets = 1:length(input$nowotwory))), dom = 't'))
 
   output$table_new <- renderDataTable({
