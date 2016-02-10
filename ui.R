@@ -36,8 +36,8 @@ shinyUI(fluidPage(
     ),
     
     mainPanel(
-      p(""),
-      br(),
+      #p(""),
+      #br(),
       tabsetPanel(
         tabPanel("nowa", textOutput('opis_nowa'),dataTableOutput("table_new")),
         tabPanel("Survival curves: Presence of mutation", textOutput("opis_krzywe"), plotOutput("survcurves_yesno")),
@@ -46,11 +46,8 @@ shinyUI(fluidPage(
         tabPanel('Co-occuring genes', textOutput("opis_geny_wspol"),
                  hr(),
                  dataTableOutput("geny_wspolne"))
-        #tabPanel("Most significant genes", textOutput("opis_geny"), tableOutput("geny")),
-        #tabPanel("Heatmap: p-value", plotOutput("heatmap_pvalue", width = 600, height = 2500)),
-        #tabPanel("Heatmap: frequency", plotOutput("heatmap_czestosc", width = 600, height = 2500)),
+        )
       )
     )
   )
-)
-)
+  )

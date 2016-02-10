@@ -39,7 +39,7 @@ czestosci_variant <- read.table("czestosci_variant.txt", h=T)
 
 #####
 shinyServer(function(input, output) {
-  
+
   output$opis_nowa<- renderText({
     print('For the selected gene
         the following table contains information about the frequency and number 
