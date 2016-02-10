@@ -25,9 +25,13 @@ shinyUI(fluidPage(
       tags$div(
         HTML('<br/><br/><br/>
              <font size="2"><b>Details:</b><br/>
-             <br/><br/>
+             For more information click '),
+        tags$a("here",target="_blank",href="doc.pdf"),
+        HTML('.<br/><br/>
              <b>Authors:</b><br/>
-             Sebastian Gargas, Małgorzata Dobkowska, Marlena Bielat</font>')
+             <a href="mailto:gargass@student.mini.pw.edu.pl">Sebastian Gargas</a><br/>
+             <a href="mailto:dobkowskam@student.mini.pw.edu.pl">Małgorzata Dobkowska</a><br/>
+             <a href="mailto:bielatm@student.mini.pw.edu.pl">Marlena Bielat</a><br/></font>')
       )
     ),
     
