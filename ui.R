@@ -20,7 +20,7 @@ names(nowotwory) <- c("GBMLGG - Glioblastoma multiforme",
                     "LUAD - Lung adenocarcinoma",
                     "LGG - Lower Grade Glioma",
                     "LUSC - Lung squamous cell carcinoma",
-                    "THCA")
+                    "THCA - Thyroid carcinoma")
 
 geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
