@@ -312,7 +312,13 @@ shinyServer(function(input, output) {
         z <- z[-indeks]
         }
       if(length(z)>0){
-        marrangeGrob(z, nrow=length(z)/2, ncol=2)}
+        marrangeGrob(z, nrow=length(z)/2, ncol=2)
+      }
+      else{
+        validate(
+          need(length(z)>0, "No Missense and Nonsense mutation in selected cancers!")
+        )
+      }
       }, height = 600, width = 750)
   
   output$table_variant <- renderDataTable({
