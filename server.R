@@ -373,7 +373,8 @@ output$co_occuring_table<-renderDataTable({
           survMisc::autoplot(nowotwor_gen.fit.missense,
                            legLabs = variant,
                            legTitle=paste('P-value: ', pvalue),
-                           title=paste(nowotwor, "\n  Missense Mutation", sep=""), censSize=2)$plot + 
+                           #title=paste(nowotwor, "\n  Missense Mutation", sep=""), censSize=2)$plot +
+                           title=nowotwor, censSize=2)$plot + 
             ylim(c(0,1)) + 
             xlim(c(0, max_time)) + 
             xlab("Time in days") + 
@@ -403,7 +404,8 @@ output$co_occuring_table<-renderDataTable({
           survMisc::autoplot(nowotwor_gen.fit.nonsense,
                            legLabs = variant,
                            legTitle=paste('P-value: ', pvalue),
-                           title=paste(nowotwor, "\n  Nonsense Mutation", sep=""), censSize=2)$plot + 
+                           #title=paste(nowotwor, "\n  Nonsense Mutation", sep=""), censSize=2)$plot + 
+                           title=nowotwor, censSize=2)$plot + 
             ylim(c(0,1)) + 
             xlim(c(0, max_time)) + 
             xlab("Time in days") + 
