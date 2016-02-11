@@ -1,3 +1,4 @@
+#Loading packages
 library(shiny)
 library(survival)
 # library(survMisc)
@@ -9,12 +10,17 @@ library(ggplot2)
 #install.packages('pheatmap')
 library(pheatmap)
 library(DT)
-##### Załadowanie zbiorów #####
+
+
+#Loading datasets
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
 
 for(nowotwor in nowotwory){
   assign(paste('zbior.', nowotwor, sep=""), read.table(paste('Zbiory/', nowotwor, '.txt', sep="")))
+  assign(paste('geny_wspolne_', nowotwor, sep=""), read.table(paste('Zbiory/wspolne_', nowotwor, '.txt', sep="")))
+  assign(paste('geny_wspolne_licznosci_', nowotwor, sep=""), read.table(paste('Zbiory/wspolne_', nowotwor, '_licznosci.txt', sep="")))
+  
 }
 
 geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
@@ -33,95 +39,215 @@ for(nowotwor in nowotwory){
   assign(paste(nowotwor, '_variant', sep=""), read.table(paste('Zbiory/', nowotwor, '_variant.txt', sep="")))
 }
 
-najczestsze <- read.table("najistotniejsze_geny.txt", h=T)
-
 czestosci_variant <- read.table("czestosci_variant.txt", h=T)
 
-#####
+
+
+#Shiny
 shinyServer(function(input, output) {
   
-  output$opis_nowa<- renderText({
-    print('For the selected gene
-        the following table contains information about the frequency and number 
-       of patients with mutation of this gene
-        among patients suffering on the different types of cancers.
-        It also includes information about the importance of mutations on
-        patients survival measured by p-value of the log-rank test.')
+
+#Instruction Panel
+  
+  output$instruction<- renderText({
+    'tralala'
   })
   
-  output$opis_krzywe <- renderText({
-    print('In the figures below we can see Kaplan-Meier curves for 
-          a given gene and the given tumors. The survival curves 
-          are estimated for the two groups of patients: 
-          the first one refers to the patients with a mutation of a given gene 
-          and the second one is the group of patients without any mutation 
-          of this gene.')
-  })
-  
-  output$opis_geny_wspol <- renderText({
-    "The following table depicts three genes whose mutations appear most frequently with the mutation of a given gene in the given tumors."
-  })
-  
-  output$opis_geny <- renderText({
-    "The table shows the 10 most significant genes in which 
-    a mutation occurred in cancer. \n"
+
+#Basic information about gene mutation
+#Description
+
+  output$basic_description<- renderText({
+
+    '\n \n For the selected gene
+     the following table contains information about the frequency and number 
+     of patients with mutation of this gene
+     among patients suffering on the different types of cancers.
+     It also includes information about the importance of mutations on
+     patients survival measured by p-value of the log-rank test. \n \n'
   })
 
-  output$survcurves_yesno <- renderPlot({
-    validate(
-      need(input$nowotwory != "", "Please select a cancer!")
-    )
-    nowotwory <- input$nowotwory
+#Table
+  output$table_new <- renderDataTable({
     gen <- input$geny
-      
-      max_time <- 0
-      for(nowotwor in nowotwory){
-        zbior <- get(paste('zbior.', nowotwor, sep=""))
-        time <- as.numeric(as.character(zbior$time))
-        time <- max(time, na.rm = TRUE)
-        max_time <- ifelse(time>max_time, time, max_time)
-      }    
-      
-      n <- length(nowotwory)
-     
-      p <- lapply(nowotwory, function(nowotwor){
-        pvalue = p_value_tabela[p_value_tabela$gen == gen, nowotwor]
-        pvalue <- signif(pvalue, 3)
-        
-        nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
-                                    data=get(paste('zbior.', nowotwor, sep="")))
-        
-        if (sum(get(paste('zbior.', nowotwor, sep=""))[,gen])==0){
-          mutation <- "No Mutation"
-        }
-        else{
-          mutation <- c("No Mutation", "Mutation")
-        }
-      
-        survMisc::autoplot(nowotwor_gen.fit, legLabs = mutation,
-                           legTitle=paste('P-value: ', pvalue),
-                           title=nowotwor)$plot + 
-          ylim(c(0,1)) + 
-          xlim(c(0, max_time)) + 
-          xlab("Time in days") + 
-          ylab("Survival") +
-          theme(legend.position = c(0.85, 0.9)) + 
-          theme(legend.title = element_text(colour=ifelse(pvalue<0.05,"red", "black"), face="bold"))
-      })
+    
+    nowotwory_all <- c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
+                       "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
+    dane<- matrix(0, nrow=14, ncol=4)
+    dane[, 1]<-nowotwory_all
+    dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
+    dane[,3]<-t(licznosci[licznosci$gen==gen, nowotwory_all])
+    dane[,4]<-t(signif(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all], digits = 2))
+    colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
+    dane
+  }, options = list(dom = 't', lengthMenu = c(20, 30)))
 
-      if(n <= 4){
-        ncol <- 2
-        nrow <- 2
-      }
-      else{
-        ncol <- ceiling(sqrt(n))
-        nrow <- ceiling(n/ceiling(sqrt(n)))
-      }
-      
-      marrangeGrob(p, ncol = ncol, nrow = nrow)
-      
-      }, height = 800)
+
+#Survival Curves - Presence of mutation
+#Description
+
+  output$curves_description <- renderText({
+    'In the figures below we can see Kaplan-Meier curves for 
+     a given gene and the given tumors. The survival curves 
+     are estimated for the two groups of patients: 
+     the first one refers to the patients with a mutation of a given gene 
+     and the second one is the group of patients without any mutation 
+     of this gene.'
+  })
   
+#Curves
+output$survcurves_yesno <- renderPlot({
+  validate(
+    need(input$nowotwory != "", "Please select a cancer!")
+  )
+  nowotwory <- input$nowotwory
+  gen <- input$geny
+  
+  max_time <- 0
+  for(nowotwor in nowotwory){
+    zbior <- get(paste('zbior.', nowotwor, sep=""))
+    time <- as.numeric(as.character(zbior$time))
+    time <- max(time, na.rm = TRUE)
+    max_time <- ifelse(time>max_time, time, max_time)
+  }    
+  
+  n <- length(nowotwory)
+  
+  p <- lapply(nowotwory, function(nowotwor){
+    pvalue = p_value_tabela[p_value_tabela$gen == gen, nowotwor]
+    pvalue <- signif(pvalue, 3)
+    
+    nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
+                                data=get(paste('zbior.', nowotwor, sep="")))
+    
+    if (sum(get(paste('zbior.', nowotwor, sep=""))[,gen])==0){
+      mutation <- "No Mutation"
+    }
+    else{
+      mutation <- c("No Mutation", "Mutation")
+    }
+    
+    survMisc::autoplot(nowotwor_gen.fit, legLabs = mutation,
+                       legTitle=paste('P-value: ', pvalue),
+                       title=nowotwor)$plot + 
+      ylim(c(0,1)) + 
+      xlim(c(0, max_time)) + 
+      xlab("Time in days") + 
+      ylab("Survival") +
+      theme(legend.position = c(0.85, 0.9)) + 
+      theme(legend.title = element_text(colour=ifelse(pvalue<0.05,"red", "black"), face="bold"))
+  })
+  
+  if(n <= 4){
+    ncol <- 2
+    nrow <- 2
+  }
+  else{
+    ncol <- ceiling(sqrt(n))
+    nrow <- ceiling(n/ceiling(sqrt(n)))
+  }
+  
+  marrangeGrob(p, ncol = ncol, nrow = nrow)
+  
+}, height = 800)
+
+
+#Co-occuring genes
+#Description
+
+  output$co_occuring_description <- renderText({
+    'trzeba dodac inny opis'
+    })
+
+
+#Table
+
+output$co_occuring_table<-renderDataTable({
+  validate(
+    need(input$nowotwory != "", "Please select a cancer!")
+  )
+  gen <- input$geny
+  nowotwory <- input$nowotwory
+  
+  tabela <- NULL
+  for(nowotwor in nowotwory){
+    
+    gen_x_gen <- get(paste('geny_wspolne_', nowotwor, sep=""))
+    geny <- rownames(gen_x_gen)[-which(rownames(gen_x_gen) == gen)]
+    tabela <- cbind(tabela, paste(signif(round(100*gen_x_gen[geny, gen],2), 2), "%", sep=""))
+    gen_y_gen<-get(paste('geny_wspolne_licznosci_', nowotwor, sep=""))
+    tabela<-cbind(tabela, gen_y_gen[geny, gen])
+  }
+
+  rownames(tabela) <- geny
+  col<-NULL
+  for (i in 1:length(nowotwory))
+  {
+  col <- append(col,paste(nowotwory[i], 'freq'))
+  col <- append(col,paste(nowotwory[i], 'licznosc'))
+  }
+  colnames(tabela)<-col
+  tabela
+})
+
+
+
+
+#   output$survcurves_yesno <- renderPlot({
+#     validate(
+#       need(input$nowotwory != "", "Please select a cancer!")
+#     )
+#     nowotwory <- input$nowotwory
+#     gen <- input$geny
+#       
+#       max_time <- 0
+#       for(nowotwor in nowotwory){
+#         zbior <- get(paste('zbior.', nowotwor, sep=""))
+#         time <- as.numeric(as.character(zbior$time))
+#         time <- max(time, na.rm = TRUE)
+#         max_time <- ifelse(time>max_time, time, max_time)
+#       }    
+#       
+#       n <- length(nowotwory)
+#      
+#       p <- lapply(nowotwory, function(nowotwor){
+#         pvalue = p_value_tabela[p_value_tabela$gen == gen, nowotwor]
+#         pvalue <- signif(pvalue, 3)
+#         
+#         nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
+#                                     data=get(paste('zbior.', nowotwor, sep="")))
+#         
+#         if (sum(get(paste('zbior.', nowotwor, sep=""))[,gen])==0){
+#           mutation <- "No Mutation"
+#         }
+#         else{
+#           mutation <- c("No Mutation", "Mutation")
+#         }
+#       
+#         survMisc::autoplot(nowotwor_gen.fit, legLabs = mutation,
+#                            legTitle=paste('P-value: ', pvalue),
+#                            title=nowotwor)$plot + 
+#           ylim(c(0,1)) + 
+#           xlim(c(0, max_time)) + 
+#           xlab("Time in days") + 
+#           ylab("Survival") +
+#           theme(legend.position = c(0.85, 0.9)) + 
+#           theme(legend.title = element_text(colour=ifelse(pvalue<0.05,"red", "black"), face="bold"))
+#       })
+# 
+#       if(n <= 4){
+#         ncol <- 2
+#         nrow <- 2
+#       }
+#       else{
+#         ncol <- ceiling(sqrt(n))
+#         nrow <- ceiling(n/ceiling(sqrt(n)))
+#       }
+#       
+#       marrangeGrob(p, ncol = ncol, nrow = nrow)
+#       
+#       }, height = 800)
+#   
   output$geny <- renderTable({
     validate(
       need(input$nowotwory != "", "Please select a cancer!")
@@ -142,46 +268,46 @@ shinyServer(function(input, output) {
       
     }, digits = 5)
   
-  output$geny_wspolne<-renderDataTable({
-    validate(
-      need(input$nowotwory != "", "Please select a cancer!")
-    )
-    gen <- input$geny
-    nowotwory <- input$nowotwory
-    
-    tabela <- NULL
-    for(nowotwor in nowotwory){
-
-      gen_x_gen <- read.table(paste('Zbiory/wspolne_', nowotwor, '.txt', sep=""))
-      geny <- rownames(gen_x_gen)[-which(rownames(gen_x_gen) == gen)]
-      tabela <- cbind(tabela, signif(gen_x_gen[geny, gen], 4))
-    }
-    
-    
-    rownames(tabela) <- geny
-    colnames(tabela) <- nowotwory
-    tabela
+#   output$geny_wspolne<-renderDataTable({
+#     validate(
+#       need(input$nowotwory != "", "Please select a cancer!")
+#     )
+#     gen <- input$geny
+#     nowotwory <- input$nowotwory
 #     
-#     p <- NULL
-#     for (nowotwor in nowotwory){
-#       dane <- get(paste('zbior.', nowotwor, sep=""))
-#       z <- numeric((ncol(dane)-2))
-#       for (i in 3:(ncol(dane)-2)){
-#         z[i] <- sum(dane[which(dane[, gen]==1), i])
-#       }
-#       a <- sum(dane[which(dane[, gen]==1), gen])
-#       x <- z[order(z)][(length(z)-1):(length(z)-3)]
-#       x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
-#       
-#       x3 <- as.matrix(colnames(dane)[c(x2)])
-#       x4 <- as.matrix(round(z [ c(x2)]/a, 2))
-#       colnames(x3) <- c(paste("Marker ", nowotwor))
-#       colnames(x4) <- c(paste("Correlation ", nowotwor))
-#       p <- cbind(p, x3, x4)
+#     tabela <- NULL
+#     for(nowotwor in nowotwory){
+# 
+#       gen_x_gen <- read.table(paste('Zbiory/wspolne_', nowotwor, '.txt', sep=""))
+#       geny <- rownames(gen_x_gen)[-which(rownames(gen_x_gen) == gen)]
+#       tabela <- cbind(tabela, signif(gen_x_gen[geny, gen], 4))
 #     }
-#     rownames(p) <- NULL
-#     p
-  })
+#     
+#     
+#     rownames(tabela) <- geny
+#     colnames(tabela) <- nowotwory
+#     tabela
+# #     
+# #     p <- NULL
+# #     for (nowotwor in nowotwory){
+# #       dane <- get(paste('zbior.', nowotwor, sep=""))
+# #       z <- numeric((ncol(dane)-2))
+# #       for (i in 3:(ncol(dane)-2)){
+# #         z[i] <- sum(dane[which(dane[, gen]==1), i])
+# #       }
+# #       a <- sum(dane[which(dane[, gen]==1), gen])
+# #       x <- z[order(z)][(length(z)-1):(length(z)-3)]
+# #       x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
+# #       
+# #       x3 <- as.matrix(colnames(dane)[c(x2)])
+# #       x4 <- as.matrix(round(z [ c(x2)]/a, 2))
+# #       colnames(x3) <- c(paste("Marker ", nowotwor))
+# #       colnames(x4) <- c(paste("Correlation ", nowotwor))
+# #       p <- cbind(p, x3, x4)
+# #     }
+# #     rownames(p) <- NULL
+# #     p
+#   })
   
   output$heatmap_pvalue <- renderPlot({
     gen <- input$geny
@@ -356,25 +482,5 @@ shinyServer(function(input, output) {
     print(p)
   },  options = list(autoWidth = TRUE, columnDefs = list(list(width = '70px', targets = 1:length(input$nowotwory))), dom = 't'))
 
-  output$table_new <- renderDataTable({
-    gen <- input$geny
-    
-    nowotwory_all <- c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
-                     "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
-    dane<- matrix(0, nrow=14, ncol=4)
-    p <- NULL
-    
-    dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
-      
-    dane[,4]<-t(signif(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all], digits = 2))
-    
-    dane[, 1]<-nowotwory_all
-  
-    dane[,3]<-t(licznosci[licznosci$gen==gen, nowotwory_all])
-    colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
-    p<-cbind(p, dane)
-    
-    print(p)
-    }, options = list(dom = 't', lengthMenu = c(20, 30)))
-  
+
   })

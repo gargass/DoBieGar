@@ -26,17 +26,17 @@ geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
 shinyUI(fluidPage(
-  titlePanel(div(img(src="logo.png", height = 60, width = 60), "Genes mutations")),
+  titlePanel(div(img(src="logo.png", height = 100, width = 100), "Genes mutations")),
   sidebarLayout(
     sidebarPanel(
-      selectizeInput("nowotwory",
-                  "Select cancer",
-                  nowotwory,
-                  "BRCA", multiple = TRUE, options = list(maxItems = 4)),
       selectInput("geny",
                   "Select gene",
                   geny,
                   "TP53"),
+      selectizeInput("nowotwory",
+                  "Select cancer",
+                  nowotwory,
+                  "BRCA", multiple = TRUE, options = list(maxItems = 4)),
       tags$div(
         HTML('<br/><br/><br/>
              <font size="2"><b>Details:</b><br/>
@@ -51,16 +51,14 @@ shinyUI(fluidPage(
     ),
     
     mainPanel(
-      #p(""),
-      #br(),
       tabsetPanel(
-        tabPanel("nowa", textOutput('opis_nowa'),dataTableOutput("table_new")),
-        tabPanel("Survival curves: Presence of mutation", textOutput("opis_krzywe"), plotOutput("survcurves_yesno")),
+        tabPanel("Instruction", textOutput('instruction')),
+        tabPanel("Basic information about the gene mutation", textOutput('basic_description'),dataTableOutput("table_new")),
+        tabPanel("Survival curves: Presence of mutation", textOutput("curves_description"), plotOutput("survcurves_yesno")),
+        tabPanel('Co-occuring genes', textOutput("co_occuring_description"),hr(), dataTableOutput("co_occuring_table")),
         tabPanel("Survival curves: Variant Classification", plotOutput("survcurves_variant")),
-        tabPanel("Frequency of mutation types", dataTableOutput("table_variant")),
-        tabPanel('Co-occuring genes', textOutput("opis_geny_wspol"),
-                 hr(),
-                 dataTableOutput("geny_wspolne"))
+        tabPanel("Frequency of mutation types", dataTableOutput("table_variant"))
+
         )
       )
     )
