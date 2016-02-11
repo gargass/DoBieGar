@@ -62,18 +62,34 @@ shinyUI(fluidPage(
                      </ul>
                       ')),
         tabPanel("Summary of gene mutation", 
-                 HTML('<br/>'),
-                 textOutput('basic_description'),
-                 HTML('<br/>'),
+                 HTML('<br/> For the selected gene
+                 the following table contains information about the frequency and number 
+                 of patients with mutation of this gene among patients suffering on the different types of cancers.
+                 It also includes information about the importance of mutations on
+                 patients survival measured by p-value of the log-rank test.<br/><br/>'),
                  dataTableOutput("table_new")),
         tabPanel("Survival curves: Presence of mutation", 
-                 HTML('<br/>'),
-                 textOutput("curves_description"), 
-                 HTML('<br/>'),
-                 plotOutput("survcurves_yesno")),
-        tabPanel('Co-occuring genes', textOutput("co_occuring_description"),hr(), dataTableOutput("co_occuring_table")),
-        tabPanel("Survival curves: Variant Classification", plotOutput("survcurves_variant")),
-        tabPanel("Frequency of mutation types", dataTableOutput("table_variant"))
+                 HTML('<br/>In the figures below we can see Kaplan-Meier curves for 
+                 a given gene and the given tumors. The survival curves 
+                 are estimated for the two groups of patients: 
+                 the first one refers to the patients with a mutation of a given gene 
+                 and the second one refers to the group of patients without any mutation 
+                 of this gene.<br/><br/>'), plotOutput("survcurves_yesno")),
+        tabPanel('Co-occuring genes', 
+                 HTML('<br/> Opis <br/><br/>'), 
+                 dataTableOutput("co_occuring_table")),
+        tabPanel("Survival curves: Variant Classification", 
+                 HTML('<br/> Opis <br/><br/>
+                  <TABLE  WIDTH=100%>
+                  <TR> 
+                    <TD> <p align="center"> <font size="3"><b>Missense Mutation</b></font> </p> </TD> 
+                    <TD> <p align="center"> <font size="3"><b>Nonsense Mutation</b></font> </p> </TD> 
+                  </TR> </TABLE>
+                      '), 
+                 plotOutput("survcurves_variant")),
+        tabPanel("Frequency of mutation types", 
+                 HTML('<br/> Opis <br/><br/>'), 
+                 dataTableOutput("table_variant"))
 
         )
       )

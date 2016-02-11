@@ -49,15 +49,15 @@ shinyServer(function(input, output) {
 #Basic information about gene mutation
 #Description
 
-  output$basic_description<- renderText({
-
-    '\n \n For the selected gene
-     the following table contains information about the frequency and number 
-     of patients with mutation of this gene
-     among patients suffering on the different types of cancers.
-     It also includes information about the importance of mutations on
-     patients survival measured by p-value of the log-rank test. \n \n'
-  })
+#   output$basic_description<- renderText({
+# 
+#     '\n \n For the selected gene
+#      the following table contains information about the frequency and number 
+#      of patients with mutation of this gene
+#      among patients suffering on the different types of cancers.
+#      It also includes information about the importance of mutations on
+#      patients survival measured by p-value of the log-rank test. \n \n'
+#   })
 
 #Table
   output$table_new <- renderDataTable({
@@ -78,14 +78,14 @@ shinyServer(function(input, output) {
 #Survival Curves - Presence of mutation
 #Description
 
-  output$curves_description <- renderText({
-    'In the figures below we can see Kaplan-Meier curves for 
-     a given gene and the given tumors. The survival curves 
-     are estimated for the two groups of patients: 
-     the first one refers to the patients with a mutation of a given gene 
-     and the second one is the group of patients without any mutation 
-     of this gene.'
-  })
+#   output$curves_description <- renderText({
+#     'In the figures below we can see Kaplan-Meier curves for 
+#      a given gene and the given tumors. The survival curves 
+#      are estimated for the two groups of patients: 
+#      the first one refers to the patients with a mutation of a given gene 
+#      and the second one is the group of patients without any mutation 
+#      of this gene.'
+#   })
   
 #Curves
 output$survcurves_yesno <- renderPlot({
@@ -139,7 +139,7 @@ output$survcurves_yesno <- renderPlot({
     nrow <- ceiling(n/ceiling(sqrt(n)))
   }
   
-  marrangeGrob(p, ncol = ncol, nrow = nrow)
+  marrangeGrob(p, ncol = ncol, nrow = nrow, top=NULL)
   
 }, height = 800)
 
@@ -147,9 +147,9 @@ output$survcurves_yesno <- renderPlot({
 #Co-occuring genes
 #Description
 
-  output$co_occuring_description <- renderText({
-    'trzeba dodac inny opis'
-    })
+#   output$co_occuring_description <- renderText({
+#     'trzeba dodac inny opis'
+#     })
 
 
 #Table
@@ -433,7 +433,7 @@ output$co_occuring_table<-renderDataTable({
         z <- z[-indeks]
         }
       if(length(z)>0){
-        marrangeGrob(z, nrow=length(z)/2, ncol=2)
+        marrangeGrob(z, nrow=length(z)/2, ncol=2, top=NULL)
       }
       else{
         validate(
