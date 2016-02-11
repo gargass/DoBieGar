@@ -139,7 +139,7 @@ output$survcurves_yesno <- renderPlot({
     nrow <- ceiling(n/ceiling(sqrt(n)))
   }
   
-  marrangeGrob(p, ncol = ncol, nrow = nrow)
+  marrangeGrob(p, ncol = ncol, nrow = nrow, top=NULL)
   
 }, height = 800)
 
@@ -433,7 +433,7 @@ output$co_occuring_table<-renderDataTable({
         z <- z[-indeks]
         }
       if(length(z)>0){
-        marrangeGrob(z, nrow=length(z)/2, ncol=2)
+        marrangeGrob(z, nrow=length(z)/2, ncol=2, top=NULL)
       }
       else{
         validate(
