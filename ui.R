@@ -40,7 +40,7 @@ shinyUI(fluidPage(
       tags$div(
         HTML('<br/><br/><br/>
              <font size="2"><b>Details:</b><br/>
-             For more information click '),
+             For more information click'),
         tags$a("here",target="_blank",href="doc.pdf"),
         HTML('.<br/><br/>
              <b>Authors:</b><br/>
@@ -61,31 +61,19 @@ shinyUI(fluidPage(
                         <li> hi </li> 
                      </ul>
                       ')),
-        tabPanel("Basic information about the gene mutation", 
-                 HTML('<br/> For the selected gene
-                the following table contains information about the 
-                frequency and number of patients with mutation of this gene
-                among patients suffering on the different types of cancers.
-                It also includes information about the importance of mutations on
-                patients survival measured by p-value of the log-rank test.<br/><br/>'), 
+        tabPanel("Summary of gene mutation", 
+                 HTML('<br/>'),
+                 textOutput('basic_description'),
+                 HTML('<br/>'),
                  dataTableOutput("table_new")),
         tabPanel("Survival curves: Presence of mutation", 
-                 HTML('<br/> In the figures below we can see Kaplan-Meier curves for 
-                      a given gene and the given tumors. The survival curves 
-                      are estimated for the two groups of patients: 
-                      the first one refers to the patients with a mutation of a given gene 
-                      and the second one is the group of patients without any 
-                      mutation of this gene.<br/><br/>'), 
+                 HTML('<br/>'),
+                 textOutput("curves_description"), 
+                 HTML('<br/>'),
                  plotOutput("survcurves_yesno")),
-        tabPanel('Co-occuring genes', 
-                 HTML('<br/> Opis <br/><br/>'), 
-                 dataTableOutput("co_occuring_table")),
-        tabPanel("Survival curves: Variant Classification", 
-                 HTML('<br/> Opis <br/><br/>'), 
-                 plotOutput("survcurves_variant")),
-        tabPanel("Frequency of mutation types", 
-                 HTML('<br/> Opis <br/><br/>'), 
-                 dataTableOutput("table_variant"))
+        tabPanel('Co-occuring genes', textOutput("co_occuring_description"),hr(), dataTableOutput("co_occuring_table")),
+        tabPanel("Survival curves: Variant Classification", plotOutput("survcurves_variant")),
+        tabPanel("Frequency of mutation types", dataTableOutput("table_variant"))
 
         )
       )
