@@ -6,8 +6,6 @@ library(grid)
 library(gridExtra)
 library(reshape2)
 library(ggplot2)
-#install.packages('ztable')
-#install.packages('pheatmap')
 library(pheatmap)
 library(DT)
 
