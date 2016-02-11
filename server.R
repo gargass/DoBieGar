@@ -47,17 +47,6 @@ czestosci_variant <- read.table("czestosci_variant.txt", h=T)
 shinyServer(function(input, output) {
 
 #Basic information about gene mutation
-#Description
-
-#   output$basic_description<- renderText({
-# 
-#     '\n \n For the selected gene
-#      the following table contains information about the frequency and number 
-#      of patients with mutation of this gene
-#      among patients suffering on the different types of cancers.
-#      It also includes information about the importance of mutations on
-#      patients survival measured by p-value of the log-rank test. \n \n'
-#   })
 
 #Table
   output$table_new <- renderDataTable({
@@ -70,6 +59,7 @@ shinyServer(function(input, output) {
     dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
     dane[,3]<-t(licznosci[licznosci$gen==gen, nowotwory_all])
     dane[,4]<-t(signif(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all], digits = 2))
+    
     colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
     dane
   }, options = list(dom = 't', lengthMenu = c(20, 30)))
@@ -442,7 +432,7 @@ output$co_occuring_table<-renderDataTable({
           need(length(z)>0, "No Missense and Nonsense mutation in selected cancers!")
         )
       }
-      }, height = 600, width = 750)
+      }, height = 800)
   
   output$table_variant <- renderDataTable({
     validate(
