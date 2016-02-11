@@ -73,13 +73,20 @@ shinyUI(fluidPage(
                  a given gene and the given tumors. The survival curves 
                  are estimated for the two groups of patients: 
                  the first one refers to the patients with a mutation of a given gene 
-                 and the second one is the group of patients without any mutation 
+                 and the second one refers to the group of patients without any mutation 
                  of this gene.<br/><br/>'), plotOutput("survcurves_yesno")),
         tabPanel('Co-occuring genes', 
                  HTML('<br/> Opis <br/><br/>'), 
                  dataTableOutput("co_occuring_table")),
         tabPanel("Survival curves: Variant Classification", 
-                 HTML('<br/> Opis <br/><br/>'), 
+                 HTML('<br/> Opis <br/><br/>
+<TABLE  WIDTH=100%>
+<TR> 
+     <TD> <p align="left"> Treść akapitu </p> </TD> 
+    
+     <TD> <p align="right"> Treść akapitu </p> </TD> 
+</TR> </TABLE>
+                      '), 
                  plotOutput("survcurves_variant")),
         tabPanel("Frequency of mutation types", 
                  HTML('<br/> Opis <br/><br/>'), 
