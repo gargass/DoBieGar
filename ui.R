@@ -40,7 +40,7 @@ shinyUI(fluidPage(
       tags$div(
         HTML('<br/><br/><br/>
              <font size="2"><b>Details:</b><br/>
-             For more information click '),
+             For more information click'),
         tags$a("here",target="_blank",href="doc.pdf"),
         HTML('.<br/><br/>
              <b>Authors:</b><br/>
@@ -61,8 +61,16 @@ shinyUI(fluidPage(
                         <li> hi </li> 
                      </ul>
                       ')),
-        tabPanel("Basic information about the gene mutation", textOutput('basic_description'),dataTableOutput("table_new")),
-        tabPanel("Survival curves: Presence of mutation", textOutput("curves_description"), plotOutput("survcurves_yesno")),
+        tabPanel("Summary of gene mutation", 
+                 HTML('<br/>'),
+                 textOutput('basic_description'),
+                 HTML('<br/>'),
+                 dataTableOutput("table_new")),
+        tabPanel("Survival curves: Presence of mutation", 
+                 HTML('<br/>'),
+                 textOutput("curves_description"), 
+                 HTML('<br/>'),
+                 plotOutput("survcurves_yesno")),
         tabPanel('Co-occuring genes', textOutput("co_occuring_description"),hr(), dataTableOutput("co_occuring_table")),
         tabPanel("Survival curves: Variant Classification", plotOutput("survcurves_variant")),
         tabPanel("Frequency of mutation types", dataTableOutput("table_variant"))
