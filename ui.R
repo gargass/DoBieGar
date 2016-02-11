@@ -80,12 +80,11 @@ shinyUI(fluidPage(
                  dataTableOutput("co_occuring_table")),
         tabPanel("Survival curves: Variant Classification", 
                  HTML('<br/> Opis <br/><br/>
-<TABLE  WIDTH=100%>
-<TR> 
-     <TD> <p align="left"> Treść akapitu </p> </TD> 
-    
-     <TD> <p align="right"> Treść akapitu </p> </TD> 
-</TR> </TABLE>
+                  <TABLE  WIDTH=100%>
+                  <TR> 
+                    <TD> <p align="center"> <font size="3"><b>Missense Mutation</b></font> </p> </TD> 
+                    <TD> <p align="center"> <font size="3"><b>Nonsense Mutation</b></font> </p> </TD> 
+                  </TR> </TABLE>
                       '), 
                  plotOutput("survcurves_variant")),
         tabPanel("Frequency of mutation types", 
