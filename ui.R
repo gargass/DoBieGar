@@ -52,7 +52,15 @@ shinyUI(fluidPage(
     
     mainPanel(
       tabsetPanel(
-        tabPanel("Instruction", textOutput('instruction')),
+        tabPanel("Instruction", 
+                 tags$h2("Instrukcja"),
+                 HTML(' Hello World <br/> <b>hahaha</b> <br/>
+                      <font size="5"> halo halo </font>
+                      <ul> 
+                        <li>czesc</li> 
+                        <li> hi </li> 
+                     </ul>
+                      ')),
         tabPanel("Basic information about the gene mutation", textOutput('basic_description'),dataTableOutput("table_new")),
         tabPanel("Survival curves: Presence of mutation", textOutput("curves_description"), plotOutput("survcurves_yesno")),
         tabPanel('Co-occuring genes', textOutput("co_occuring_description"),hr(), dataTableOutput("co_occuring_table")),

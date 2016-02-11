@@ -45,14 +45,6 @@ czestosci_variant <- read.table("czestosci_variant.txt", h=T)
 
 #Shiny
 shinyServer(function(input, output) {
-  
-
-#Instruction Panel
-  
-  output$instruction<- renderText({
-    'tralala'
-  })
-  
 
 #Basic information about gene mutation
 #Description
