@@ -90,7 +90,6 @@ shinyUI(fluidPage(
         tabPanel("Frequency of mutation types", 
                  HTML('<br/> Opis <br/><br/>'), 
                  dataTableOutput("table_variant"))
-
         )
       )
     )
