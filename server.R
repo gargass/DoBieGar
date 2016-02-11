@@ -57,8 +57,8 @@ shinyServer(function(input, output) {
     dane<- matrix(0, nrow=14, ncol=4)
     dane[, 1]<-nowotwory_all
     dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
-    dane[,3]<-t(licznosci[licznosci$gen==gen, nowotwory_all])
-    dane[,4]<-t(signif(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all], digits = 2))
+    dane[,3]<-as.numeric(as.character(t(licznosci[licznosci$gen==gen, nowotwory_all])))
+    dane[,4]<-as.numeric(as.character(t(signif(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all], digits = 2))))
     
     colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
     dane
@@ -285,26 +285,35 @@ output$co_occuring_table<-renderDataTable({
     nowotwor <- input$nowotwory
     gen <- input$geny
     
-    p <- matrix(1, nrow=10, ncol=1+length(nowotwor))
+    p <- matrix(1, nrow=12, ncol=1+length(nowotwor))
+    print(ncol(p))
     k <- 2
+    print(length(paste(round(100*czestosci[czestosci$gen==gen,nowotwor],3), "%", sep="")))
+    print(paste(round(100*czestosci[czestosci$gen==gen,nowotwor],3), "%", sep=""))
+    print(length(licznosci[licznosci$gen==gen, nowotwor]))
+    print(licznosci[licznosci$gen==gen, nowotwor])
+    print(dim(paste(round(100*czestosci[czestosci$gen==gen,nowotwor],3), "%", sep="")))
+    print(dim(licznosci[licznosci$gen==gen, nowotwor]))
+    p[1,2:ncol(p)] <- paste(round(100*czestosci[czestosci$gen==gen,nowotwor],3), "%", sep="")
+    p[2,2:ncol(p)]<-licznosci[licznosci$gen==gen, nowotwor]
     
-    if(gen %in% colnames(czestosci_variant)){
-      for (nowotworr in nowotwor){
-        dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
-        p[, k] <- dane[,2]
-        
-        k <- k + 1
-        }
-    }
-    else{
-      for (nowotworr in nowotwor){
-        p[, k] <- rep(0, 10)
-        
-        k <- k + 1
-      }
-    }
+#     if(gen %in% colnames(czestosci_variant)){
+#       for (nowotworr in nowotwor){
+#         dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
+#         p[3:12, k] <- dane[,2]
+#         
+#         k <- k + 1
+#         }
+#     }
+#     else{
+#       for (nowotworr in nowotwor){
+#         p[3:12, k] <- rep(0, 10)
+#         
+#         k <- k + 1
+#       }
+#     }
     
-    p[,1] <- c('Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
+    p[,1] <- c('cos', 'soc', 'Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
                'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
     colnames(p) <- c("Variant", nowotwor)
     p
