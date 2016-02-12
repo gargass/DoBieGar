@@ -71,7 +71,7 @@ shinyServer(function(input, output) {
     
     colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
     dane
-  }, options = list(dom = 't', lengthMenu = c(20, 30)))
+  }, options = list(columnDefs= list(list(className = 'dt-right', targets = '_all')), dom = 't', lengthMenu = c(20, 30)))
 
 
 #Survival Curves - Presence of mutation
@@ -166,12 +166,12 @@ output$co_occuring_table<-renderDataTable({
   col<-NULL
   for (i in 1:length(nowotwory))
   {
-  col <- append(col,paste(nowotwory[i], '- Frequency'))
+  col <- append(col,nowotwory[i])
   #col <- append(col,paste(nowotwory[i], 'Number of patiens'))
   }
   colnames(tabela)<-col
   tabela
-}, filter='bottom')
+}, filter='bottom', caption = 'Frequency of mutations')
 
 
 
@@ -343,7 +343,7 @@ output$co_occuring_table<-renderDataTable({
 
     colnames(p) <- c(nowotwor)
     p
-  },  options = list( columnDefs = list(list( targets = "_all", orderable= FALSE)), dom='t', paging=FALSE))
+  },  options = list( columnDefs = list(list( targets = "_all", orderable= FALSE)), dom='t', paging=FALSE), caption = 'Frequency of mutation types')
 
 
 
