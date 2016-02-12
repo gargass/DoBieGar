@@ -293,7 +293,7 @@ output$co_occuring_table<-renderDataTable({
     nowotwor <- input$nowotwory
     gen <- input$geny
     
-    p <- matrix(1, nrow=12, ncol=1+length(nowotwor))
+    p <- matrix(1, nrow=12, ncol=(1+length(nowotwor)))
     k <- 2
     
     if(gen %in% colnames(czestosci_variant)){
@@ -332,8 +332,9 @@ output$co_occuring_table<-renderDataTable({
     p[,1] <- c('Mutation frequency', 'Number of patients with mutation','Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
                'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
     colnames(p) <- c("Variant", nowotwor)
+    print(p)
     p
-  },  options = list( columnDefs = list(list( targets = 1:length(input$nowotwory))), dom='t'))
+  },  options = list( columnDefs = list(list( targets = 1:length(input$nowotwory))), dom='t', paging=FALSE))
 
 
   })
