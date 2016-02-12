@@ -283,20 +283,20 @@ output$co_occuring_table<-renderDataTable({
     nowotwor <- input$nowotwory
     gen <- input$geny
     
-    p <- matrix(1, nrow=10, ncol=1+length(nowotwor))
+    p <- matrix(1, nrow=12, ncol=1+length(nowotwor))
     k <- 2
     
     if(gen %in% colnames(czestosci_variant)){
       for (nowotworr in nowotwor){
         dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
-        p[, k] <- dane[,2]
+        p[3:12, k] <- dane[,2]
         
         k <- k + 1
         }
     }
     else{
       for (nowotworr in nowotwor){
-        p[, k] <- rep(0, 10)
+        p[3:12, k] <- rep(0, 10)
         
         k <- k + 1
       }
@@ -305,12 +305,15 @@ output$co_occuring_table<-renderDataTable({
     for (k in 2:(length(nowotwor)+1))
     {
    
-      p[,k]= paste(round((100*as.numeric(p[,k]))/sum(as.numeric(p[,k])),2), "%", sep="")
+      p[3:12,k]= paste(round((100*as.numeric(p[3:12,k]))/sum(as.numeric(p[3:12,k])),2), "%", sep="")
       
     }
     #dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
     
-    p[,1] <- c('Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
+    p[1,2:(length(nowotwor)+1)] <- paste(round(100*czestosci[czestosci$gen==gen,nowotwor],3), "%", sep="")
+    p[2,2:(length(nowotwor)+1)]<-t(licznosci[licznosci$gen==gen, nowotwor])
+    
+    p[,1] <- c('Mutation frequency', 'Number of patients with mutation','Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
                'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
     colnames(p) <- c("Variant", nowotwor)
     p
