@@ -6,8 +6,6 @@ library(grid)
 library(gridExtra)
 library(reshape2)
 library(ggplot2)
-#install.packages('ztable')
-#install.packages('pheatmap')
 library(pheatmap)
 library(DT)
 
@@ -47,17 +45,6 @@ czestosci_variant <- read.table("czestosci_variant.txt", h=T)
 shinyServer(function(input, output) {
 
 #Basic information about gene mutation
-#Description
-
-#   output$basic_description<- renderText({
-# 
-#     '\n \n For the selected gene
-#      the following table contains information about the frequency and number 
-#      of patients with mutation of this gene
-#      among patients suffering on the different types of cancers.
-#      It also includes information about the importance of mutations on
-#      patients survival measured by p-value of the log-rank test. \n \n'
-#   })
 
 #Table
   output$table_new <- renderDataTable({
@@ -70,22 +57,13 @@ shinyServer(function(input, output) {
     dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
     dane[,3]<-t(licznosci[licznosci$gen==gen, nowotwory_all])
     dane[,4]<-t(signif(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all], digits = 2))
+    
     colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
     dane
   }, options = list(dom = 't', lengthMenu = c(20, 30)))
 
 
 #Survival Curves - Presence of mutation
-#Description
-
-#   output$curves_description <- renderText({
-#     'In the figures below we can see Kaplan-Meier curves for 
-#      a given gene and the given tumors. The survival curves 
-#      are estimated for the two groups of patients: 
-#      the first one refers to the patients with a mutation of a given gene 
-#      and the second one is the group of patients without any mutation 
-#      of this gene.'
-#   })
   
 #Curves
 output$survcurves_yesno <- renderPlot({
@@ -145,12 +123,6 @@ output$survcurves_yesno <- renderPlot({
 
 
 #Co-occuring genes
-#Description
-
-#   output$co_occuring_description <- renderText({
-#     'trzeba dodac inny opis'
-#     })
-
 
 #Table
 
@@ -184,151 +156,8 @@ output$co_occuring_table<-renderDataTable({
 
 
 
-
-#   output$survcurves_yesno <- renderPlot({
-#     validate(
-#       need(input$nowotwory != "", "Please select a cancer!")
-#     )
-#     nowotwory <- input$nowotwory
-#     gen <- input$geny
-#       
-#       max_time <- 0
-#       for(nowotwor in nowotwory){
-#         zbior <- get(paste('zbior.', nowotwor, sep=""))
-#         time <- as.numeric(as.character(zbior$time))
-#         time <- max(time, na.rm = TRUE)
-#         max_time <- ifelse(time>max_time, time, max_time)
-#       }    
-#       
-#       n <- length(nowotwory)
-#      
-#       p <- lapply(nowotwory, function(nowotwor){
-#         pvalue = p_value_tabela[p_value_tabela$gen == gen, nowotwor]
-#         pvalue <- signif(pvalue, 3)
-#         
-#         nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
-#                                     data=get(paste('zbior.', nowotwor, sep="")))
-#         
-#         if (sum(get(paste('zbior.', nowotwor, sep=""))[,gen])==0){
-#           mutation <- "No Mutation"
-#         }
-#         else{
-#           mutation <- c("No Mutation", "Mutation")
-#         }
-#       
-#         survMisc::autoplot(nowotwor_gen.fit, legLabs = mutation,
-#                            legTitle=paste('P-value: ', pvalue),
-#                            title=nowotwor)$plot + 
-#           ylim(c(0,1)) + 
-#           xlim(c(0, max_time)) + 
-#           xlab("Time in days") + 
-#           ylab("Survival") +
-#           theme(legend.position = c(0.85, 0.9)) + 
-#           theme(legend.title = element_text(colour=ifelse(pvalue<0.05,"red", "black"), face="bold"))
-#       })
-# 
-#       if(n <= 4){
-#         ncol <- 2
-#         nrow <- 2
-#       }
-#       else{
-#         ncol <- ceiling(sqrt(n))
-#         nrow <- ceiling(n/ceiling(sqrt(n)))
-#       }
-#       
-#       marrangeGrob(p, ncol = ncol, nrow = nrow)
-#       
-#       }, height = 800)
-#   
-  output$geny <- renderTable({
-    validate(
-      need(input$nowotwory != "", "Please select a cancer!")
-    )
-    nowotwory <- input$nowotwory
-   
-      p <- matrix(1, nrow=297, ncol=1)
-      for (nowotwor in nowotwory)
-      {
-        p2 <- p_value_tabela[order(p_value_tabela[,nowotwor]), ][, c("gen", nowotwor)]
-        colnames(p2) <- c(paste(nowotwor,".Marker", sep=""), paste(nowotwor,".P-value", sep=""))
-        p2[,2] <- signif(p2[,2], digits=5)
-        p <- cbind(p, p2)
-      }
-      p <- p[, -c(1)]
-      rownames(p) <- NULL
-      print(p)
-      
-    }, digits = 5)
-  
-#   output$geny_wspolne<-renderDataTable({
-#     validate(
-#       need(input$nowotwory != "", "Please select a cancer!")
-#     )
-#     gen <- input$geny
-#     nowotwory <- input$nowotwory
-#     
-#     tabela <- NULL
-#     for(nowotwor in nowotwory){
-# 
-#       gen_x_gen <- read.table(paste('Zbiory/wspolne_', nowotwor, '.txt', sep=""))
-#       geny <- rownames(gen_x_gen)[-which(rownames(gen_x_gen) == gen)]
-#       tabela <- cbind(tabela, signif(gen_x_gen[geny, gen], 4))
-#     }
-#     
-#     
-#     rownames(tabela) <- geny
-#     colnames(tabela) <- nowotwory
-#     tabela
-# #     
-# #     p <- NULL
-# #     for (nowotwor in nowotwory){
-# #       dane <- get(paste('zbior.', nowotwor, sep=""))
-# #       z <- numeric((ncol(dane)-2))
-# #       for (i in 3:(ncol(dane)-2)){
-# #         z[i] <- sum(dane[which(dane[, gen]==1), i])
-# #       }
-# #       a <- sum(dane[which(dane[, gen]==1), gen])
-# #       x <- z[order(z)][(length(z)-1):(length(z)-3)]
-# #       x2 <- c(which(z==x[1]), which(z==x[2]),which(z==x[3]))
-# #       
-# #       x3 <- as.matrix(colnames(dane)[c(x2)])
-# #       x4 <- as.matrix(round(z [ c(x2)]/a, 2))
-# #       colnames(x3) <- c(paste("Marker ", nowotwor))
-# #       colnames(x4) <- c(paste("Correlation ", nowotwor))
-# #       p <- cbind(p, x3, x4)
-# #     }
-# #     rownames(p) <- NULL
-# #     p
-#   })
-  
-  output$heatmap_pvalue <- renderPlot({
-    gen <- input$geny
-    melted_dane <- melt(p_value_tabela[which(p_value_tabela$gen==gen), ])
-    base_size <- 12
-    
-    ggplot(data = melted_dane, aes(x=gen, y=variable, fill=value)) + 
-      geom_tile() + theme_grey(base_size = base_size) + labs(x = "",y = "") + 
-      scale_x_discrete(expand = c(0, 0)) + 
-      scale_y_discrete(expand = c(0, 0)) + theme(axis.ticks = element_blank(), 
-                                                 axis.text.x = element_text(size = base_size * 0.8, angle = 330, hjust = 0, colour = "grey50"))+
-      geom_tile(aes(fill = value), colour = "white")
-    
-  })
-  
-  output$heatmap_czestosc <- renderPlot({
-    melted_dane <- melt(czestosci[which(czestosci$gen %in% geny[1:length(geny)]), ])
-    
-    base_size <- 12
-    
-    ggplot(data = melted_dane, aes(x=variable, y=gen, fill=value)) + 
-      geom_tile() + theme_grey(base_size = base_size) + labs(x = "",y = "") + 
-      scale_x_discrete(expand = c(0, 0)) + 
-      scale_y_discrete(expand = c(0, 0)) + theme(axis.ticks = element_blank(), 
-                                                 axis.text.x = element_text(size = base_size * 0.8, angle = 330, hjust = 0, colour = "grey50"))+
-      geom_tile(aes(fill = value), colour = "white") + 
-      scale_fill_gradient(low = "white", high = "steelblue")
-    
-  })
+#Variant Classification
+#Curves
   
   output$survcurves_variant <- renderPlot({
     validate(
@@ -373,7 +202,8 @@ output$co_occuring_table<-renderDataTable({
           survMisc::autoplot(nowotwor_gen.fit.missense,
                            legLabs = variant,
                            legTitle=paste('P-value: ', pvalue),
-                           title=paste(nowotwor, "\n  Missense Mutation", sep=""), censSize=2)$plot + 
+                           #title=paste(nowotwor, "\n  Missense Mutation", sep=""), censSize=2)$plot +
+                           title=nowotwor, censSize=2)$plot + 
             ylim(c(0,1)) + 
             xlim(c(0, max_time)) + 
             xlab("Time in days") + 
@@ -403,7 +233,8 @@ output$co_occuring_table<-renderDataTable({
           survMisc::autoplot(nowotwor_gen.fit.nonsense,
                            legLabs = variant,
                            legTitle=paste('P-value: ', pvalue),
-                           title=paste(nowotwor, "\n  Nonsense Mutation", sep=""), censSize=2)$plot + 
+                           #title=paste(nowotwor, "\n  Nonsense Mutation", sep=""), censSize=2)$plot + 
+                           title=nowotwor, censSize=2)$plot + 
             ylim(c(0,1)) + 
             xlim(c(0, max_time)) + 
             xlab("Time in days") + 
@@ -440,8 +271,11 @@ output$co_occuring_table<-renderDataTable({
           need(length(z)>0, "No Missense and Nonsense mutation in selected cancers!")
         )
       }
-      }, height = 600, width = 750)
+      }, height = 800)
   
+
+#Variant Classification
+#Table
   output$table_variant <- renderDataTable({
     validate(
       need(input$nowotwory != "", "Please select a cancer!")
@@ -449,30 +283,47 @@ output$co_occuring_table<-renderDataTable({
     nowotwor <- input$nowotwory
     gen <- input$geny
     
-    p <- matrix(1, nrow=10, ncol=1+length(nowotwor))
+    p <- matrix(1, nrow=12, ncol=1+length(nowotwor))
     k <- 2
     
     if(gen %in% colnames(czestosci_variant)){
       for (nowotworr in nowotwor){
         dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
-        p[, k] <- dane[,2]
+        p[3:12, k] <- dane[,2]
         
         k <- k + 1
         }
     }
     else{
       for (nowotworr in nowotwor){
-        p[, k] <- rep(0, 10)
+        p[3:12, k] <- rep(0, 10)
         
         k <- k + 1
       }
     }
     
-    p[,1] <- c('Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
+    for (k in 2:(length(nowotwor)+1))
+    {
+      if (sum(as.numeric(p[3:12,k]))!=0)
+      {
+   
+      p[3:12,k]= paste(round((100*as.numeric(p[3:12,k]))/sum(as.numeric(p[3:12,k])),4), "%", sep="")
+      }
+      else
+      {
+        p[3:12,k]= rep(paste(0, "%", sep=""), 10)
+      }
+    }
+    #dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
+    
+    p[1,2:(length(nowotwor)+1)] <- paste(round(100*czestosci[czestosci$gen==gen,nowotwor],3), "%", sep="")
+    p[2,2:(length(nowotwor)+1)]<-t(licznosci[licznosci$gen==gen, nowotwor])
+    
+    p[,1] <- c('Mutation frequency', 'Number of patients with mutation','Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
                'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
     colnames(p) <- c("Variant", nowotwor)
-    print(p)
-  },  options = list(autoWidth = TRUE, columnDefs = list(list(width = '70px', targets = 1:length(input$nowotwory))), dom = 't'))
+    p
+  },  options = list( columnDefs = list(list( targets = 1:length(input$nowotwory))), dom = 't'))
 
 
   })
