@@ -149,7 +149,13 @@ cierpiacyhc na SYES wypływa negatywnie.
         
         
         tabPanel("Survival curves: Variant Classification", 
-                 HTML('<br/> Opis <br/><br/>
+                 HTML('<br/> In the figures below we can see Kaplan-Meier curves for 
+                 a given gene and the given tumors for two main types of mutation. The survival curves 
+                 are estimated for the two groups of patients: 
+                      the first one refers to the patients with a specific type of mutation: Missense Mutation
+                      or Nonsense Mutation
+                      and the second one refers to the patients with other type of mutation 
+                      of this gene. <br/><br/>
                   <TABLE  WIDTH=100%>
                   <TR> 
                     <TD> <p align="center"> <font size="3"><b>Missense Mutation</b></font> </p> </TD> 
