@@ -127,11 +127,11 @@ cierpiacyhc na SYES wypływa negatywnie.
         
         
         tabPanel("Summary of gene mutation", 
-                 HTML('<br/> For the selected gene
-                 the following table contains information about the frequency and number 
-                 of patients with mutation of this gene among patients suffering on the different types of cancers.
-                 It also includes information about the importance of mutations on
-                 patients survival measured by p-value of the log-rank test.<br/><br/>'),
+                 HTML('<br/> 
+                 The following table contains information about the frequency and number 
+                 of patients with the mutation of the selected gene among patients suffering from different types of cancers.
+                 It also includes information about the significance of mutations to the
+                 patients survival measured by the p-value of the log-rank test.<br/><br/>'),
                  dataTableOutput("table_new")),
         tabPanel("Survival curves: Presence of mutation", 
                  HTML('<br/>In the figures below we can see Kaplan-Meier curves for 
