@@ -128,6 +128,9 @@ output$survcurves_yesno <- renderPlot({
 
 #Co-occuring genes
 
+
+
+
 #Table
 
 output$co_occuring_table<-renderDataTable({
@@ -137,15 +140,19 @@ output$co_occuring_table<-renderDataTable({
   gen <- input$geny
   nowotwory <- input$nowotwory
   
-  tabela <- NULL
+  tabela<-data.frame(matrix(0, nrow<-534, ncol<-(2*length(nowotwory))))
+  i=1
   for(nowotwor in nowotwory){
     
     gen_x_gen <- get(paste('geny_wspolne_', nowotwor, sep=""))
     geny <- rownames(gen_x_gen)[-which(rownames(gen_x_gen) == gen)]
-    freq <- as.numeric(round(as.numeric(gen_x_gen[geny, gen]),2))
-    tabela <- cbind(tabela, percent(freq))
+    freq <- round(as.numeric(gen_x_gen[geny, gen]),2)
+    tabela[, i]<-percent(freq)
+    i=i+1
+    #tabela <- cbind(tabela, percent(freq))
     gen_y_gen<-get(paste('geny_wspolne_licznosci_', nowotwor, sep=""))
-    tabela<-cbind(tabela, gen_y_gen[geny, gen])
+    tabela[, i]<-gen_y_gen[geny, gen]
+    #tabela<-cbind(tabela, gen_y_gen[geny, gen])
  
   }
 
