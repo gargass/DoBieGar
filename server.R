@@ -61,7 +61,13 @@ shinyServer(function(input, output) {
     #dane$freq <- percent(freq)
     dane$freq<-freq
     dane$n <- as.numeric(licznosci[licznosci$gen==gen, nowotwory_all])
-    dane$pvalue <- signif(as.numeric(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all]), digits = 2)
+    pv<-as.numeric(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all])
+    for (i in 1:length(nowotwory))
+    {
+      pv[i]<-signif(pv[i], 3)
+    }
+    dane$pvalue <- pv
+
     
     colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
     dane
@@ -292,15 +298,10 @@ output$co_occuring_table<-renderDataTable({
     )
     nowotwor <- input$nowotwory
     gen <- input$geny
-    
-<<<<<<< HEAD
-    p <- matrix(1, nrow=12, ncol=(1+length(nowotwor)))
-    k <- 2
-=======
+
     p <- matrix(1, nrow=12, ncol=length(nowotwor))
     k <- 1
->>>>>>> 40c645284f0ed396778df9414eb24cb1dec95e5d
-    
+
     if(gen %in% colnames(czestosci_variant)){
       for (nowotworr in nowotwor){
         dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
@@ -336,16 +337,11 @@ output$co_occuring_table<-renderDataTable({
     
     rownames(p) <- c('Number of patients with mutation', 'Mutation frequency','Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
                'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
-<<<<<<< HEAD
-    colnames(p) <- c("Variant", nowotwor)
-   
-    p
-  },  options = list( columnDefs = list(list( targets = 1:length(input$nowotwory))), dom='t'))
-=======
+
     colnames(p) <- c(nowotwor)
     p
   },  options = list( columnDefs = list(list( targets = 1:length(input$nowotwory), orderable= FALSE)), dom='t', paging=FALSE))
->>>>>>> 40c645284f0ed396778df9414eb24cb1dec95e5d
+
 
 
   })
