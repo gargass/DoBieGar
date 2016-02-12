@@ -8,7 +8,7 @@ library(reshape2)
 library(ggplot2)
 library(pheatmap)
 library(DT)
-
+library(scales)
 
 #Loading datasets
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
@@ -53,12 +53,12 @@ shinyServer(function(input, output) {
     nowotwory_all <- c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                        "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
     
-    freq <- as.numeric(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3))
+    freq <- round(as.numeric(czestosci[czestosci$gen==gen,nowotwory_all]),3)
 
     dane<- data.frame(matrix(0, nrow=14, ncol=4))
     colnames(dane) <- c("cancer", "freq", "n", "pvalue")
     dane$cancer <-nowotwory_all
-    dane$freq <- freq
+    dane$freq <- percent(freq)
     dane$n <- as.numeric(licznosci[licznosci$gen==gen, nowotwory_all])
     dane$pvalue <- signif(as.numeric(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all]), digits = 2)
     
@@ -142,9 +142,11 @@ output$co_occuring_table<-renderDataTable({
     
     gen_x_gen <- get(paste('geny_wspolne_', nowotwor, sep=""))
     geny <- rownames(gen_x_gen)[-which(rownames(gen_x_gen) == gen)]
-    tabela <- cbind(tabela, paste(signif(round(100*gen_x_gen[geny, gen],2), 2), "%", sep=""))
+    freq <- as.numeric(round(as.numeric(gen_x_gen[geny, gen]),2))
+    tabela <- cbind(tabela, percent(freq))
     gen_y_gen<-get(paste('geny_wspolne_licznosci_', nowotwor, sep=""))
     tabela<-cbind(tabela, gen_y_gen[geny, gen])
+ 
   }
 
   rownames(tabela) <- geny
