@@ -224,7 +224,7 @@ output$co_occuring_table<-renderDataTable({
         })
       
       p.nonsense <- lapply(nowotwory, function(nowotwor){
-        pvalue <- "Brak"
+        pvalue <- "NULL"
 
         dane <- nowotwory_variant_all[nowotwory_variant_all$nowotwor == nowotwor,]
 
@@ -278,7 +278,7 @@ output$co_occuring_table<-renderDataTable({
       }
       else{
         validate(
-          need(length(z)>0, "No Missense and Nonsense mutation in selected cancers!")
+          need(length(z)>0, "too few observations in the selected group!")
         )
       }
       }, height = 800)
