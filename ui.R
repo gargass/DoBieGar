@@ -134,10 +134,10 @@ cierpiacyhc na SYES wypływa negatywnie.
                  patients survival measured by the p-value of the log-rank test.<br/><br/>'),
                  dataTableOutput("table_new")),
         tabPanel("Survival curves: Presence of mutation", 
-                 HTML('<br/>In the figures below we can see Kaplan-Meier curves for 
+                 HTML('<br/>The figures below ilustrate Kaplan-Meier curves for 
                  a given gene and the given tumors. The survival curves 
                  are estimated for the two groups of patients: 
-                 the first one refers to the patients with a mutation of a given gene 
+                 the first one refers to the patients with a mutation of the given gene 
                  and the second one refers to the group of patients without any mutation 
                  of this gene.<br/><br/>'), plotOutput("survcurves_yesno")),
         tabPanel('Co-occuring genes', 
