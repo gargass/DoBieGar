@@ -53,7 +53,39 @@ shinyUI(fluidPage(
     mainPanel(
       tabsetPanel(
         tabPanel("Instruction", 
-                 tags$h2("Instrukcja"),
+                 tags$h2("Welcome to our application!"),
+                 HTML('It was created during the course of the subject 
+                      Research Workshop at the Faculty of Mathematics and 
+                      Information Science at Warsaw University of Technology. 
+                      Its purpose is to show the effect of the mutation of 
+                      different genes on survival of patients with various 
+                      types of cancer. All analyzes are based on data from T
+                      he Cancer Genome Atlas. Mutations are rare events, so it 
+                      is worth keep in mind when you watch the results.<br/><br/>
+                      <font size="4">How to start?</font><br/>
+                      At the beginning choose the gene that interests you. 
+                      In the bookmark "Summary of gene mutation" you find 
+                      information about the frequency and the number of 
+                      patients who have had a mutation in the selected gene 
+                      among patients with 14 types of cancer, which we consider 
+                      in our application. Here you can also see whether a mutation 
+                      in selected gene significantly affects the survival time 
+                      of patients. This significance is measured by p-value of 
+                      the log-rank test comparing survival among patients who 
+                      have had the mutation and those who did not have the 
+                      mutation.<br/><br/>
+                      In the bookmark "Survival Curves - Presence of the mutation" 
+                      you also have to choose cancer for which you want to see 
+                      an estimate of the probability of survival using the 
+                      Kaplan Meier method. You can choose up to 4 cancer. 
+                      K-M curves are estimated in two groups of patients with 
+                      a particular type of cancer - in which has occurred and 
+                      there was no mutation of the gene. It is worth noting that 
+                      the presence of the mutation may have significant positive 
+                      or negative effects on the survival time of patients: 
+                      e.g., for the presence of the TP53 gene, the mutation 
+                      in this gene has a positive effect on cancer GBMLGG 
+                      and negatively on cancer STES.<br/><br/>'),
                  HTML(' Hello World <br/> <b>hahaha</b> <br/>
                       <font size="5"> halo halo </font>
                       <ul> 
