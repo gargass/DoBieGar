@@ -317,7 +317,7 @@ output$co_occuring_table<-renderDataTable({
       if (sum(as.numeric(p[3:12,k]))!=0)
       {
    
-      p[3:12,k]= paste(round((100*as.numeric(p[3:12,k]))/sum(as.numeric(p[3:12,k])),4), "%", sep="")
+      p[3:12,k]= paste(round((100*as.numeric(p[3:12,k]))/sum(as.numeric(p[3:12,k])),2), "%", sep="")
       }
       else
       {
@@ -332,9 +332,9 @@ output$co_occuring_table<-renderDataTable({
     p[,1] <- c('Mutation frequency', 'Number of patients with mutation','Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
                'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
     colnames(p) <- c("Variant", nowotwor)
-    print(p)
+   
     p
-  },  options = list( columnDefs = list(list( targets = 1:length(input$nowotwory))), dom='t', paging=FALSE))
+  },  options = list( columnDefs = list(list( targets = 1:length(input$nowotwory))), dom='t'))
 
 
   })
