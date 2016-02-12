@@ -88,7 +88,10 @@ shinyUI(fluidPage(
                       '), 
                  plotOutput("survcurves_variant")),
         tabPanel("Frequency of mutation types", 
-                 HTML('<br/> Opis <br/><br/>'), 
+                 HTML('<br/> For the selected gene and selected cancers the table below contains information
+                      about occurance frequency of different types of mutations. In addition, we show again 
+                      the level of occurance of mutations in a given gene.
+                      <br/><br/>'), 
                  dataTableOutput("table_variant"))
         )
       )

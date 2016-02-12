@@ -304,9 +304,15 @@ output$co_occuring_table<-renderDataTable({
     
     for (k in 2:(length(nowotwor)+1))
     {
+      if (sum(as.numeric(p[3:12,k]))!=0)
+      {
    
-      p[3:12,k]= paste(round((100*as.numeric(p[3:12,k]))/sum(as.numeric(p[3:12,k])),2), "%", sep="")
-      
+      p[3:12,k]= paste(round((100*as.numeric(p[3:12,k]))/sum(as.numeric(p[3:12,k])),4), "%", sep="")
+      }
+      else
+      {
+        p[3:12,k]= rep(paste(0, "%", sep=""), 10)
+      }
     }
     #dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
     
