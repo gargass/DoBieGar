@@ -12,7 +12,7 @@ for(nowotwor in nowotwory){
 }
 
 
-czestosci = matrix(nrow = 10*14, ncol=297+2)
+czestosci = matrix(nrow = length(varianty)*length(nowotwory), ncol=length(geny)+2)
 
 for (i in 1:length(nowotwory)){
   dane <- get(paste(nowotwory[i], '_variant', sep=""))
