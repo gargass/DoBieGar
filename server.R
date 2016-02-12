@@ -162,7 +162,7 @@ output$co_occuring_table<-renderDataTable({
   }
   colnames(tabela)<-col
   tabela
-})
+}, filter='bottom')
 
 
 
