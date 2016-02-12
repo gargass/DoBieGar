@@ -278,7 +278,7 @@ output$co_occuring_table<-renderDataTable({
       }
       else{
         validate(
-          need(length(z)>0, "too few observations in the selected group!")
+          need(length(z)>0, "Too few observations in the selected group!")
         )
       }
       }, height = 800)
