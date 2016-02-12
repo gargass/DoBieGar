@@ -129,7 +129,7 @@ cierpiacyhc na SYES wypływa negatywnie.
         tabPanel("Summary of gene mutation", 
                  HTML('<br/> 
                  The following table contains information about the frequency and number 
-                 of patients with the mutation of the selected gene among patients suffering from the different types of cancers.
+                 of patients with the mutation of the selected gene among patients suffering from different types of cancers.
                  It also includes information about the significance of mutations to the
                  patients survival measured by the p-value of the log-rank test.<br/><br/>'),
                  dataTableOutput("table_new")),
