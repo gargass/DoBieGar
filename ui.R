@@ -60,7 +60,40 @@ shinyUI(fluidPage(
                         <li>czesc</li> 
                         <li> hi </li> 
                      </ul>
-                      ')),
+                      '),
+                HTML('Na razie po polsku<br/>
+                     Witamy w naszej aplikacji! Powstała ona podczas zajęc z przedmiot Wasztaty Badawcze
+                     prowadzonych na Wydziale Matematyki i Nauk Informacyjnych Politechniki Warszawskiej.
+                     Jej celem jest pokazanie wpływu mutacji różnych genów na czas przeżycia pacjentów 
+                     cierpiących na różne typy nowotworów. Wszystkie analizy oparte są na danych pochodzących 
+                     z Genome Atlas tralala. Mutacje są rzadko występującymi zdarzeniami, więc warto podczas 
+                     oglądania rezultatów mieć to na uwadze.
+
+                    <br/>
+
+                    Jak rozpocząć?
+                    <br/>
+                    Na początku wybierz interesujący Cię gen.
+                    W zakładce Summary of gene mutation znajdziesz informację o częstości 
+                    i liczbie pacjentów u których wystąpiła mutacja na wybranym
+                    genie wśród pacjentów cierpiących na 14 typów nowotworów, które rozważamy w naszej aplikacji.
+                    Również możecie tu zobaczyć, czy mutacja na wybranych genie istotnie wpływa na czas przeżycia 
+pacjentów. Istotność ta mierzona jest p-wartością testu log-rank porównującego czas przeżycia wśród pacjentów u których
+wystąpiła mutacja i tych, którzy danej mutacji nie mieli.
+                    <br/>
+
+W zakładce Survival Curves - Presence of mutation należy oprócz genu wybrać również nowotwory, dla których chcemy
+zobaczyc oszacowanie prawdopodobieństwa przeżycia za pomocą krzywej Kaplana Meiera. Możesz wybrac maksymalnie 4 nowotwory.
+Krzywe K-M są szacowane w dwóch grupach pacjentów cierpiącyh na dany typ nowotworu - u których wystapiła i niewystąpiła 
+mutacja danego genu. Warto zwrócić uwagę, że obecność mutacji może mieć isttny pozytywny i negatywny wplyw na czas przezycia 
+pacjentow:
+np dla genu TP53 obncność ,mutacji na tym genie wpływa pozytywnie na chorych na raka GBMLGG, podczas gdy na pacjeentow 
+cierpiacyhc na SYES wypływa negatywnie.
+
+                     ')),
+        
+        
+        
         tabPanel("Summary of gene mutation", 
                  HTML('<br/> For the selected gene
                  the following table contains information about the frequency and number 
@@ -90,7 +123,7 @@ shinyUI(fluidPage(
         tabPanel("Frequency of mutation types", 
                  HTML('<br/> For the selected gene and selected cancers the table below contains information
                       about occurance frequency of different types of mutations. In addition, we show again 
-                      the level of occurance of mutations in a given gene.
+                      the level of occurence of mutations in a given gene. Wrzucic wykresy .
                       <br/><br/>'), 
                  dataTableOutput("table_variant"))
         )
