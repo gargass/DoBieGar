@@ -52,11 +52,12 @@ shinyServer(function(input, output) {
     
     nowotwory_all <- c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                        "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
-    dane<- matrix(0, nrow=14, ncol=4)
-    dane[, 1]<-nowotwory_all
-    dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
-    dane[,3]<-t(licznosci[licznosci$gen==gen, nowotwory_all])
-    dane[,4]<-t(signif(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all], digits = 2))
+    dane<- data.frame(matrix(0, nrow=14, ncol=4))
+    colnames(dane) <- c("cancer", "freq", "n", "pvalue")
+    dane$cancer <-nowotwory_all
+    dane$freq <- paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep="")
+    dane$n <- as.numeric(licznosci[licznosci$gen==gen, nowotwory_all])
+    dane$pvalue <- signif(as.numeric(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all]), digits = 2)
     
     colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
     dane
