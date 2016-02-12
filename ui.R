@@ -144,7 +144,7 @@ cierpiacyhc na SYES wypływa negatywnie.
                  HTML('<br/> The table below presents information about co-occurence mutations. For selected gene
                       and selected cancers we can see list of all consider genes and information
                       about occurence of mutations of these genes among patients
-                      with mutations of selected gene in selected cancers types.<br/><br/>'), 
+                      with mutations of selected gene in selected cancers types (number of patients in parentheses).<br/><br/>'), 
                  dataTableOutput("co_occuring_table")),
         
         

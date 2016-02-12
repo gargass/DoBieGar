@@ -153,9 +153,12 @@ output$co_occuring_table<-renderDataTable({
     gen_x_gen <- get(paste('geny_wspolne_', nowotwor, sep=""))
     geny <- rownames(gen_x_gen)[-which(rownames(gen_x_gen) == gen)]
     freq <- round(as.numeric(gen_x_gen[geny, gen]),2)
-    tabela <- cbind(tabela, freq)
+    #tabela <- cbind(tabela, freq)
     gen_y_gen<-get(paste('geny_wspolne_licznosci_', nowotwor, sep=""))
-  tabela<-cbind(tabela, gen_y_gen[geny, gen])
+    #tabela<-cbind(tabela, gen_y_gen[geny, gen])
+    n <- gen_y_gen[geny, gen]
+    freq_n <- paste(freq, ' (', n, ')', sep="")
+    tabela <- cbind(tabela, freq_n)
  
   }
 
@@ -163,8 +166,8 @@ output$co_occuring_table<-renderDataTable({
   col<-NULL
   for (i in 1:length(nowotwory))
   {
-  col <- append(col,paste(nowotwory[i], 'Frequency'))
-  col <- append(col,paste(nowotwory[i], 'Number of patiens'))
+  col <- append(col,paste(nowotwory[i], '- Frequency'))
+  #col <- append(col,paste(nowotwory[i], 'Number of patiens'))
   }
   colnames(tabela)<-col
   tabela
