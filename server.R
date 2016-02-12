@@ -333,7 +333,7 @@ output$co_occuring_table<-renderDataTable({
                'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
     colnames(p) <- c("Variant", nowotwor)
     p
-  },  options = list( columnDefs = list(list( targets = 1:length(input$nowotwory))), dom='t'))
+  },  options = list( columnDefs = list(list( targets = 1:length(input$nowotwory))), dom='t', paging=FALSE))
 
 
   })
