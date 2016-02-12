@@ -340,7 +340,7 @@ output$co_occuring_table<-renderDataTable({
 
     colnames(p) <- c(nowotwor)
     p
-  },  options = list( columnDefs = list(list( targets = c(1:length(input$nowotwory)), orderable= FALSE)), dom='t', paging=FALSE))
+  },  options = list( columnDefs = list(list( targets = "_all", orderable= FALSE)), dom='t', paging=FALSE))
 
 
 
