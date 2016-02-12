@@ -141,8 +141,13 @@ cierpiacyhc na SYES wypływa negatywnie.
                  and the second one refers to the group of patients without any mutation 
                  of this gene.<br/><br/>'), plotOutput("survcurves_yesno")),
         tabPanel('Co-occuring genes', 
-                 HTML('<br/> Opis <br/><br/>'), 
+                 HTML('<br/> The table below presents information about co-occurence mutations. For selected gene
+                      and selected cancers we can see list of all consider genes and information
+                      about occurence of mutations of these genes among patients
+                      with mutations of selected gene in selected cancers types.<br/><br/>'), 
                  dataTableOutput("co_occuring_table")),
+        
+        
         tabPanel("Survival curves: Variant Classification", 
                  HTML('<br/> Opis <br/><br/>
                   <TABLE  WIDTH=100%>
@@ -155,7 +160,7 @@ cierpiacyhc na SYES wypływa negatywnie.
         tabPanel("Frequency of mutation types", 
                  HTML('<br/> For the selected gene and selected cancers the table below contains information
                       about occurance frequency of different types of mutations. In addition, we show again 
-                      the level of occurence of mutations in a given gene. Wrzucic wykresy .
+                      the level of occurence of mutations in a given gene.
                       <br/><br/>'), 
                  dataTableOutput("table_variant"))
         )

@@ -58,11 +58,12 @@ shinyServer(function(input, output) {
     dane<- data.frame(matrix(0, nrow=14, ncol=4))
     colnames(dane) <- c("cancer", "freq", "n", "pvalue")
     dane$cancer <-nowotwory_all
-    dane$freq <- percent(freq)
+    #dane$freq <- percent(freq)
+    dane$freq<-freq
     dane$n <- as.numeric(licznosci[licznosci$gen==gen, nowotwory_all])
     dane$pvalue <- signif(as.numeric(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all]), digits = 2)
     
-    colnames(dane)<-c('Cancer', 'Mutation frequency (%)', 'Number of patients with mutation', 'Significance')
+    colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
     dane
   }, options = list(dom = 't', lengthMenu = c(20, 30)))
 
@@ -140,19 +141,15 @@ output$co_occuring_table<-renderDataTable({
   gen <- input$geny
   nowotwory <- input$nowotwory
   
-  tabela<-data.frame(matrix(0, nrow<-534, ncol<-(2*length(nowotwory))))
-  i=1
+  tabela<-NULL
   for(nowotwor in nowotwory){
     
     gen_x_gen <- get(paste('geny_wspolne_', nowotwor, sep=""))
     geny <- rownames(gen_x_gen)[-which(rownames(gen_x_gen) == gen)]
     freq <- round(as.numeric(gen_x_gen[geny, gen]),2)
-    tabela[, i]<-percent(freq)
-    i=i+1
-    #tabela <- cbind(tabela, percent(freq))
+    tabela <- cbind(tabela, freq)
     gen_y_gen<-get(paste('geny_wspolne_licznosci_', nowotwor, sep=""))
-    tabela[, i]<-gen_y_gen[geny, gen]
-    #tabela<-cbind(tabela, gen_y_gen[geny, gen])
+  tabela<-cbind(tabela, gen_y_gen[geny, gen])
  
   }
 
@@ -160,8 +157,8 @@ output$co_occuring_table<-renderDataTable({
   col<-NULL
   for (i in 1:length(nowotwory))
   {
-  col <- append(col,paste(nowotwory[i], 'freq'))
-  col <- append(col,paste(nowotwory[i], 'licznosc'))
+  col <- append(col,paste(nowotwory[i], 'Frequency'))
+  col <- append(col,paste(nowotwory[i], 'Number of patiens'))
   }
   colnames(tabela)<-col
   tabela
@@ -336,7 +333,7 @@ output$co_occuring_table<-renderDataTable({
                'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
     colnames(p) <- c("Variant", nowotwor)
     p
-  },  options = list( columnDefs = list(list( targets = 1:length(input$nowotwory))), dom = 't'))
+  },  options = list( columnDefs = list(list( targets = 1:length(input$nowotwory))), dom='t'))
 
 
   })
