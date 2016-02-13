@@ -53,11 +53,11 @@ shinyUI(fluidPage(
     mainPanel(
       tabsetPanel(
         tabPanel("Instruction", 
-                 tags$h3("Welcome to our application!"),
+                 tags$h3("Welcome!"),
                  
-                 HTML('Our aplication was created at Research Workshop conducted at the 
+                 HTML('This aplication was created for research workshop conducted at the 
                        Faculty of Mathematics and Information Science at Warsaw University of Technology. 
-                       This aplication allows you to analyze data about mutations of genes 
+                       This aplication allows you to browse the results of analysis of mutations of genes
                        from The Cancer Genome Atlas 
                        (<a href="http://cancergenome.nih.gov">http://cancergenome.nih.gov</a>) 
                        using RTCGA package 
@@ -68,12 +68,11 @@ shinyUI(fluidPage(
                  tags$h4("Specification of data"),
                  HTML('<br/>
                      <ul> 
-                        <li> We consider 14 types of cancer, for which we have data for at least 500 patients</li> 
-                        <li> We show 535 biomarkers - mutations on specific genes. </li> 
+                        <li> 14 types of cancer with data from at least 500 patients</li> 
+                        <li> 535 biomarkers - mutations on specific genes. </li> 
                         <li> Each gene considered by us has significant effect on 
                              survival of patients suffering from at least one of considered cancers. </li>
-                        <li> Mutations on genes are rare events, so it is worth to keep in mind when you 
-                            watch the results. </li>
+                        <li> Keep in mind that mutations of genes are rare events.</li>
                      </ul>
 
                       <br/>
@@ -82,15 +81,15 @@ shinyUI(fluidPage(
                  
                  tags$h4("What you can find here?"),
                  HTML('
-                      At the beginning, select one of biomarkers which interested you. Then select cancers in which you 
-                      want to examine gene mutation impact on survival time. You can choose maximum 4 cancer types.
-                      On the different panels you will find following informations:
+                      At the beginning, select one of biomarkers which interests you, then select cancers for which you 
+                      want to check gene mutation impact on survival time. You can choose at most 4 cancer types.
+                      On the another panels you can find following informations:
                       <ul>
                         <li> Summary of gene mutation : 
                           <ul>
                                 <li> Frequency of mutation for each cancers</li>
                                 <li> Number of patients with mutation for each cancers</li>
-                                <li> significant of mutations to the patients survival for each cancers</li>
+                                <li> Significance of mutations to the patients survival for each cancers</li>
                           </ul>
                         </li>
                       <li> Survival curves: Presence of mutation: </li>
@@ -101,7 +100,7 @@ shinyUI(fluidPage(
                       </li>
                       <li>Co-occuring genes
                           <ul>
-                            <li>List of all considered biomarkers with co-occurence with mutation on the selected gene measered by
+                            <li>List of all considered biomarkers with co-occurence with mutation on the selected gene measured by
                           frequency patients with mutation on biomarker in row among patients with mutation on the selected gene
                           and number of patients with both mutations in specified cancer types.</li>
                           </ul>
@@ -115,7 +114,7 @@ shinyUI(fluidPage(
                       </li>
                       <li>Frequency of mutation types
                         <ul>
-                          <li>Occurence frequency of different types of mutations for 
+                          <li>Occurence of frequency of different types of mutations for 
                               a selected gene and selected cancers.</li>
                         </ul>
                       </li>
@@ -202,7 +201,7 @@ cierpiacyhc na SYES wypływa negatywnie.
         
         tabPanel("Summary of gene mutation", 
                  HTML('<br/> 
-                 The following table contains information about the frequency and number 
+                 The following table contains informations about the frequency and number 
                  of patients with the mutation of the selected gene among patients suffering from different types of cancers.
                  It also includes information about the significance of mutations to the
                  patients survival measured by the p-value of the log-rank test.<br/><br/>'),
@@ -217,7 +216,7 @@ cierpiacyhc na SYES wypływa negatywnie.
         tabPanel('Co-occuring genes', 
                  HTML('<br/> 
 
-The table below presents information about co-occurence mutations. 
+The table below presents informations about co-occurence mutations. 
 For the selected gene and selected cancers a list of all considered biomarkers is given  
 with information about the occurrence of mutations of these genes among
 patients with mutation the selected gene in selected cancers types. In parentheses are given the cardinality of patients with the mutation in selected genes.
@@ -244,7 +243,7 @@ one refers to the patients with the other type of mutation of this gene.
                  plotOutput("survcurves_variant")),
         tabPanel("Frequency of mutation types", 
                  HTML('<br/> 
-The table below contains information 
+The table below contains informations
 about the occurrence frequency 
 of different types of mutations for a selected gene and selected cancers.
 In addition, we again show the level of occurrence of mutations in a given gene.
