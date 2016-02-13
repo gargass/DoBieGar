@@ -3,7 +3,6 @@ title: Genes mutations
 author:
   - name: Marlena Bielat, Małgorzata Dobkowska, Sebastian Gargas
     affiliation: MiNI Warsaw University of Technology
-    email:  bielat.marlena@gmail.com, gosia.dobkowska@tlen.pl, gargass@student.mini.pw.edu.pl
 preamble: >
   % Any extra latex you need in the preamble
 output: rticles::rjournal_article
@@ -41,8 +40,6 @@ To analyze the impact of the gene mutation on survival time, we have chosen two 
 
 * presence of mutation - we divided patients in two groups: The first one refers to patients without the gene mutation. The second one refers to patients with at least one mutation on gene. 
 * type of mutation - we used variable Variant Classification, in which mutations are classified into 10 different types: Missense$\_$Mutation, Silent, Frame$\_$Shift$\_$Del, Frame$\_$Shift$\_$Ins, In$\_$Frame$\_$Del, Nonsense$\_$Mutation, RNA, Splice$\_$Site, In$\_$Frame$\_$Ins, Nonstop$\_$Mutation.
-
-For our analysis we have chosen Missense$\_$Mutation and Nonsense$\_$Mutation types, because of the number of patients with these types. Other types of genes mutations occurred too infrequently to use for analysis of survival time.
 
 
 ## Summary of gene mutation
