@@ -88,9 +88,9 @@ shinyUI(fluidPage(
                                 <li> Frequency of mutation for each cancers</li>
                                 <li> Number of patients with mutation for each cancers</li>
                                 <li> significant of mutations to the patients survival for each cancers</li>
-                          <ul/>
+                          </ul>
                         </li>
-                      <ul/>
+                      </ul>
  
                       <ul>
                         <li> Survival curves: Presence of mutation: </li>
@@ -100,7 +100,7 @@ shinyUI(fluidPage(
                                 with and without any mutation of the selected gene in selected cancers.
                         </li>
 
-                          <ul/>
+                          </ul>
 
                       </ul>
                            
