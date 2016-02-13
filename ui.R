@@ -45,7 +45,7 @@ shinyUI(fluidPage(
         HTML('.<br/><br/>
              <b>Authors:</b><br/>
              <a href="mailto:bielat.marlena@gmail.com">Marlena Bielat</a><br/>
-             <a href="mailto:dobkowskam@student.mini.pw.edu.pl">Małgorzata Dobkowska</a><br/>
+             <a href="mailto:gosia.dobkowska@tlen.pl">Małgorzata Dobkowska</a><br/>
              <a href="mailto:gargass@student.mini.pw.edu.pl">Sebastian Gargas</a><br/></font>')
       )
     ),
