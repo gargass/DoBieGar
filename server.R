@@ -171,7 +171,7 @@ output$co_occuring_table<-renderDataTable({
   }
   colnames(tabela)<-col
   tabela
-}, filter='bottom', caption = 'Frequency of mutations')
+}, options = list( columnDefs = list(list(className = 'dt-right', targets = "_all"))),filter='bottom')
 
 
 
@@ -343,7 +343,7 @@ output$co_occuring_table<-renderDataTable({
 
     colnames(p) <- c(nowotwor)
     p
-  },  options = list( columnDefs = list(list( targets = "_all", orderable= FALSE)), dom='t', paging=FALSE), caption = 'Frequency of mutation types')
+  },  options = list( columnDefs = list(list(className = 'dt-right', targets = "_all", orderable= FALSE)), dom='t', paging=FALSE))
 
 
 
