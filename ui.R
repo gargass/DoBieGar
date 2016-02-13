@@ -59,11 +59,9 @@ shinyUI(fluidPage(
                        Faculty of Mathematics and Information Science at Warsaw University of Technology. 
                        This aplication will allow you to analyze data about mutations of genes 
                        from The Cancer Genome Atlas 
-                       (<a href="http://cancergenome.nih.gov">
-                                http://cancergenome.nih.gov</a>) 
+                       (<a href="http://cancergenome.nih.gov">http://cancergenome.nih.gov</a>) 
                        using RTCGA package 
-                       (<a href="https://github.com/RTCGA/RTCGA.mutations">
-                                https://github.com/RTCGA/RTCGA.mutations</a>).
+                       (<a href="https://github.com/RTCGA/RTCGA.mutations">https://github.com/RTCGA/RTCGA.mutations</a>).
                       <br/><br/>
                       '),
                  
