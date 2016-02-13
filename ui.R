@@ -112,9 +112,8 @@ shinyUI(fluidPage(
                       </li>
                       <li>Frequency of mutation types
                         <ul>
-                          <li>Frequency of different types of mutations for 
-                              a selected gene and selected cancers and the 
-                              level of occurrence of mutations in a given gene.</li>
+                          <li>Occurence frequency of different types of mutations for 
+                              a selected gene and selected cancers.</li>
                         </ul>
                       </li>
                     </ul>
