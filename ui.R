@@ -104,6 +104,9 @@ shinyUI(fluidPage(
 
                       </ul>
                            
+                          List of all considered biomarkers with co-occurence with mutation on the selected gene measered by
+                          frequency patients with mutation on biomarker in row among patients with mutation on the selected gene
+                          and number of patients with both mutations in specified cancer types.
                       '),
                  
   
