@@ -40,7 +40,7 @@ shinyUI(fluidPage(
       tags$div(
         HTML('<br/><br/><br/>
              <font size="2"><b>Details:</b><br/>
-             For more information click'),
+             Full documentation is available '),
         tags$a("here",target="_blank",href="doc.pdf"),
         HTML('.<br/><br/>
              <b>Authors:</b><br/>
@@ -122,7 +122,7 @@ shinyUI(fluidPage(
                  
   
                  
-                 HTML('###########################################'),
+                 HTML('###########################################<br/>'),
                  
                  
                  
