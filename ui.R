@@ -7,7 +7,7 @@ library(DT)
 nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
 
-names(nowotwory) <- c("GBMLGG - Glioblastoma multiforme",
+names(nowotwory) <- c("GBMLGG - GBM + LGG",
                     "BRCA - Breast invasive carcinoma",
                     "KIPAN - Pan-kidney cohort",
                     "COADREAD - Colorectal adenocarcinoma",
