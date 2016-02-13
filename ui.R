@@ -207,7 +207,7 @@ cierpiacyhc na SYES wypływa negatywnie.
 The table below presents information about co-occurence mutations. 
 For the selected gene and selected cancers a list of all considered biomarkers is given  
 with information about the occurrence of mutations of these genes among
-patients with mutation the selected gene in selected cancers types.
+patients with mutation the selected gene in selected cancers types. In parentheses are given the cardinality of patients with the mutation in selected genes.
 <br/><br/>'), 
                  dataTableOutput("co_occuring_table")),
         
