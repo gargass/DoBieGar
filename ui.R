@@ -103,6 +103,20 @@ shinyUI(fluidPage(
                           and number of patients with both mutations in specified cancer types.</li>
                           </ul>
                       </li>
+                      <li>Survival curves: Variant Classification
+                        <ul>
+                          <li>Kaplan-Meier curves estimated for the two 
+                          groups of patients: with a specific type of mutation - Missense Mutation or Nonsense Mutation 
+                          and with the other type of mutation of this gene.
+                        </ul>
+                      </li>
+                      <li>Frequency of mutation types
+                        <ul>
+                          <li>Frequency of different types of mutations for 
+                              a selected gene and selected cancers and the 
+                              level of occurrence of mutations in a given gene.</li>
+                        </ul>
+                      </li>
                     </ul>
                       '),
                  
