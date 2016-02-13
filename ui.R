@@ -55,9 +55,9 @@ shinyUI(fluidPage(
         tabPanel("Instruction", 
                  tags$h3("Welcome to our application!"),
                  
-                 HTML('Our aplications was created during work at Research Workshop conducted at the 
+                 HTML('Our aplication was created at Research Workshop conducted at the 
                        Faculty of Mathematics and Information Science at Warsaw University of Technology. 
-                       This aplication will allow you to analyze data about mutations of genes 
+                       This aplication allows you to analyze data about mutations of genes 
                        from The Cancer Genome Atlas 
                        (<a href="http://cancergenome.nih.gov">http://cancergenome.nih.gov</a>) 
                        using RTCGA package 
@@ -70,9 +70,9 @@ shinyUI(fluidPage(
                      <ul> 
                         <li> We consider 14 types of cancer, for which we have data for at least 500 patients</li> 
                         <li> We show 535 biomarkers - mutations on specific genes. </li> 
-                        <li> Each gene contemplated by us has significant effect on 
+                        <li> Each gene considered by us has significant effect on 
                              survival of patients suffering from at least one of considered cancers. </li>
-                        <li> Mutations on genes are rare events, so it is worth keep in mind when you 
+                        <li> Mutations on genes are rare events, so it is worth to keep in mind when you 
                             watch the results. </li>
                      </ul>
 
