@@ -90,23 +90,20 @@ shinyUI(fluidPage(
                                 <li> significant of mutations to the patients survival for each cancers</li>
                           </ul>
                         </li>
-                      </ul>
- 
-                      <ul>
-                        <li> Survival curves: Presence of mutation: </li>
-
+                      <li> Survival curves: Presence of mutation: </li>
                           <ul>
                                 <li> Kaplan-Meier curves estimated for two groups of patients: 
-                                with and without any mutation of the selected gene in selected cancers.
-                        </li>
-
-                          </ul>
-
-                      </ul>
-                           
-                          List of all considered biomarkers with co-occurence with mutation on the selected gene measered by
+                                with and without any mutation of the selected gene in selected cancers.</li>
+                           </ul>
+                      </li>
+                      <li>Co-occuring genes
+                          <ul>
+                            <li>List of all considered biomarkers with co-occurence with mutation on the selected gene measered by
                           frequency patients with mutation on biomarker in row among patients with mutation on the selected gene
-                          and number of patients with both mutations in specified cancer types.
+                          and number of patients with both mutations in specified cancer types.</li>
+                          </ul>
+                      </li>
+                    </ul>
                       '),
                  
   
