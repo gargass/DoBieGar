@@ -65,7 +65,7 @@ shinyUI(fluidPage(
                       <br/><br/>
                       '),
                  
-                 tags$h4("Characterization of used data"),
+                 tags$h4("Specification of data"),
                  HTML('<br/>
                      <ul> 
                         <li> We consider 14 types of cancer, for which we have data for at least 500 patients</li> 
