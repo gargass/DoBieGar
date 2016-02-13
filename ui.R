@@ -141,21 +141,26 @@ cierpiacyhc na SYES wypływa negatywnie.
                  and the second one refers to the group of patients without any mutation 
                  of this gene.<br/><br/>'), plotOutput("survcurves_yesno")),
         tabPanel('Co-occuring genes', 
-                 HTML('<br/> The table below presents information about co-occurence mutations. For selected gene
-                      and selected cancers we can see list of all consider genes and information
-                      about occurence of mutations of these genes among patients
-                      with mutations of selected gene in selected cancers types (number of patients in parentheses).<br/><br/>'), 
+                 HTML('<br/> 
+
+The table below presents information about co-occurence mutations. 
+For the selected gene and selected cancers a list of all considered biomarkers is given  
+with information about the occurrence of mutations of these genes among
+patients with mutation the selected gene in selected cancers types.
+<br/><br/>'), 
                  dataTableOutput("co_occuring_table")),
         
         
         tabPanel("Survival curves: Variant Classification", 
-                 HTML('<br/> In the figures below we can see Kaplan-Meier curves for 
-                 a given gene and the given tumors for two main types of mutation. The survival curves 
-                 are estimated for the two groups of patients: 
-                      the first one refers to the patients with a specific type of mutation: Missense Mutation
-                      or Nonsense Mutation
-                      and the second one refers to the patients with other type of mutation 
-                      of this gene. <br/><br/>
+                 HTML('<br/> 
+The following figures present the Kaplan-Meier curves 
+for the given gene and given cancers, for the two main types 
+of mutation. The survival curves are estimated for the two 
+groups of patients: the first one refers to the patients with a specific 
+type of mutation - Missense Mutation or Nonsense Mutation and the second 
+one refers to the patients with the other type of mutation of this gene.
+
+<br/><br/>
                   <TABLE  WIDTH=100%>
                   <TR> 
                     <TD> <p align="center"> <font size="3"><b>Missense Mutation</b></font> </p> </TD> 
@@ -164,9 +169,11 @@ cierpiacyhc na SYES wypływa negatywnie.
                       '), 
                  plotOutput("survcurves_variant")),
         tabPanel("Frequency of mutation types", 
-                 HTML('<br/> For the selected gene and selected cancers the table below contains information
-                      about occurance frequency of different types of mutations. In addition, we show again 
-                      the level of occurence of mutations in a given gene.
+                 HTML('<br/> 
+The table below contains information 
+about the occurrence frequency 
+of different types of mutations for a selected gene and selected cancers.
+In addition, we again show the level of occurrence of mutations in a given gene.
                       <br/><br/>'), 
                  dataTableOutput("table_variant"))
         )
