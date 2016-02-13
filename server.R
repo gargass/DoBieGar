@@ -44,7 +44,7 @@ czestosci_variant <- read.table("czestosci_variant.txt", h=T)
 #Shiny
 shinyServer(function(input, output) {
 
-#Basic information about gene mutation
+#summary on gene mutation
 
 #Table
   output$table_new <- renderDataTable({
@@ -59,7 +59,6 @@ shinyServer(function(input, output) {
     dane<- data.frame(matrix(0, nrow=14, ncol=4))
     colnames(dane) <- c("cancer", "freq", "n", "pvalue")
     dane$cancer <-nowotwory_all
-    #dane$freq <- percent(freq)
     dane$freq<-freq
     dane$n <- as.numeric(licznosci[licznosci$gen==gen, nowotwory_all])
     pv<-as.numeric(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all])
@@ -67,15 +66,7 @@ shinyServer(function(input, output) {
     {
       pv[i]<-signif(pv[i], 3)
     }
-    dane$pvalue <- pv
-#       dane <- matrix(1, nrow=14, ncol=4)
-  
-#       dane[,1]<-t(nowotwory_all)
-#       dane[,2]<-t(as.numeric(round(as.numeric(czestosci[czestosci$gen==gen,nowotwory_all]),3)))
-#       dane[,3]<-as.numeric(t(licznosci[licznosci$gen==gen, nowotwory_all]))
-#       dane[,4]<-t(as.numeric(round(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all], 6)))
-# 
-#     
+    dane$pvalue <- pv    
     colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
     dane
   }, options = list(columnDefs= list(list(className = 'dt-right', targets='_all')), dom = 't', lengthMenu = c(20, 30)))
@@ -142,9 +133,6 @@ output$survcurves_yesno <- renderPlot({
 
 #Co-occuring genes
 
-
-
-
 #Table
 
 output$co_occuring_table<-renderDataTable({
@@ -160,9 +148,7 @@ output$co_occuring_table<-renderDataTable({
     gen_x_gen <- get(paste('geny_wspolne_', nowotwor, sep=""))
     geny <- rownames(gen_x_gen)[-which(rownames(gen_x_gen) == gen)]
     freq <- round(as.numeric(gen_x_gen[geny, gen]),2)
-    #tabela <- cbind(tabela, freq)
     gen_y_gen<-get(paste('geny_wspolne_licznosci_', nowotwor, sep=""))
-    #tabela<-cbind(tabela, gen_y_gen[geny, gen])
     n <- gen_y_gen[geny, gen]
     freq_n <- paste(freq, ' (', n, ')', sep="")
     tabela <- cbind(tabela, freq_n)
@@ -174,11 +160,10 @@ output$co_occuring_table<-renderDataTable({
   for (i in 1:length(nowotwory))
   {
   col <- append(col,nowotwory[i])
-  #col <- append(col,paste(nowotwory[i], 'Number of patiens'))
   }
   colnames(tabela)<-col
   tabela
-}, options = list( columnDefs = list(list(targets='_all'))),filter='bottom')
+}, options = list( columnDefs = list(list(className = 'dt-right', targets='_all'))),filter='bottom')
 
 
 
@@ -228,7 +213,6 @@ output$co_occuring_table<-renderDataTable({
           survMisc::autoplot(nowotwor_gen.fit.missense,
                            legLabs = variant,
                            legTitle=paste('P-value: ', pvalue),
-                           #title=paste(nowotwor, "\n  Missense Mutation", sep=""), censSize=2)$plot +
                            title=nowotwor, censSize=2)$plot + 
             ylim(c(0,1)) + 
             xlim(c(0, max_time)) + 
@@ -340,8 +324,6 @@ output$co_occuring_table<-renderDataTable({
         p[3:12,k]= rep(paste(0, "%", sep=""), 10)
       }
     }
-    #dane[, 2] <- t(paste(round(100*czestosci[czestosci$gen==gen,nowotwory_all],3), "%", sep=""))
-    
     p[1,1:(length(nowotwor))]<-t(licznosci[licznosci$gen==gen, nowotwor])
     p[2,1:(length(nowotwor))] <- paste(round(100*czestosci[czestosci$gen==gen,nowotwor],3), "%", sep="")
     
