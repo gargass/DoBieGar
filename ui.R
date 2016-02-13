@@ -58,11 +58,13 @@ shinyUI(fluidPage(
                  HTML('Our aplications was created during work at Research Workshop conducted at the 
                        Faculty of Mathematics and Information Science at Warsaw University of Technology. 
                        This aplication will allow you to analyze data about mutations of genes 
-                       from The Cancer Genome Atlas (http://cancergenome.nih.gov/) using RTCGA package 
-                       (https://github.com/RTCGA/RTCGA.mutations).
-<br/><br/>
-                      
-                      
+                       from The Cancer Genome Atlas 
+                       (<a href="http://cancergenome.nih.gov">
+                                http://cancergenome.nih.gov</a>) 
+                       using RTCGA package 
+                       (<a href="https://github.com/RTCGA/RTCGA.mutations">
+                                https://github.com/RTCGA/RTCGA.mutations</a>).
+                      <br/><br/>
                       '),
                  
                  tags$h4("Characterization of used data"),

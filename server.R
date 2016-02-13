@@ -350,7 +350,7 @@ output$co_occuring_table<-renderDataTable({
 
     colnames(p) <- c(nowotwor)
     p
-  },  options = list(columnDefs = list(list(className = 'dt-right', orderable= FALSE)), dom='t', paging=FALSE))
+  },  options = list(columnDefs = list(list(className = 'dt-right', targets="_all", orderable= FALSE)), dom='t', paging=FALSE))
 
 
 
