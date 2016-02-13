@@ -85,11 +85,11 @@ shinyUI(fluidPage(
                       want to check gene mutation impact on survival time. You can choose at most 4 cancer types.
                       On the another panels you can find following informations:
                       <ul>
-                        <li> Summary of gene mutation : 
+                        <li> Summary of gene mutation: 
                           <ul>
-                                <li> Frequency of mutation for each cancers</li>
-                                <li> Number of patients with mutation for each cancers</li>
-                                <li> Significance of mutations to the patients survival for each cancers</li>
+                                <li> Frequency of mutation for each cancers.</li>
+                                <li> Number of patients with mutation for each cancers.</li>
+                                <li> Significance of mutations to the patients survival for each cancers.</li>
                           </ul>
                         </li>
                       <li> Survival curves: Presence of mutation: </li>
@@ -98,21 +98,21 @@ shinyUI(fluidPage(
                                 with and without any mutation of the selected gene in selected cancers.</li>
                            </ul>
                       </li>
-                      <li>Co-occuring genes
+                      <li>Co-occuring genes:
                           <ul>
                             <li>List of all considered biomarkers with co-occurence with mutation on the selected gene measured by
                           frequency patients with mutation on biomarker in row among patients with mutation on the selected gene
                           and number of patients with both mutations in specified cancer types.</li>
                           </ul>
                       </li>
-                      <li>Survival curves: Variant Classification
+                      <li>Survival curves: Variant Classification:
                         <ul>
                           <li>Kaplan-Meier curves estimated for the two 
                           groups of patients: with a specific type of mutation - Missense Mutation or Nonsense Mutation 
                           and with the other type of mutation of this gene.
                         </ul>
                       </li>
-                      <li>Frequency of mutation types
+                      <li>Frequency of mutation types:
                         <ul>
                           <li>Occurence of frequency of different types of mutations for 
                               a selected gene and selected cancers.</li>
@@ -219,7 +219,7 @@ cierpiacyhc na SYES wypływa negatywnie.
 The table below presents informations about co-occurence mutations. 
 For the selected gene and selected cancers a list of all considered biomarkers is given  
 with information about the occurrence of mutations of these genes among
-patients with mutation the selected gene in selected cancers types. In parentheses are given the cardinality of patients with the mutation in selected genes.
+patients with mutation the selected gene in selected cancers types. In parentheses are given the number of patients with the mutation in both genes.
 <br/><br/>'), 
                  dataTableOutput("co_occuring_table")),
         
