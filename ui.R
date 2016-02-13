@@ -53,7 +53,52 @@ shinyUI(fluidPage(
     mainPanel(
       tabsetPanel(
         tabPanel("Instruction", 
-                 tags$h2("Welcome to our application!"),
+                 tags$h3("Welcome to our application!"),
+                 
+                 HTML('Our aplications was created during work at Research Workshop conducted at the 
+                       Faculty of Mathematics and Information Science at Warsaw University of Technology. 
+                       This aplication will allow you to analyze data about mutations of genes 
+                       from The Cancer Genome Atlas (http://cancergenome.nih.gov/) using RTCGA package 
+                       (https://github.com/RTCGA/RTCGA.mutations).
+<br/><br/>
+                      
+                      
+                      '),
+                 
+                 tags$h4("Characterization of used data"),
+                 HTML('<br/>
+                     <ul> 
+                        <li> We consider 14 types of cancer, for which we have data for at least 500 patients</li> 
+                        <li> We show 535 biomarkers - mutations on specific genes. </li> 
+                        <li> Each gene contemplated by us has significant effect on 
+                             survival of patients suffering from at least one of considered cancers. </li>
+                        <li> Mutations on genes are rare events, so it is worth keep in mind when you 
+                            watch the results. </li>
+                     </ul>
+
+                      <br/>
+                    
+                      '),
+                 
+                 tags$h4("What you can find here?"),
+                 HTML('
+                      <ul>
+                        <li> For selected gene : </li>
+                          <ul>
+                                <li> Frequency of mutation </li>
+                                <li> Number of patients with mutation</li>
+                                <li> significant of mutations to the patients survival </li>
+                          <ul/>
+                      </ul>
+                           
+                      '),
+                 
+  
+                 
+                 HTML('###########################################'),
+                 
+                 
+                 
                  HTML('It was created during the course of the subject 
                       Research Workshop at the Faculty of Mathematics and 
                       Information Science at Warsaw University of Technology. 
