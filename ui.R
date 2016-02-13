@@ -83,12 +83,25 @@ shinyUI(fluidPage(
                  tags$h4("What you can find here?"),
                  HTML('
                       <ul>
-                        <li> For selected gene : </li>
+                        <li> Summary of gene mutation : 
                           <ul>
-                                <li> Frequency of mutation </li>
-                                <li> Number of patients with mutation</li>
-                                <li> significant of mutations to the patients survival </li>
+                                <li> Frequency of mutation for each cancers</li>
+                                <li> Number of patients with mutation for each cancers</li>
+                                <li> significant of mutations to the patients survival for each cancers</li>
                           <ul/>
+                        </li>
+                      <ul/>
+ 
+                      <ul>
+                        <li> Survival curves: Presence of mutation: </li>
+
+                          <ul>
+                                <li> Kaplan-Meier curves estimated for two groups of patients: 
+                                with and without any mutation of the selected gene in selected cancers.
+                        </li>
+
+                          <ul/>
+
                       </ul>
                            
                       '),
