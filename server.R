@@ -53,8 +53,9 @@ shinyServer(function(input, output) {
     nowotwory_all <- c("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                        "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
     
+    
     freq <- round(as.numeric(czestosci[czestosci$gen==gen,nowotwory_all]),3)
-
+    
     dane<- data.frame(matrix(0, nrow=14, ncol=4))
     colnames(dane) <- c("cancer", "freq", "n", "pvalue")
     dane$cancer <-nowotwory_all
@@ -67,11 +68,17 @@ shinyServer(function(input, output) {
       pv[i]<-signif(pv[i], 3)
     }
     dane$pvalue <- pv
-
-    
+#       dane <- matrix(1, nrow=14, ncol=4)
+  
+#       dane[,1]<-t(nowotwory_all)
+#       dane[,2]<-t(as.numeric(round(as.numeric(czestosci[czestosci$gen==gen,nowotwory_all]),3)))
+#       dane[,3]<-as.numeric(t(licznosci[licznosci$gen==gen, nowotwory_all]))
+#       dane[,4]<-t(as.numeric(round(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all], 6)))
+# 
+#     
     colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
     dane
-  }, options = list(columnDefs= list(list(className = 'dt-right', targets = '_all')), dom = 't', lengthMenu = c(20, 30)))
+  }, options = list(columnDefs= list(list(className = 'dt-right', targets='_all')), dom = 't', lengthMenu = c(20, 30)))
 
 
 #Survival Curves - Presence of mutation
@@ -171,7 +178,7 @@ output$co_occuring_table<-renderDataTable({
   }
   colnames(tabela)<-col
   tabela
-}, options = list( columnDefs = list(list(className = 'dt-right', targets = "_all"))),filter='bottom')
+}, options = list( columnDefs = list(list(className = 'dt-right', targets='_all'))),filter='bottom')
 
 
 
@@ -343,7 +350,7 @@ output$co_occuring_table<-renderDataTable({
 
     colnames(p) <- c(nowotwor)
     p
-  },  options = list( columnDefs = list(list(className = 'dt-right', targets = "_all", orderable= FALSE)), dom='t', paging=FALSE))
+  },  options = list(columnDefs = list(list(className = 'dt-right', orderable= FALSE)), dom='t', paging=FALSE))
 
 
 
