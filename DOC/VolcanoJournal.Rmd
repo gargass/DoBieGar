@@ -2,10 +2,7 @@
 title: Genes mutations
 author:
   - name: Marlena Bielat, Małgorzata Dobkowska, Sebastian Gargas
-    affiliation: MiNI Politechnika Warszawska
-    address:
-    - line Koszykowa 75
-    - line Warszawa, Polska
+    affiliation: MiNI Warsaw University of Technology
     email:  bielat.marlena@gmail.com, gosia.dobkowska@tlen.pl, gargass@student.mini.pw.edu.pl
 preamble: >
   % Any extra latex you need in the preamble
@@ -20,7 +17,7 @@ Application  Genes mutations  allows to browse the results of analysis of mutati
 
 All of the used sets for the following cancers comes from RTCGA repository:
 
-* GBMLGG - Glioblastoma multiforme,
+* GBMLGG - GBM + LGG (Glioblastoma multiforme and Lower Grade Glioma),
 * BRCA - Breast invasive carcinoma
 * KIPAN - Pan-kidney cohort
 * COADREAD - Colorectal adenocarcinoma
