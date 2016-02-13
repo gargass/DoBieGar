@@ -82,6 +82,9 @@ shinyUI(fluidPage(
                  
                  tags$h4("What you can find here?"),
                  HTML('
+                      At the beginning, select one of biomarkers which interested you. Then select cancers in which you 
+                      want to examine gene mutation impact on survival time. You can choose maximum 4 cancer types.
+                      On the different panels you will find following informations:
                       <ul>
                         <li> Summary of gene mutation : 
                           <ul>
