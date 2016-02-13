@@ -178,7 +178,7 @@ output$co_occuring_table<-renderDataTable({
   }
   colnames(tabela)<-col
   tabela
-}, options = list( columnDefs = list(list(className = 'dt-right', targets='_all'))),filter='bottom')
+}, options = list( columnDefs = list(list(targets='_all'))),filter='bottom')
 
 
 
