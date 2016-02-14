@@ -5,11 +5,22 @@
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[{R Core Team}(2012)]{R}
-{R Core Team}.
-\newblock \emph{R: A Language and Environment for Statistical Computing}.
-\newblock R Foundation for Statistical Computing, Vienna, Austria, 2012.
-\newblock URL \url{http://www.R-project.org/}.
-\newblock {ISBN} 3-900051-07-0.
+\bibitem[{R Core Team}(2015)]{R}
+{Biecek P., Kosiński M.}.
+\newblock \emph{RTCGA: The Cancer Genome Atlas Data Integration}.
+\newblock R package version 1.1.10
+\newblock URL \url{https://github.com/RTCGA/RTCGA}.
+
+bibitem[{R }(2015)]{R}
+{Allaire J., Chang W., Cheng J., McPherson J., Xie J.}.
+\newblock \emph{shiny: Web Application Framework for R}.
+\newblock R package version 0.12.2
+\newblock  \url{http://www.rdocumentation.org/packages/shiny}.
+
+\bibitem[{Rz }(2015)]{R}
+{Dardis C.}.
+\newblock \emph{survMisc: Miscellaneous Functions for Survival Data}.
+\newblock R package version 0.4.6
+\newblock  \url{http://www.rdocumentation.org/packages/survMisc}.
 
 \end{thebibliography}

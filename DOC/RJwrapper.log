@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.8.30)  14 FEB 2016 02:28
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.8.30)  14 FEB 2016 02:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -879,7 +879,11 @@ Package: booktabs 2005/04/14 v1.61803 publication quality tables
 \@lastruleclass=\count143
 \@thisrulewidth=\dimen197
 )
-(./RJwrapper.aux)
+(./RJwrapper.aux
+
+Package natbib Warning: Citation `R' multiply defined.
+
+)
 \openout1 = `RJwrapper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
@@ -1112,11 +1116,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 151--152
 
  []
 
-)
+[2pdfTeX warning (ext4): destination with the same identifier (name{cite.R}) ha
+s been already used, duplicate ignored
+
+\@EveryShipout@Output ...@Org@Shipout \box \@cclv 
+                                                  
+l.152 
+      pdfTeX warning (ext4): destination with the same identifier (name{cite.R}
+) has been already used, duplicate ignored
+
+\@EveryShipout@Output ...@Org@Shipout \box \@cclv 
+                                                  
+l.152 
+      ])
+
+Package natbib Warning: There were multiply defined citations.
+
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 27.
- [2]
+[3]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 27.
- (./RJwrapper.aux)
+ (./RJwrapper.aux
+
+Package natbib Warning: Citation(s) may have changed.
+(natbib)                Rerun to get citations correct.
+
+)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 27.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 27.
 Package rerunfilecheck Info: File `RJwrapper.out' has not changed.
@@ -1126,23 +1150,23 @@ Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 27.
  ) 
 Here is how much of TeX's memory you used:
- 19362 strings out of 493304
- 330409 string characters out of 6139871
- 444920 words of memory out of 5000000
+ 19365 strings out of 493304
+ 330435 string characters out of 6139871
+ 444962 words of memory out of 5000000
  22329 multiletter control sequences out of 15000+600000
- 30101 words of font info for 106 fonts, out of 8000000 for 9000
+ 30253 words of font info for 108 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 63i,11n,57p,434b,427s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 63i,11n,57p,434b,436s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/urw/courier/ucrro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/pa
 latino/uplb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplr8
 a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (2 pages, 86907 bytes).
+Output written on RJwrapper.pdf (3 pages, 89493 bytes).
 PDF statistics:
- 96 PDF objects out of 1000 (max. 8388607)
- 85 compressed objects within 1 object stream
- 15 named destinations out of 1000 (max. 500000)
+ 102 PDF objects out of 1000 (max. 8388607)
+ 90 compressed objects within 1 object stream
+ 16 named destinations out of 1000 (max. 500000)
  23125 words of extra memory for PDF output out of 24883 (max. 10000000)
 
