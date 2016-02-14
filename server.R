@@ -15,29 +15,29 @@ nowotwory <- list("GBMLGG", "BRCA", "KIPAN", "COADREAD", "STES", "GBM", "OV",
                   "UCEC", "KIRC", "HNSC", "LUAD", "LGG", "LUSC", "THCA")
 
 for(nowotwor in nowotwory){
-  assign(paste('zbior.', nowotwor, sep=""), read.table(paste('Zbiory/', nowotwor, '.txt', sep="")))
-  assign(paste('geny_wspolne_', nowotwor, sep=""), read.table(paste('Zbiory/wspolne_', nowotwor, '.txt', sep="")))
-  assign(paste('geny_wspolne_licznosci_', nowotwor, sep=""), read.table(paste('Zbiory/wspolne_', nowotwor, '_licznosci.txt', sep="")))
+  assign(paste('zbior.', nowotwor, sep=""), read.table(paste('data/', nowotwor, '.txt', sep="")))
+  assign(paste('geny_wspolne_', nowotwor, sep=""), read.table(paste('data/wspolne_', nowotwor, '.txt', sep="")))
+  assign(paste('geny_wspolne_licznosci_', nowotwor, sep=""), read.table(paste('data/wspolne_', nowotwor, '_licznosci.txt', sep="")))
   
 }
 
-geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
+geny <- read.table('data/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
-p_value_tabela <-read.table('p_value/p_value_NA.txt', h=T)
-czestosci<-read.table('czestosci.txt', h=T)
-licznosci<-read.table('licznosci.txt', h=T)
+p_value_tabela <-read.table('data/p_value_NA.txt', h=T)
+czestosci<-read.table('data/czestosci.txt', h=T)
+licznosci<-read.table('data/licznosci.txt', h=T)
+
+# for(nowotwor in nowotwory){
+#   assign(paste('p_value.', nowotwor, sep=""), read.table(paste('data/P_value_dla_interesujacych_genow/', 
+#                                                                nowotwor, '_pvalue.txt', sep=""), h=T))
+# }
 
 for(nowotwor in nowotwory){
-  assign(paste('p_value.', nowotwor, sep=""), read.table(paste('p_value/P_value_dla_interesujacych_genow/', 
-                                                               nowotwor, '_pvalue.txt', sep=""), h=T))
+  assign(paste(nowotwor, '_variant', sep=""), read.table(paste('data/', nowotwor, '_variant.txt', sep="")))
 }
 
-for(nowotwor in nowotwory){
-  assign(paste(nowotwor, '_variant', sep=""), read.table(paste('Zbiory/', nowotwor, '_variant.txt', sep="")))
-}
-
-czestosci_variant <- read.table("czestosci_variant.txt", h=T)
+czestosci_variant <- read.table("data/czestosci_variant.txt", h=T)
 
 
 

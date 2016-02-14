@@ -22,7 +22,7 @@ names(nowotwory) <- c("GBMLGG - GBM + LGG",
                     "LUSC - Lung squamous cell carcinoma",
                     "THCA - Thyroid carcinoma")
 
-geny <- read.table('p_value/lista_interesujacych_genow.txt', h=T)
+geny <- read.table('data/lista_interesujacych_genow.txt', h=T)
 geny <- as.matrix(geny)
 
 shinyUI(fluidPage(
