@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.4.24)  14 FEB 2016 01:06
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.4.24)  14 FEB 2016 01:09
 entering extended mode
 **RJwrapper.tex
 (C:\Users\Gosia\Documents\DoBieGar\DOC\RJwrapper.tex
@@ -1147,24 +1147,24 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             See the microtype manual for details.
 )
 LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10> not available
-(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 154.
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 151.
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--155
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 154--155
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 160--161
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 160--161
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 157--158
 
  []
 
@@ -1181,11 +1181,11 @@ Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 27.
  ) 
 Here is how much of TeX's memory you used:
- 20762 strings out of 493921
- 374272 string characters out of 3144876
+ 20756 strings out of 493921
+ 374221 string characters out of 3144876
  472402 words of memory out of 3000000
  23559 multiletter control sequences out of 15000+200000
- 30022 words of font info for 105 fonts, out of 3000000 for 9000
+ 29704 words of font info for 101 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  62i,11n,56p,426b,433s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
@@ -1195,7 +1195,7 @@ Files (x86)/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files (x8
 X 2.9/fonts/type1/urw/palatino/uplb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fo
 nts/type1/urw/palatino/uplr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type
 1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (3 pages, 95017 bytes).
+Output written on RJwrapper.pdf (3 pages, 94749 bytes).
 PDF statistics:
  93 PDF objects out of 1000 (max. 8388607)
  15 named destinations out of 1000 (max. 500000)
