@@ -44,6 +44,7 @@ To analyze the impact of the gene mutation on survival time, we have chosen two 
 
 ## Summary of gene mutation
 
+
 The table contains informations about the frequency and number of patients with the mutation of the selected gene among patients suffering from different types of cancers. It also includes information about the significance of mutations to patients survival. It is measured by the p-value of the log-rank test, which allow to compare the survival time of two samples: in our case that samples are patients with the mutation of the selected gene and patients without this mutation. The null hypothesis is that the two groups having the same distribution of survival time. If the p-value is less than 0.05 then we have grounds to reject the null hypothesis at given significance level and the selected gene can be considered as a prognostic biomarker.
 
 
