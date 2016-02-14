@@ -1,0 +1,16 @@
+{
+    "contents" : "@Manual{R,\n  title = {R: A Language and Environment for Statistical Computing},\n  author = {{R Core Team}},\n  organization = {R Foundation for Statistical Computing},\n  address = {Vienna, Austria},\n  year = {2012},\n  note = {{ISBN} 3-900051-07-0},\n  url = {http://www.R-project.org/},\n}\n\n@article{ihaka:1996,\n  Author = {Ihaka, Ross and Gentleman, Robert},\n\tJournal = {Journal of Computational and Graphical Statistics},\n\tNumber = 3,\n\tPages = {299--314},\n\tTitle = {R: A Language for Data Analysis and Graphics},\n\tVolume = 5,\n\tYear = 1996}\n",
+    "created" : 1455408873745.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "419503131",
+    "id" : "695D2625",
+    "lastKnownWriteTime" : 1455408316,
+    "path" : "~/DoBieGar/DOC/RJreferences.bib",
+    "project_path" : "DOC/RJreferences.bib",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "text"
+}
