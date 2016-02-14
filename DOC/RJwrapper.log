@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.4.24)  14 FEB 2016 01:09
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.4.24)  14 FEB 2016 01:15
 entering extended mode
 **RJwrapper.tex
 (C:\Users\Gosia\Documents\DoBieGar\DOC\RJwrapper.tex
@@ -1158,17 +1158,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 151--152
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 157--158
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 157--158
-
- []
-
-[2]) [3]
+) [2]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 27.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 27.
  (C:\Users\Gosia\Documents\DoBieGar\DOC\RJwrapper.aux)
@@ -1181,13 +1171,13 @@ Package rerunfilecheck Info: File `RJwrapper.brf' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 27.
  ) 
 Here is how much of TeX's memory you used:
- 20756 strings out of 493921
- 374221 string characters out of 3144876
+ 20758 strings out of 493921
+ 374242 string characters out of 3144876
  472402 words of memory out of 3000000
  23559 multiletter control sequences out of 15000+200000
- 29704 words of font info for 101 fonts, out of 3000000 for 9000
+ 29863 words of font info for 103 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 62i,11n,56p,426b,433s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 62i,11n,56p,426b,427s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files (x86)/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Progra
 m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program 
 Files (x86)/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files (x8
@@ -1195,9 +1185,9 @@ Files (x86)/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb><C:/Program Files (x8
 X 2.9/fonts/type1/urw/palatino/uplb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fo
 nts/type1/urw/palatino/uplr8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type
 1/urw/palatino/uplri8a.pfb>
-Output written on RJwrapper.pdf (3 pages, 94749 bytes).
+Output written on RJwrapper.pdf (2 pages, 93932 bytes).
 PDF statistics:
- 93 PDF objects out of 1000 (max. 8388607)
- 15 named destinations out of 1000 (max. 500000)
+ 89 PDF objects out of 1000 (max. 8388607)
+ 14 named destinations out of 1000 (max. 500000)
  23117 words of extra memory for PDF output out of 24883 (max. 10000000)
 
