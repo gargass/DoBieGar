@@ -1,3 +1,0 @@
-# DoBieGar
-
-Warsztaty Badawcze
