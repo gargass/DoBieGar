@@ -6,7 +6,6 @@ library(grid)
 library(gridExtra)
 library(reshape2)
 library(ggplot2)
-library(pheatmap)
 library(DT)
 library(scales)
 
@@ -27,11 +26,6 @@ geny <- as.matrix(geny)
 p_value_tabela <-read.table('data/p_value_NA.txt', h=T)
 czestosci<-read.table('data/czestosci.txt', h=T)
 licznosci<-read.table('data/licznosci.txt', h=T)
-
-# for(nowotwor in nowotwory){
-#   assign(paste('p_value.', nowotwor, sep=""), read.table(paste('data/P_value_dla_interesujacych_genow/', 
-#                                                                nowotwor, '_pvalue.txt', sep=""), h=T))
-# }
 
 for(nowotwor in nowotwory){
   assign(paste(nowotwor, '_variant', sep=""), read.table(paste('data/', nowotwor, '_variant.txt', sep="")))
