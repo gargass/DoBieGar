@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1453239378806.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "24F54077",
+    "lastKnownWriteTime" : 90358368575593,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "96le2r7nts",
+        "caption" : "dane",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=dane&cache_key=96le2r7nts",
+        "displayedObservations" : "10980",
+        "environment" : "",
+        "object" : "dane",
+        "totalObservations" : "10980",
+        "variables" : "301"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}
