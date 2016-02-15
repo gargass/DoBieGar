@@ -30,4 +30,12 @@ for(i in 1:nrow(pvalue_spis_istotne)){
 order.n <- order()
 write.table(pvalue_spis_istotne, file="p_value_istotne.txt")
 
+pvalue2 <- pvalue
+pvalue2$n_cancer <- 0
+for(i in 1:nrow(pvalue2)){
+  pvalue2$n_cancer[i] <- sum(as.numeric(ifelse(!is.na(pvalue2[i,2:15]) & pvalue2[i,2:15]<0.05, 1, 0)))
+}
 
+order.n <- order(pvalue2$n_cancer, decreasing = TRUE)
+pvalue2 <- pvalue2[order.n,]
+write.table(pvalue2, file='pvalue_NA_n.txt')
