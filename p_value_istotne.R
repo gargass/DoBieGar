@@ -1,0 +1,24 @@
+pvalue <- read.table('data/p_value_NA.txt')
+pvalue$gen <- as.character(pvalue$gen)
+class(pvalue$gen)
+
+# pvalue$n_istotnych <- 0
+# for(gen in 1:nrow(pvalue)){
+# pvalue$n_istotnych[gen] <- sum(as.numeric(ifelse(pvalue[gen,]<0.05,1,0 )), na.rm = TRUE)
+# }
+
+pvalue_spis <- NULL
+for(i in 1:nrow(pvalue)){
+  gen <- pvalue$gen[i]
+  for(j in 2:ncol(pvalue)){
+    nowotwor <- colnames(pvalue)[j]
+    pvalue_spis <- rbind(pvalue_spis, c(nowotwor, gen, pvalue[i,j]))
+  }
+}
+colnames(pvalue_spis) <- c("nowotwor", "gen", "pvalue")
+pvalue_spis <- data.frame(pvalue_spis)
+pvalue_spis$pvalue <- as.numeric(as.character(pvalue_spis$pvalue))
+head(pvalue_spis)
+pvalue_spis_istotne <- pvalue_spis[!is.na(pvalue_spis$pvalue) & pvalue_spis$pvalue<0.05, ]
+
+write.table(pvalue_spis_istotne, file="p_value_istotne.txt")
