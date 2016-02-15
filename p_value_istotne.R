@@ -1,4 +1,4 @@
-pvalue <- read.table('data/p_value_NA.txt')
+pvalue <- read.table('shiny/data/p_value_NA.txt')
 pvalue$gen <- as.character(pvalue$gen)
 class(pvalue$gen)
 
@@ -31,11 +31,12 @@ order.n <- order()
 write.table(pvalue_spis_istotne, file="p_value_istotne.txt")
 
 pvalue2 <- pvalue
-pvalue2$n_cancer <- 0
+pvalue2$n_significance <- 0
 for(i in 1:nrow(pvalue2)){
-  pvalue2$n_cancer[i] <- sum(as.numeric(ifelse(!is.na(pvalue2[i,2:15]) & pvalue2[i,2:15]<0.05, 1, 0)))
+  pvalue2$n_significance[i] <- sum(as.numeric(ifelse(!is.na(pvalue2[i,2:15]) & pvalue2[i,2:15]<0.05, 1, 0)))
 }
 
-order.n <- order(pvalue2$n_cancer, decreasing = TRUE)
+order.n <- order(pvalue2$n_significance, decreasing = TRUE)
 pvalue2 <- pvalue2[order.n,]
-write.table(pvalue2, file='pvalue_NA_n.txt')
+rownames(pvalue2) <- NULL
+write.csv(pvalue2, file='biomarkers.csv')
