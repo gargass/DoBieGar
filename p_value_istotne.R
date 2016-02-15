@@ -21,4 +21,13 @@ pvalue_spis$pvalue <- as.numeric(as.character(pvalue_spis$pvalue))
 head(pvalue_spis)
 pvalue_spis_istotne <- pvalue_spis[!is.na(pvalue_spis$pvalue) & pvalue_spis$pvalue<0.05, ]
 
+pvalue_spis_istotne$n_cancer <- 0
+for(i in 1:nrow(pvalue_spis_istotne)){
+  gen <- as.character(pvalue_spis_istotne$gen[i])
+  pvalue_spis_istotne$n_cancer[i] <- sum((as.character(pvalue_spis_istotne$gen) == gen))
+}
+
+order.n <- order()
 write.table(pvalue_spis_istotne, file="p_value_istotne.txt")
+
+
