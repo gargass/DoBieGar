@@ -311,15 +311,18 @@ output$co_occuring_table<-renderDataTable({
       if (sum(as.numeric(p[3:12,k]))!=0)
       {
    
-      p[3:12,k]= paste(round((100*as.numeric(p[3:12,k]))/sum(as.numeric(p[3:12,k])),2), "%", sep="")
+      #p[3:12,k]= paste(round((100*as.numeric(p[3:12,k]))/sum(as.numeric(p[3:12,k])),2), "%", sep="")
+        p[3:12,k] <- signif((as.numeric(p[3:12,k]))/sum(as.numeric(p[3:12,k])), 3)
       }
       else
       {
-        p[3:12,k]= rep(paste(0, "%", sep=""), 10)
+        #p[3:12,k]= rep(paste(0, "%", sep=""), 10)
+        p[3:12,k] <- rep(0, 10)
       }
     }
     p[1,1:(length(nowotwor))]<-t(licznosci[licznosci$gen==gen, nowotwor])
-    p[2,1:(length(nowotwor))] <- paste(round(100*czestosci[czestosci$gen==gen,nowotwor],3), "%", sep="")
+    #p[2,1:(length(nowotwor))] <- paste(round(100*czestosci[czestosci$gen==gen,nowotwor],3), "%", sep="")
+    p[2,1:(length(nowotwor))] <- signif(czestosci[czestosci$gen==gen,nowotwor],3)
     
     rownames(p) <- c('Number of patients with mutation', 'Mutation frequency','Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
                'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
