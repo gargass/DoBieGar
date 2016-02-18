@@ -55,11 +55,12 @@ shinyServer(function(input, output) {
     dane$cancer <-nowotwory_all
     dane$freq<-freq
     dane$n <- as.numeric(licznosci[licznosci$gen==gen, nowotwory_all])
-    pv<-as.numeric(p_value_tabela[p_value_tabela$gen==gen, nowotwory_all])
-    for (i in 1:length(nowotwory))
-    {
-      pv[i]<-signif(pv[i], 3)
-    }
+    pv<-as.numeric(as.character(p_value_tabela[rownames(p_value_tabela)==gen, nowotwory_all]))
+    pv <- ifelse(pv == 0, "<e-16", pv)
+    # for (i in 1:length(nowotwory))
+    # {
+    #   pv[i]<-signif(pv[i], 3)
+    # }
     dane$pvalue <- pv    
     colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
     dane
@@ -87,8 +88,10 @@ output$survcurves_yesno <- renderPlot({
   n <- length(nowotwory)
   
   p <- lapply(nowotwory, function(nowotwor){
-    pvalue = p_value_tabela[p_value_tabela$gen == gen, nowotwor]
-    pvalue <- signif(pvalue, 3)
+    pvalue <- p_value_tabela[rownames(p_value_tabela) == gen, nowotwor]
+    pvalue <- as.numeric(as.character(pvalue))
+    pvalue <- ifelse(pvalue == 0, "<e-16", pvalue)
+    
     
     nowotwor_gen.fit <- survfit(Surv(as.numeric(as.character(time)), status) ~ get(paste('zbior.', nowotwor, sep=""))[,gen], 
                                 data=get(paste('zbior.', nowotwor, sep="")))
@@ -108,7 +111,7 @@ output$survcurves_yesno <- renderPlot({
       xlab("Time in days") + 
       ylab("Survival") +
       theme(legend.position = c(0.85, 0.9)) + 
-      theme(legend.title = element_text(colour=ifelse(pvalue<0.05,"red", "black"), face="bold"))
+      theme(legend.title = element_text(colour=ifelse(pvalue>=0.05,"black", "red"), face="bold"))
   })
   
   if(n <= 4){
@@ -190,7 +193,7 @@ output$co_occuring_table<-renderDataTable({
       max_time <- max(nowotwory_variant_all$time, na.rm = TRUE)
       
       p.missense <- lapply(nowotwory, function(nowotwor){
-        pvalue <- "Brak"
+        pvalue <- "NULL"
         dane <- nowotwory_variant_all[nowotwory_variant_all$nowotwor == nowotwor,]
         
         if(nrow(dane)>2){
@@ -202,6 +205,7 @@ output$co_occuring_table<-renderDataTable({
             variant <- c("No Missense", "Missense")
             survdiff <- survdiff(Surv(time, status) ~ missense, data=dane)
             pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
+            pvalue <- ifelse(pvalue == 0, "<e-16", pvalue)
             }
           
           survMisc::autoplot(nowotwor_gen.fit.missense,
@@ -213,7 +217,7 @@ output$co_occuring_table<-renderDataTable({
             xlab("Time in days") + 
             ylab("Survival") + 
             theme(legend.position = c(0.85, 0.9)) + 
-            theme(legend.title = element_text(colour=ifelse(pvalue<0.05,"red", "black"), face="bold"))
+            theme(legend.title = element_text(colour=ifelse(pvalue>=0.05,"black", "red"), face="bold"))
           }
         })
       
@@ -232,6 +236,7 @@ output$co_occuring_table<-renderDataTable({
             variant <- c("No Nonsense", "Nonsense")
             survdiff <- survdiff(Surv(time, status) ~ nonsense, data=dane)
             pvalue <- signif(pchisq(survdiff$chisq, 1, lower=F), 3)
+            pvalue <- ifelse(pvalue == 0, "<e-16", pvalue)
             }
           
           survMisc::autoplot(nowotwor_gen.fit.nonsense,
@@ -244,7 +249,7 @@ output$co_occuring_table<-renderDataTable({
             xlab("Time in days") + 
             ylab("Survival") + 
             theme(legend.position = c(0.85, 0.9)) + 
-            theme(legend.title = element_text(colour=ifelse(pvalue<0.05,"red", "black"), face="bold"))
+            theme(legend.title = element_text(colour=ifelse(pvalue>=0.05,"black", "red"), face="bold"))
           }
         })
       
