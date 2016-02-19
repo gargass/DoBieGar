@@ -282,61 +282,55 @@ output$co_occuring_table<-renderDataTable({
       }
       }, height = 800)
   
-
 #Variant Classification
 #Table
-  output$table_variant <- renderDataTable({
-    validate(
-      need(input$nowotwory != "", "Please select a cancer!")
-    )
-    nowotwor <- input$nowotwory
-    gen <- input$geny
-
-    p <- matrix(1, nrow=12, ncol=length(nowotwor))
-    k <- 1
-
-    if(gen %in% colnames(czestosci_variant)){
-      for (nowotworr in nowotwor){
-        dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
-        p[3:12, k] <- dane[,2]
-        
-        k <- k + 1
-        }
+output$table_variant <- renderDataTable({
+  validate(
+    need(input$nowotwory != "", "Please select a cancer!")
+  )
+  nowotwor <- input$nowotwory
+  gen <- input$geny
+  
+  p <- matrix(1, nrow=12, ncol=length(nowotwor))
+  k <- 1
+  
+  if(gen %in% colnames(czestosci_variant)){
+    for (nowotworr in nowotwor){
+      dane <- czestosci_variant[which(czestosci_variant$nowotwor==nowotworr), c("variant", gen)]
+      p[3:12, k] <- dane[,2]
+      
+      k <- k + 1
     }
-    else{
-      for (nowotworr in nowotwor){
-        p[3:12, k] <- rep(0, 10)
-        
-        k <- k + 1
-      }
+  }
+  else{
+    for (nowotworr in nowotwor){
+      p[3:12, k] <- rep(0, 10)
+      
+      k <- k + 1
     }
-    
-    for (k in 1:(length(nowotwor)))
+  }
+  
+  for (k in 1:(length(nowotwor)))
+  {
+    if (sum(as.numeric(p[3:12,k]))!=0)
     {
-      if (sum(as.numeric(p[3:12,k]))!=0)
-      {
-   
-      #p[3:12,k]= paste(round((100*as.numeric(p[3:12,k]))/sum(as.numeric(p[3:12,k])),2), "%", sep="")
-        p[3:12,k] <- signif((as.numeric(p[3:12,k]))/sum(as.numeric(p[3:12,k])), 3)
-      }
-      else
-      {
-        #p[3:12,k]= rep(paste(0, "%", sep=""), 10)
-        p[3:12,k] <- rep(0, 10)
-      }
+      
+      p[3:12,k]= round(as.numeric(p[3:12,k])/sum(as.numeric(p[3:12,k])),2)
     }
-    p[1,1:(length(nowotwor))]<-t(licznosci[licznosci$gen==gen, nowotwor])
-    #p[2,1:(length(nowotwor))] <- paste(round(100*czestosci[czestosci$gen==gen,nowotwor],3), "%", sep="")
-    p[2,1:(length(nowotwor))] <- signif(czestosci[czestosci$gen==gen,nowotwor],3)
-    
-    rownames(p) <- c('Number of patients with mutation', 'Mutation frequency','Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
-               'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
-
-    colnames(p) <- c(nowotwor)
-    p
-  },  options = list(columnDefs = list(list(targets="_all", orderable= FALSE)), 
-                     dom='t', paging=FALSE))
-
-
+    else
+    {
+      p[3:12,k]= rep(0, 10)
+    }
+  }
+  p[1,1:(length(nowotwor))]<-t(licznosci[licznosci$gen==gen, nowotwor])
+  p[2,1:(length(nowotwor))] <- paste(round(czestosci[czestosci$gen==gen,nowotwor],2), "", sep="")
+  
+  rownames(p) <- c('Number of patients with mutation', 'Mutation frequency','Missense_Mutation', 'Silent', 'Frame_Shift_Del', 'Frame_Shift_Ins', 'In_Frame_Del', 'Nonsense_Mutation', 
+                   'RNA', 'Splice_Site', 'In_Frame_Ins', 'Nonstop_Mutation')
+  
+  colnames(p) <- c(nowotwor)
+  p
+},  options = list(columnDefs = list(list(targets="_all", orderable= FALSE)), 
+                   dom='t', paging=FALSE))
 
   })
