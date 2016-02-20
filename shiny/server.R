@@ -56,13 +56,17 @@ shinyServer(function(input, output) {
     dane$freq<-freq
     dane$n <- as.numeric(licznosci[licznosci$gen==gen, nowotwory_all])
     pv<-as.numeric(as.character(p_value_tabela[rownames(p_value_tabela)==gen, nowotwory_all]))
-    pv <- ifelse(pv == 0, "<e-16", pv)
+
     # for (i in 1:length(nowotwory))
     # {
     #   pv[i]<-signif(pv[i], 3)
     # }
-    dane$pvalue <- pv    
-    colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance')
+    dane$pvalue <- pv
+    dane$istotnosc <- ifelse(pv<0.05, '*', '')
+    order.pv <- order(dane$pvalue, decreasing = FALSE)
+    dane <- dane[order.pv, ]
+    dane$pvalue <- ifelse(pv == 0, "<e-16", pv)
+    colnames(dane)<-c('Cancer', 'Mutation frequency', 'Number of patients with mutation', 'Significance', 'If <0.05?')
     dane
   }, options = list(columnDefs= list(list(className = 'dt-right', targets='_all')), dom = 't', lengthMenu = c(20, 30)))
 
